@@ -660,29 +660,6 @@ const Blog = () => {
   );
 };
 
-const Clients = () => {
-  const clients = useStore(state => state.clients);
-  const hasClients = Array.isArray(clients) && clients.length > 0;
-
-  return (
-    <div className="py-24 border-y border-white/5 bg-secondary/10">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-wrap justify-center items-center gap-16 md:gap-32 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-          {hasClients ? clients.map((client, i) => (
-            <img 
-              key={i} 
-              src={client.logo_url} 
-              alt={client.name} 
-              className="h-8 md:h-12 w-auto object-contain hover:scale-110 transition-transform"
-              referrerPolicy="no-referrer"
-            />
-          )) : [1,2,3,4,5].map(i => <div key={i} className="h-12 w-32 bg-white/5 rounded-lg animate-pulse" />)}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 export default function Home() {
   return (
     <div className="relative">
@@ -690,7 +667,6 @@ export default function Home() {
       <Marquee />
       <About />
       <Services />
-      <Clients />
       <Skills />
       <Projects />
       <Experience />

@@ -22,6 +22,7 @@
 @layer base {
   * {
     @apply border-border outline-none;
+    cursor: none !important;
   }
   
   body {
@@ -34,7 +35,7 @@
     @apply font-heading font-extrabold tracking-[-0.03em];
   }
 
-  section {
+  main section {
     @apply px-6 md:px-[60px];
   }
 }
@@ -156,9 +157,5 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-extrabold tracking-[-0.03em];
-  }
-
-  section {
-    @apply py-[120px] px-6 md:px-[60px];
   }
 }
