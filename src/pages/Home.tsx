@@ -37,20 +37,20 @@ const ScrollReveal = ({ children, className }: { children: React.ReactNode; clas
 };
 
 const About = () => (
-  <section id="about" className="relative">
+  <section id="about" className="relative py-32">
     <ScrollReveal className="container mx-auto">
       <div className="grid md:grid-cols-2 gap-24 items-center">
         <div className="space-y-8">
-          <span className="section-label">01 / ABOUT ME</span>
-          <h2 className="text-[clamp(36px,5vw,56px)] leading-tight">
-            BRIDGING THE GAP BETWEEN <span className="text-primary italic">HUMAN VISION</span> AND AI.
+          <span className="section-label">ABOUT ME</span>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1]">
+            TURNING IDEAS INTO <span className="text-primary italic">DIGITAL REALITY</span>.
           </h2>
-          <div className="space-y-6 text-lg text-muted">
+          <div className="space-y-6 text-lg text-muted font-medium">
             <p>
-              I am Kamran Rasool, a dedicated Web Developer and Automation Specialist with a passion for creating digital experiences that drive results. With expertise in WordPress, GoHighLevel, and Squarespace, I help businesses streamline their operations and enhance their online presence.
+              I am Kamran Rasool, a Full-Stack Developer and WordPress Expert with a passion for building high-performance digital experiences. With a deep grip on WordPress, GoHighLevel, and modern web technologies, I help businesses scale through custom solutions.
             </p>
             <p>
-              My approach combines technical proficiency with a deep understanding of business needs, allowing me to deliver custom solutions that are both functional and aesthetically pleasing.
+              My expertise lies in bridging the gap between complex technical requirements and intuitive user interfaces. Whether it's a custom WordPress theme or a complex SaaS application, I deliver excellence.
             </p>
           </div>
           
@@ -105,18 +105,18 @@ const Skills = () => {
   const hasSkills = Array.isArray(skills) && skills.length > 0;
 
   return (
-    <section id="skills" className="bg-secondary/30">
+    <section id="skills" className="bg-secondary/30 py-32">
       <ScrollReveal className="container mx-auto">
         <div className="mb-20">
-          <span className="section-label">03 / EXPERTISE</span>
-          <h2 className="text-[clamp(36px,5vw,56px)]">TECHNICAL ARSENAL.</h2>
+          <span className="section-label">EXPERTISE</span>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">TECHNICAL ARSENAL.</h2>
         </div>
         
         <div className="grid md:grid-cols-2 gap-x-24 gap-y-12">
           {hasSkills ? skills.map((skill, i) => (
             <div key={i} className="space-y-4">
               <div className="flex justify-between items-end">
-                <span className="text-lg font-bold font-heading uppercase tracking-tight">{skill.name}</span>
+                <span className="text-xl font-bold font-heading uppercase tracking-tight">{skill.name}</span>
                 <span className="text-sm font-bold text-primary">{skill.proficiency || 80}%</span>
               </div>
               <div className="h-[2px] w-full bg-white/5 relative overflow-hidden">
@@ -148,12 +148,12 @@ const Projects = () => {
   const categories = ['All', 'Web', 'AI', 'Automation', 'CRM'];
 
   return (
-    <section id="projects">
+    <section id="projects" className="py-32">
       <ScrollReveal className="container mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
-            <span className="section-label">04 / WORK</span>
-            <h2 className="text-[clamp(36px,5vw,56px)]">FEATURED PROJECTS.</h2>
+            <span className="section-label">WORK</span>
+            <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">FEATURED PROJECTS.</h2>
           </div>
           <div className="flex flex-wrap gap-4">
             {categories.map((cat) => (
@@ -161,7 +161,7 @@ const Projects = () => {
                 key={cat} 
                 onClick={() => setFilter(cat)}
                 className={cn(
-                  "text-[11px] font-bold uppercase tracking-[2px] transition-all duration-300 interactive px-4 py-2 rounded-full border",
+                  "text-[11px] font-bold uppercase tracking-[2px] transition-all duration-300 interactive px-6 py-3 rounded-full border",
                   filter === cat ? "bg-primary text-black border-primary" : "text-muted hover:text-primary border-white/5"
                 )}
               >
@@ -232,62 +232,38 @@ const Experience = () => {
   const hasExperience = Array.isArray(experience) && experience.length > 0;
 
   return (
-    <section id="experience" className="bg-secondary/30">
+    <section id="experience" className="py-32 bg-secondary/10">
       <ScrollReveal className="container mx-auto">
-        <div className="mb-20 text-center">
-          <span className="section-label">05 / JOURNEY</span>
-          <h2 className="text-[clamp(36px,5vw,56px)]">EXPERIENCE.</h2>
+        <div className="mb-20">
+          <span className="section-label">MY JOURNEY</span>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">EXPERIENCE.</h2>
         </div>
         
-        <div className="max-w-4xl mx-auto relative">
-          {/* Timeline Line */}
-          <motion.div 
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute left-0 md:left-1/2 top-0 bottom-0 w-[1px] bg-white/10 origin-top -translate-x-1/2"
-          />
-
-          <div className="space-y-24">
-            {hasExperience ? experience.map((exp, i) => (
-              <div key={i} className="relative">
-                {/* Dot */}
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.5 }}
-                  className="absolute left-0 md:left-1/2 top-0 h-4 w-4 rounded-full bg-primary -translate-x-1/2 shadow-[0_0_20px_rgba(200,245,56,0.6)] z-10"
-                />
-                
-                <div className={cn(
-                  "flex flex-col md:flex-row gap-12",
-                  i % 2 === 0 ? "md:flex-row-reverse" : ""
-                )}>
-                  <div className={cn(
-                    "md:w-1/2 pl-10 md:pl-0",
-                    i % 2 === 0 ? "md:text-left" : "md:text-right"
-                  )}>
-                    <span className="text-primary font-bold text-sm mb-2 block">{exp.start_date} — {exp.current ? 'PRESENT' : exp.end_date}</span>
-                    <h3 className="text-3xl font-bold mb-2">{exp.role}</h3>
-                    <p className="text-xl text-muted mb-6 font-medium">{exp.company}</p>
-                    <ul className={cn(
-                      "space-y-4 text-muted",
-                      i % 2 === 0 ? "" : "md:flex md:flex-col md:items-end"
-                    )}>
-                      {exp.description?.map((item: string, j: number) => (
-                        <li key={j} className="text-sm leading-relaxed max-w-md">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="md:w-1/2" />
+        <div className="space-y-12 relative before:absolute before:left-0 md:before:left-1/2 before:top-0 before:bottom-0 before:w-[1px] before:bg-white/5">
+          {hasExperience ? experience.map((exp, i) => (
+            <div key={i} className={cn(
+              "relative flex flex-col md:flex-row gap-12",
+              i % 2 === 0 ? "md:flex-row-reverse" : ""
+            )}>
+              <div className="absolute left-[-5px] md:left-1/2 md:ml-[-5px] top-0 h-3 w-3 rounded-full bg-primary shadow-[0_0_15px_rgba(200,245,56,0.5)] z-10" />
+              
+              <div className="md:w-1/2 space-y-4">
+                <div className="inline-block px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest">
+                  {exp.start_date} — {exp.end_date}
                 </div>
+                <h3 className="text-3xl font-bold tracking-tight">{exp.role}</h3>
+                <p className="text-xl text-primary/80 font-medium">{exp.company}</p>
+                <ul className="space-y-3">
+                  {exp.description?.map((item: string, j: number) => (
+                    <li key={j} className="text-muted flex items-start gap-3">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary/40 mt-2.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            )) : [1,2].map(i => <Skeleton key={i} className="h-40 w-full" />)}
-          </div>
+            </div>
+          )) : [1,2].map(i => <Skeleton key={i} className="h-40 w-full" />)}
         </div>
       </ScrollReveal>
     </section>
@@ -302,11 +278,11 @@ const Pricing = () => {
   ];
 
   return (
-    <section id="pricing">
+    <section id="pricing" className="py-32">
       <ScrollReveal className="container mx-auto">
-        <div className="mb-20 text-center">
-          <span className="section-label">06 / PRICING</span>
-          <h2 className="text-[clamp(36px,5vw,56px)]">INVESTMENT.</h2>
+        <div className="mb-20">
+          <span className="section-label">PRICING</span>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">INVESTMENT.</h2>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 items-center">
@@ -315,26 +291,26 @@ const Pricing = () => {
               key={i}
               whileHover={{ y: -10 }}
               className={cn(
-                "card-premium p-12 flex flex-col interactive",
-                plan.featured ? "scale-105 border-primary/50 bg-surface shadow-[0_0_50px_rgba(200,245,56,0.1)]" : "bg-secondary/20"
+                "card-premium p-12 flex flex-col interactive h-full",
+                plan.featured ? "border-primary/50 bg-primary/[0.02] shadow-[0_0_50px_rgba(200,245,56,0.1)]" : "bg-secondary/20"
               )}
             >
               {plan.featured && <span className="text-[10px] font-bold uppercase tracking-[3px] text-primary mb-6">Most Popular</span>}
-              <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-4xl font-extrabold font-heading text-foreground">${plan.price}</span>
-                <span className="text-muted text-sm">/project</span>
+              <h3 className="text-3xl font-bold mb-2 tracking-tight">{plan.name}</h3>
+              <div className="flex items-baseline gap-2 mb-10">
+                <span className="text-5xl font-black tracking-tighter text-foreground">${plan.price}</span>
+                <span className="text-muted font-medium">/project</span>
               </div>
-              <ul className="space-y-4 mb-12 flex-grow">
+              <ul className="space-y-5 mb-12 flex-grow">
                 {plan.features.map((feature, j) => (
-                  <li key={j} className="flex items-center gap-3 text-sm text-muted">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                  <li key={j} className="flex items-center gap-4 text-muted font-medium">
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <Button className={cn(
-                "w-full h-auto py-4 text-xs font-bold",
+                "w-full h-16 rounded-2xl font-bold text-sm tracking-widest uppercase interactive",
                 plan.featured ? "btn-primary" : "btn-secondary"
               )}>
                 GET STARTED
@@ -357,34 +333,36 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact">
+    <section id="contact" className="py-32 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
+      
       <ScrollReveal className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-24">
           <div className="space-y-12">
             <div>
-              <span className="section-label">07 / CONTACT</span>
-              <h2 className="text-[clamp(36px,5vw,56px)] leading-tight">
-                LET'S BUILD <br />SOMETHING <span className="text-primary italic">ICONIC</span>.
+              <span className="section-label">CONTACT</span>
+              <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1]">
+                LET'S BUILD SOMETHING <span className="text-primary italic">EXTRAORDINARY</span>.
               </h2>
             </div>
             
-            <div className="space-y-8">
-              <div className="flex items-center gap-6 group interactive">
-                <div className="h-14 w-14 rounded-full bg-surface border border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors">
-                  <Mail className="h-6 w-6 text-primary" />
+            <div className="space-y-10">
+              <div className="flex items-center gap-8 group interactive">
+                <div className="h-20 w-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                  <Mail className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Email Me</p>
-                  <p className="text-xl font-bold">kamranrasool0045@gmail.com</p>
+                  <p className="text-[10px] uppercase tracking-[3px] text-muted font-bold mb-1">Email Me</p>
+                  <p className="text-2xl font-bold tracking-tight">kamranrasool0045@gmail.com</p>
                 </div>
               </div>
-              <div className="flex items-center gap-6 group interactive">
-                <div className="h-14 w-14 rounded-full bg-surface border border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors">
-                  <MapPin className="h-6 w-6 text-primary" />
+              <div className="flex items-center gap-8 group interactive">
+                <div className="h-20 w-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                  <MapPin className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Location</p>
-                  <p className="text-xl font-bold">Faisalabad, Pakistan</p>
+                  <p className="text-[10px] uppercase tracking-[3px] text-muted font-bold mb-1">Location</p>
+                  <p className="text-2xl font-bold tracking-tight">Lahore, Pakistan</p>
                 </div>
               </div>
             </div>
@@ -409,78 +387,38 @@ const Contact = () => {
                   </motion.div>
                   <h3 className="text-3xl font-bold">MESSAGE SENT!</h3>
                   <p className="text-muted">Thank you for reaching out. I'll get back to you within 24 hours.</p>
-                  <Button onClick={() => setFormState('idle')} className="btn-secondary h-auto py-3 px-8">SEND ANOTHER</Button>
+                  <Button variant="outline" onClick={() => setFormState('idle')} className="btn-secondary">SEND ANOTHER</Button>
                 </motion.div>
               ) : (
                 <motion.form
                   key="form"
-                  exit={{ opacity: 0, scale: 0.95 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   onSubmit={handleSubmit}
                   className="space-y-8"
                 >
-                  <div className="space-y-6">
-                    <div className="relative group">
-                      <input 
-                        type="text" 
-                        required
-                        className="w-full bg-transparent border-b border-white/10 py-4 focus:border-primary transition-colors peer placeholder-transparent" 
-                        placeholder="Name"
-                        id="name"
-                      />
-                      <label 
-                        htmlFor="name"
-                        className="absolute left-0 top-4 text-muted transition-all peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[10px]"
-                      >
-                        FULL NAME
-                      </label>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
+                      <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Full Name</label>
+                      <input required type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium" />
                     </div>
-                    <div className="relative group">
-                      <input 
-                        type="email" 
-                        required
-                        className="w-full bg-transparent border-b border-white/10 py-4 focus:border-primary transition-colors peer placeholder-transparent" 
-                        placeholder="Email"
-                        id="email"
-                      />
-                      <label 
-                        htmlFor="email"
-                        className="absolute left-0 top-4 text-muted transition-all peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[10px]"
-                      >
-                        EMAIL ADDRESS
-                      </label>
-                    </div>
-                    <div className="relative group">
-                      <textarea 
-                        required
-                        rows={4}
-                        className="w-full bg-transparent border-b border-white/10 py-4 focus:border-primary transition-colors peer placeholder-transparent resize-none" 
-                        placeholder="Message"
-                        id="message"
-                      />
-                      <label 
-                        htmlFor="message"
-                        className="absolute left-0 top-4 text-muted transition-all peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-[10px]"
-                      >
-                        YOUR MESSAGE
-                      </label>
+                    <div className="space-y-3">
+                      <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Email Address</label>
+                      <input required type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium" />
                     </div>
                   </div>
-                  
-                  <Button 
-                    type="submit" 
-                    disabled={formState === 'loading'}
-                    className="btn-primary w-full h-auto py-5 interactive flex items-center justify-center gap-3"
-                  >
-                    {formState === 'loading' ? (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      >
-                        <Sparkles className="h-5 w-5" />
-                      </motion.div>
-                    ) : (
-                      <>SEND MESSAGE <Send className="h-4 w-4" /></>
-                    )}
+                  <div className="space-y-3">
+                    <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Subject</label>
+                    <input required type="text" placeholder="Project Inquiry" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium" />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Message</label>
+                    <textarea required placeholder="Tell me about your project..." rows={5} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium resize-none" />
+                  </div>
+                  <Button type="submit" disabled={formState === 'loading'} className="btn-primary w-full h-16 rounded-2xl font-bold text-sm tracking-widest uppercase interactive">
+                    {formState === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
+                    <Send className="ml-3 h-5 w-5" />
                   </Button>
                 </motion.form>
               )}
@@ -498,10 +436,10 @@ const Services = () => {
   const hasServices = Array.isArray(services) && services.length > 0;
 
   const displayServices = hasServices ? services : [
-    { title: "Full-Stack Development", description: "Building scalable, high-performance web applications using modern stacks.", icon_name: "Code" },
-    { title: "AI Automation", description: "Streamlining business processes with intelligent AI agents and custom workflows.", icon_name: "Cpu" },
-    { title: "UI/UX Design", description: "Creating intuitive, visually stunning interfaces that prioritize user experience.", icon_name: "Globe" },
-    { title: "Cloud Solutions", description: "Deploying and managing robust infrastructure on AWS, Google Cloud, and Azure.", icon_name: "Sparkles" },
+    { title: "WordPress Development", description: "Custom themes and plugin development for high-performance sites.", icon_name: "Code" },
+    { title: "Full-Stack Solutions", description: "End-to-end web applications built with modern technologies.", icon_name: "Cpu" },
+    { title: "CRM & Automation", description: "Streamlining business processes with GHL and custom workflows.", icon_name: "Globe" },
+    { title: "UI/UX Design", description: "Creating intuitive, visually stunning interfaces that prioritize user experience.", icon_name: "Sparkles" },
   ];
 
   const getIcon = (name: string) => {
@@ -514,14 +452,14 @@ const Services = () => {
   };
 
   return (
-    <section id="services">
+    <section id="services" className="py-32">
       <ScrollReveal className="container mx-auto">
         <div className="mb-20">
-          <span className="section-label">02 / SERVICES</span>
-          <h2 className="text-[clamp(36px,5vw,56px)]">WHAT I OFFER.</h2>
+          <span className="section-label">SERVICES</span>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">WHAT I OFFER.</h2>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayServices.map((service, i) => {
             const Icon = getIcon(service.icon_name);
             return (
@@ -529,19 +467,19 @@ const Services = () => {
                 key={i}
                 whileHover={{ y: -10 }}
                 onClick={() => setSelectedService(service)}
-                className="group relative card-premium p-10 pt-16 overflow-hidden interactive cursor-pointer"
+                className={cn(
+                  "group relative card-premium p-12 overflow-hidden interactive cursor-pointer",
+                  i === 0 ? "md:col-span-2 lg:col-span-1" : ""
+                )}
               >
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-                <span className="absolute top-4 right-8 text-8xl font-black text-white/[0.03] font-heading select-none group-hover:text-white/[0.05] transition-colors">
-                  0{i + 1}
-                </span>
-
+                
                 <div className="relative z-10">
-                  <div className="h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors">
-                    <Icon className="h-8 w-8 text-primary group-hover:scale-125 transition-transform duration-500" />
+                  <div className="h-20 w-20 rounded-2xl bg-white/5 flex items-center justify-center mb-10 group-hover:bg-primary/10 transition-colors">
+                    <Icon className="h-10 w-10 text-primary group-hover:scale-125 transition-transform duration-500" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 tracking-tight">{service.title}</h3>
-                  <p className="text-muted leading-relaxed">{service.description}</p>
+                  <h3 className="text-3xl font-bold mb-6 tracking-tight">{service.title}</h3>
+                  <p className="text-muted text-lg leading-relaxed">{service.description}</p>
                 </div>
               </motion.div>
             );
@@ -631,11 +569,11 @@ const Testimonials = () => {
   const hasTestimonials = Array.isArray(testimonials) && testimonials.length > 0;
 
   return (
-    <section id="testimonials" className="bg-secondary/30">
+    <section id="testimonials" className="py-32 bg-secondary/30">
       <ScrollReveal className="container mx-auto">
-        <div className="mb-20 text-center">
-          <span className="section-label">08 / FEEDBACK</span>
-          <h2 className="text-[clamp(36px,5vw,56px)]">CLIENT STORIES.</h2>
+        <div className="mb-20">
+          <span className="section-label">FEEDBACK</span>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">CLIENT STORIES.</h2>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -644,7 +582,7 @@ const Testimonials = () => {
               key={i}
               whileHover={{ y: -10 }}
               className={cn(
-                "card-premium p-10 flex flex-col gap-6 interactive",
+                "card-premium p-12 flex flex-col gap-8 interactive",
                 i === 1 ? "md:-translate-y-8" : ""
               )}
             >
@@ -653,14 +591,14 @@ const Testimonials = () => {
                   <Sparkles key={j} className="h-4 w-4 text-primary fill-primary" />
                 ))}
               </div>
-              <p className="text-lg italic text-muted leading-relaxed">"{t.content}"</p>
-              <div className="flex items-center gap-4 mt-auto pt-6 border-t border-white/5">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">
+              <p className="text-xl italic text-muted leading-relaxed font-medium">"{t.content}"</p>
+              <div className="flex items-center gap-5 mt-auto pt-8 border-t border-white/5">
+                <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black text-xl">
                   {t.name[0]}
                 </div>
                 <div>
-                  <h4 className="font-bold text-white">{t.name}</h4>
-                  <p className="text-xs text-muted-foreground uppercase tracking-widest">{t.role} @ {t.company}</p>
+                  <h4 className="font-bold text-white text-lg">{t.name}</h4>
+                  <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold">{t.role} @ {t.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -676,19 +614,19 @@ const Blog = () => {
   const hasPosts = Array.isArray(blogPosts) && blogPosts.length > 0;
 
   return (
-    <section id="blog">
+    <section id="blog" className="py-32">
       <ScrollReveal className="container mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
-            <span className="section-label">09 / INSIGHTS</span>
-            <h2 className="text-[clamp(36px,5vw,56px)]">LATEST ARTICLES.</h2>
+            <span className="section-label">INSIGHTS</span>
+            <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">LATEST ARTICLES.</h2>
           </div>
-          <Button variant="outline" className="h-auto py-3 px-8 text-xs font-bold border-white/10 hover:bg-white/5">
+          <Button variant="outline" className="btn-secondary interactive">
             VIEW ALL POSTS
           </Button>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-12">
           {hasPosts ? blogPosts.map((post, i) => (
             <motion.div 
               key={i}
@@ -703,15 +641,15 @@ const Blog = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="p-8 space-y-4">
-                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-primary">
+              <div className="p-10 space-y-6">
+                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[3px] text-primary">
                   <span>{post.tags?.[0] || 'TECH'}</span>
                   <span className="text-muted">{post.read_time || '5 MIN READ'}</span>
                 </div>
-                <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{post.title}</h3>
-                <p className="text-sm text-muted line-clamp-2">{post.excerpt}</p>
-                <div className="pt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[2px] text-white group-hover:gap-4 transition-all">
-                  READ MORE <ChevronRight className="h-3 w-3" />
+                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors tracking-tight">{post.title}</h3>
+                <p className="text-lg text-muted line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
+                <div className="pt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[3px] text-white group-hover:gap-4 transition-all">
+                  READ MORE <ChevronRight className="h-4 w-4" />
                 </div>
               </div>
             </motion.div>
@@ -834,33 +772,12 @@ export default function Home() {
           <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col gap-2">
               <p className="text-[10px] text-muted uppercase tracking-[3px] font-black">
-                © 2026 Crafted with Passion
+                © 2025 Crafted with Passion
               </p>
-              <p className="text-[10px] text-primary uppercase tracking-[3px] font-black">
-                By Kamran Rasool
-              </p>
-            </div>
-            <div className="flex gap-10">
-              <a href="#" className="text-[10px] uppercase tracking-[3px] text-muted hover:text-primary transition-colors font-black interactive">Privacy</a>
-              <a href="#" className="text-[10px] uppercase tracking-[3px] text-muted hover:text-primary transition-colors font-black interactive">Terms</a>
             </div>
           </div>
         </div>
       </footer>
-
-      {/* Floating CTA */}
-      <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="fixed bottom-10 right-10 z-[50] hidden md:block"
-      >
-        <Magnetic strength={0.3}>
-          <button className="h-16 w-16 rounded-full bg-primary text-black flex items-center justify-center shadow-[0_0_40px_rgba(200,245,56,0.6)] interactive relative group">
-            <Mail className="h-6 w-6" />
-            <div className="absolute inset-0 rounded-full border border-primary animate-ping opacity-20" />
-          </button>
-        </Magnetic>
-      </motion.div>
     </div>
   );
 }

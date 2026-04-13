@@ -84,9 +84,10 @@ export default function Hero() {
             Available for new projects
           </motion.div>
 
-          <h1 className="text-[clamp(52px,8vw,96px)] font-extrabold tracking-[-0.04em] leading-[0.9] mb-10 font-heading text-foreground">
-            <SplitText text="CRAFTING DIGITAL" /><br />
-            <SplitText text="EXCELLENCE WITH AI" />
+          <h1 className="text-[clamp(52px,8vw,110px)] font-black tracking-[-0.05em] leading-[0.85] mb-10 font-heading text-foreground">
+            <SplitText text="WORDPRESS &" /><br />
+            <span className="text-primary italic"><SplitText text="FULL-STACK" /></span><br />
+            <SplitText text="ARCHITECT" />
           </h1>
 
           <motion.p
@@ -95,8 +96,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.5 }}
             className="max-w-2xl mx-auto text-lg md:text-xl text-muted mb-12 font-medium leading-relaxed"
           >
-            I'm Kamran Rasool, a Full-Stack Developer & Automation Specialist. 
-            I build high-performance systems that bridge the gap between human creativity and AI.
+            I'm Kamran Rasool. I craft high-performance digital solutions using WordPress, GoHighLevel, and modern Full-Stack technologies. Turning complex visions into seamless experiences.
           </motion.p>
 
           <motion.div
