@@ -59,7 +59,7 @@ const SplitText = ({ text }: { text: string }) => {
 
 export default function Hero() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-background">
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-32 md:pt-40 pb-20 overflow-hidden bg-background">
       {/* Background Effects */}
       <div className="absolute inset-0 z-0">
         <div className="glow-purple top-[20%] right-[10%]" />

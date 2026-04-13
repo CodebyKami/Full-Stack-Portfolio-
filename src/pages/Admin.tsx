@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Plus, Trash2, LogOut, Database, MessageSquare, Briefcase, Code, User } from 'lucide-react';
+import { Plus, Trash2, LogOut, Database, MessageSquare, Briefcase, Code, User, Mail } from 'lucide-react';
 
 export default function Admin() {
   const [user, setUser] = useState<any>(null);
@@ -38,6 +38,28 @@ export default function Admin() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast.success('Logged in successfully');
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMagicLink = async () => {
+    if (!email) {
+      toast.error('Please enter your email first');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOtp({ 
+        email,
+        options: {
+          emailRedirectTo: window.location.origin + '/admin'
+        }
+      });
+      if (error) throw error;
+      toast.success('Magic link sent to your email!');
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -160,13 +182,30 @@ export default function Admin() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : 'Login'}
+              <div className="relative py-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-white/5" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                </div>
+              </div>
+
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="w-full gap-2" 
+                onClick={handleMagicLink}
+                disabled={isLoading}
+              >
+                <Mail className="h-4 w-4" />
+                Send Magic Link
               </Button>
             </form>
-            <div className="mt-6 p-4 rounded-xl bg-primary/5 border border-primary/10 text-xs text-muted-foreground">
-              <p className="font-bold mb-1">Demo Note:</p>
-              <p>Use your Supabase credentials to log in. If you haven't set up a user, you can do so in the Supabase console.</p>
+            <div className="mt-6 p-4 rounded-xl bg-primary/5 border border-primary/10 text-xs text-muted-foreground space-y-2">
+              <p className="font-bold text-primary">Recovery Solution:</p>
+              <p>If you forgot your password, enter your email and click <strong>"Send Magic Link"</strong>. You'll receive a login link directly in your inbox.</p>
+              <p className="pt-2 border-t border-primary/10"><strong>Database Setup:</strong> Ensure you've run the SQL in <code>/supabase/schema.sql</code> in your Supabase SQL Editor to create the required tables.</p>
             </div>
           </CardContent>
         </Card>
@@ -194,12 +233,51 @@ export default function Admin() {
       </div>
 
       <Tabs defaultValue="projects" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 lg:w-[600px]">
+        <TabsList className="grid w-full grid-cols-5 lg:w-[750px]">
           <TabsTrigger value="projects" className="gap-2"><Code className="h-4 w-4" /> Projects</TabsTrigger>
           <TabsTrigger value="skills" className="gap-2"><User className="h-4 w-4" /> Skills</TabsTrigger>
           <TabsTrigger value="experience" className="gap-2"><Briefcase className="h-4 w-4" /> Experience</TabsTrigger>
           <TabsTrigger value="messages" className="gap-2"><MessageSquare className="h-4 w-4" /> Messages</TabsTrigger>
+          <TabsTrigger value="setup" className="gap-2"><Database className="h-4 w-4" /> Setup</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="setup">
+          <Card className="border-primary/10">
+            <CardHeader>
+              <CardTitle>Database Setup & Recovery</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
+                <h3 className="text-lg font-bold text-primary flex items-center gap-2">
+                  <Database className="h-5 w-5" />
+                  Step 1: Create Tables
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Copy the SQL from <code>/supabase/schema.sql</code> and paste it into your <strong>Supabase SQL Editor</strong>. This will create all necessary tables and security policies.
+                </p>
+                <Button variant="outline" size="sm" onClick={() => {
+                  navigator.clipboard.writeText("Check /supabase/schema.sql in the file explorer.");
+                  toast.info("SQL path copied to clipboard");
+                }}>
+                  Copy SQL Path
+                </Button>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
+                <h3 className="text-lg font-bold text-primary flex items-center gap-2">
+                  <Plus className="h-5 w-5" />
+                  Step 2: Seed Realistic Data
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Once tables are created, click the button below to populate your portfolio with realistic data for Kamran Rasool.
+                </p>
+                <Button onClick={seedData} disabled={isLoading} className="btn-primary">
+                  {isLoading ? 'Seeding...' : 'Seed Realistic Data'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         <TabsContent value="projects">
           <Card className="border-primary/10">

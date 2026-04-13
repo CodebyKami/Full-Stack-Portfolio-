@@ -5,7 +5,7 @@ import { motion, useInView, AnimatePresence } from 'motion/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ExternalLink, Github, Mail, MapPin, Send, CheckCircle2, Sparkles, Code, Cpu, Globe } from 'lucide-react';
+import { ExternalLink, Github, Mail, MapPin, Send, CheckCircle2, Sparkles, Code, Cpu, Globe, Linkedin } from 'lucide-react';
 import Magnetic from '../components/ui/Magnetic';
 
 const ScrollReveal = ({ children, className }: { children: React.ReactNode; className?: string }) => {
@@ -531,17 +531,69 @@ export default function Home() {
       <Pricing />
       <Contact />
       
-      <footer className="py-20 border-t border-white/5 text-center">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold font-heading mb-8">KAMRAN<span className="text-primary">.</span></h2>
-          <div className="flex justify-center gap-8 mb-12">
-            {['Github', 'Linkedin', 'Twitter', 'Instagram'].map(social => (
-              <a key={social} href="#" className="text-sm font-bold uppercase tracking-[2px] text-muted hover:text-primary transition-colors interactive">
-                {social}
-              </a>
-            ))}
+      <footer className="pt-32 pb-12 border-t border-white/5 bg-secondary/10">
+        <div className="container mx-auto px-6 md:px-[60px]">
+          <div className="grid md:grid-cols-4 gap-16 mb-24">
+            <div className="md:col-span-2 space-y-8">
+              <h2 className="text-4xl font-extrabold font-heading tracking-tighter">
+                KAMRAN<span className="text-primary">.</span>
+              </h2>
+              <p className="text-muted text-lg max-w-md leading-relaxed">
+                Transforming complex ideas into seamless digital experiences. Specializing in high-performance web systems and AI-driven automation.
+              </p>
+              <div className="flex gap-6">
+                {[
+                  { icon: Github, href: "https://github.com/codebykami" },
+                  { icon: Linkedin, href: "https://linkedin.com/in/kamranrasool" },
+                  { icon: Mail, href: "mailto:kamranrasool0045@gmail.com" }
+                ].map((social, i) => (
+                  <a 
+                    key={i} 
+                    href={social.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="h-12 w-12 rounded-full border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all duration-300 interactive"
+                  >
+                    <social.icon className="h-5 w-5" />
+                  </a>
+                ))}
+              </div>
+            </div>
+            
+            <div className="space-y-8">
+              <h4 className="text-[10px] uppercase tracking-[3px] font-bold text-primary">Navigation</h4>
+              <ul className="space-y-4">
+                {['Home', 'About', 'Services', 'Projects', 'Experience', 'Contact'].map((item) => (
+                  <li key={item}>
+                    <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-foreground transition-colors font-medium interactive">
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-8">
+              <h4 className="text-[10px] uppercase tracking-[3px] font-bold text-primary">Services</h4>
+              <ul className="space-y-4">
+                {['Web Development', 'AI Automation', 'UI/UX Design', 'Cloud Solutions'].map((item) => (
+                  <li key={item} className="text-muted font-medium">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <p className="text-xs text-muted uppercase tracking-[2px]">© 2026 Crafted with Passion by Kamran Rasool</p>
+
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-xs text-muted uppercase tracking-[2px] font-bold">
+              © 2026 Crafted with Passion by Kamran Rasool
+            </p>
+            <div className="flex gap-8">
+              <a href="#" className="text-[10px] uppercase tracking-[2px] text-muted hover:text-primary transition-colors font-bold interactive">Privacy Policy</a>
+              <a href="#" className="text-[10px] uppercase tracking-[2px] text-muted hover:text-primary transition-colors font-bold interactive">Terms of Service</a>
+            </div>
+          </div>
         </div>
       </footer>
 
