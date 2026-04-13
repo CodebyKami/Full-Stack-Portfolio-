@@ -37,6 +37,8 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const { projects, skills, experience, services, testimonials, blogPosts, clients, fetchPortfolio } = useStore();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newItemData, setNewItemData] = useState<any>({});
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -88,6 +90,66 @@ export default function Admin() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     toast.success('Logged out');
+  };
+
+  const handleDelete = async (table: string, id: string) => {
+    if (!id) {
+      toast.error('Cannot delete fallback data. Please seed the database first.');
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.from(table).delete().eq('id', id);
+      if (error) throw error;
+      toast.success('Item deleted successfully');
+      fetchPortfolio();
+    } catch (error: any) {
+      toast.error('Delete failed: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddItem = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      let table = activeTab;
+      if (activeTab === 'blog') table = 'blog_posts';
+      
+      const { error } = await supabase.from(table).insert([newItemData]);
+      if (error) throw error;
+      
+      toast.success('Item added successfully');
+      setIsAddModalOpen(false);
+      setNewItemData({});
+      fetchPortfolio();
+    } catch (error: any) {
+      toast.error('Add failed: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.from('profiles').upsert({
+        id: user.id,
+        ...newItemData
+      });
+      if (error) throw error;
+      toast.success('Profile updated successfully');
+      setIsAddModalOpen(false);
+      setNewItemData({});
+      fetchPortfolio();
+    } catch (error: any) {
+      toast.error('Update failed: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const seedData = async () => {
@@ -297,7 +359,162 @@ export default function Admin() {
         </header>
 
         {/* Content View */}
-        <div className="p-12 max-w-6xl mx-auto">
+        <div className="p-12 max-w-6xl mx-auto relative">
+          {isAddModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
+              <Card className="w-full max-w-2xl bg-[#0a0a0a] border-white/10 shadow-2xl overflow-hidden">
+                <CardHeader className="border-b border-white/5 flex flex-row items-center justify-between">
+                  <CardTitle className="text-xl font-bold uppercase tracking-tight">Add New {activeTab}</CardTitle>
+                  <Button variant="ghost" size="icon" onClick={() => setIsAddModalOpen(false)}><X className="h-4 w-4" /></Button>
+                </CardHeader>
+                <CardContent className="p-8 max-h-[80vh] overflow-y-auto">
+                  <form onSubmit={activeTab === 'profile' ? handleUpdateProfile : handleAddItem} className="space-y-6">
+                    {activeTab === 'profile' && (
+                      <>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
+                          <Input required value={newItemData.full_name || ''} onChange={e => setNewItemData({...newItemData, full_name: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Title</label>
+                          <Input required value={newItemData.title || ''} onChange={e => setNewItemData({...newItemData, title: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Bio</label>
+                          <Input required value={newItemData.bio || ''} onChange={e => setNewItemData({...newItemData, bio: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                      </>
+                    )}
+                    {activeTab === 'projects' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Title</label>
+                            <Input required value={newItemData.title || ''} onChange={e => setNewItemData({...newItemData, title: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Category</label>
+                            <Input required value={newItemData.category || ''} onChange={e => setNewItemData({...newItemData, category: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
+                          <Input required value={newItemData.description || ''} onChange={e => setNewItemData({...newItemData, description: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL</label>
+                          <Input value={newItemData.image_url || ''} onChange={e => setNewItemData({...newItemData, image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                        </div>
+                      </>
+                    )}
+
+                    {activeTab === 'skills' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Skill Name</label>
+                            <Input required value={newItemData.name || ''} onChange={e => setNewItemData({...newItemData, name: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Proficiency (%)</label>
+                            <Input type="number" min="0" max="100" required value={newItemData.proficiency || ''} onChange={e => setNewItemData({...newItemData, proficiency: parseInt(e.target.value)})} className="bg-white/5 border-white/10" />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Category</label>
+                          <Input required value={newItemData.category || ''} onChange={e => setNewItemData({...newItemData, category: e.target.value})} className="bg-white/5 border-white/10" placeholder="Frontend, Backend, etc." />
+                        </div>
+                      </>
+                    )}
+
+                    {activeTab === 'services' && (
+                      <>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Service Title</label>
+                          <Input required value={newItemData.title || ''} onChange={e => setNewItemData({...newItemData, title: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
+                          <Input required value={newItemData.description || ''} onChange={e => setNewItemData({...newItemData, description: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Icon Name (Lucide)</label>
+                          <Input value={newItemData.icon_name || ''} onChange={e => setNewItemData({...newItemData, icon_name: e.target.value})} className="bg-white/5 border-white/10" placeholder="Code, Cpu, Globe, etc." />
+                        </div>
+                      </>
+                    )}
+
+                    {activeTab === 'experience' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Role</label>
+                            <Input required value={newItemData.role || ''} onChange={e => setNewItemData({...newItemData, role: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Company</label>
+                            <Input required value={newItemData.company || ''} onChange={e => setNewItemData({...newItemData, company: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Start Date</label>
+                            <Input required value={newItemData.start_date || ''} onChange={e => setNewItemData({...newItemData, start_date: e.target.value})} className="bg-white/5 border-white/10" placeholder="Jan 2020" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">End Date</label>
+                            <Input value={newItemData.end_date || ''} onChange={e => setNewItemData({...newItemData, end_date: e.target.value})} className="bg-white/5 border-white/10" placeholder="Present or Date" />
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {activeTab === 'testimonials' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Client Name</label>
+                            <Input required value={newItemData.name || ''} onChange={e => setNewItemData({...newItemData, name: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Role/Company</label>
+                            <Input required value={newItemData.role || ''} onChange={e => setNewItemData({...newItemData, role: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Testimonial Content</label>
+                          <Input required value={newItemData.content || ''} onChange={e => setNewItemData({...newItemData, content: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                      </>
+                    )}
+
+                    {activeTab === 'clients' && (
+                      <>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Client Name</label>
+                          <Input required value={newItemData.name || ''} onChange={e => setNewItemData({...newItemData, name: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Logo URL</label>
+                          <Input required value={newItemData.logo_url || ''} onChange={e => setNewItemData({...newItemData, logo_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                        </div>
+                      </>
+                    )}
+
+                    <div className="flex gap-4 pt-4">
+                      <Button type="submit" className="flex-1 btn-primary h-12 font-bold" disabled={isLoading}>
+                        {isLoading ? 'SAVING...' : 'SAVE ITEM'}
+                      </Button>
+                      <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="flex-1 h-12 border-white/10 hover:bg-white/5 font-bold">
+                        CANCEL
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {activeTab === 'dashboard' && (
             <div className="space-y-8">
               <div className="grid grid-cols-3 gap-8">
@@ -332,11 +549,26 @@ export default function Admin() {
                   <CardTitle className="text-xl font-bold">Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="h-20 border-white/5 hover:bg-white/5 flex flex-col gap-1 items-start p-6">
+                  <Button 
+                    variant="outline" 
+                    className="h-20 border-white/5 hover:bg-white/5 flex flex-col gap-1 items-start p-6"
+                    onClick={() => {
+                      setActiveTab('projects');
+                      setIsAddModalOpen(true);
+                    }}
+                  >
                     <span className="font-bold text-white">Add New Project</span>
                     <span className="text-[10px] text-muted-foreground uppercase">Showcase your latest work</span>
                   </Button>
-                  <Button variant="outline" className="h-20 border-white/5 hover:bg-white/5 flex flex-col gap-1 items-start p-6">
+                  <Button 
+                    variant="outline" 
+                    className="h-20 border-white/5 hover:bg-white/5 flex flex-col gap-1 items-start p-6"
+                    onClick={() => {
+                      setActiveTab('profile');
+                      setNewItemData(useStore.getState().profile);
+                      setIsAddModalOpen(true);
+                    }}
+                  >
                     <span className="font-bold text-white">Update Profile</span>
                     <span className="text-[10px] text-muted-foreground uppercase">Change your bio and title</span>
                   </Button>
@@ -349,14 +581,14 @@ export default function Admin() {
             <Card className="bg-[#0a0a0a] border-white/5">
               <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-8">
                 <CardTitle className="text-2xl font-bold">Manage Projects</CardTitle>
-                <Button className="btn-primary gap-2 h-10 px-6">
+                <Button className="btn-primary gap-2 h-10 px-6" onClick={() => setIsAddModalOpen(true)}>
                   <Plus className="h-4 w-4" /> ADD PROJECT
                 </Button>
               </CardHeader>
               <CardContent className="pt-8">
                 <div className="space-y-4">
                   {projects.map((project) => (
-                    <div key={project.id} className="flex items-center justify-between p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors group">
+                    <div key={project.id || project.title} className="flex items-center justify-between p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors group">
                       <div className="flex items-center gap-6">
                         <div className="h-16 w-16 rounded-xl bg-white/5 overflow-hidden">
                           <img src={project.image_url || `https://picsum.photos/seed/${project.title}/200/200`} className="w-full h-full object-cover opacity-50" />
@@ -371,8 +603,9 @@ export default function Admin() {
                         </div>
                       </div>
                       <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white"><Settings className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete('projects', project.id)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                   ))}
@@ -385,14 +618,14 @@ export default function Admin() {
             <Card className="bg-[#0a0a0a] border-white/5">
               <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-8">
                 <CardTitle className="text-2xl font-bold">Expertise & Skills</CardTitle>
-                <Button className="btn-primary gap-2 h-10 px-6">
+                <Button className="btn-primary gap-2 h-10 px-6" onClick={() => setIsAddModalOpen(true)}>
                   <Plus className="h-4 w-4" /> ADD SKILL
                 </Button>
               </CardHeader>
               <CardContent className="pt-8">
                 <div className="grid md:grid-cols-2 gap-4">
                   {skills.map((skill) => (
-                    <div key={skill.id} className="flex items-center justify-between p-6 rounded-2xl border border-white/5 bg-white/[0.02] group">
+                    <div key={skill.id || skill.name} className="flex items-center justify-between p-6 rounded-2xl border border-white/5 bg-white/[0.02] group">
                       <div className="flex items-center gap-4">
                         <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black text-lg">
                           {skill.name[0]}
@@ -402,7 +635,7 @@ export default function Admin() {
                           <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">{skill.category} • {skill.proficiency}%</p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all">
+                      <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('skills', skill.id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -416,14 +649,14 @@ export default function Admin() {
             <Card className="bg-[#0a0a0a] border-white/5">
               <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-8">
                 <CardTitle className="text-2xl font-bold">Work History</CardTitle>
-                <Button className="btn-primary gap-2 h-10 px-6">
+                <Button className="btn-primary gap-2 h-10 px-6" onClick={() => setIsAddModalOpen(true)}>
                   <Plus className="h-4 w-4" /> ADD EXPERIENCE
                 </Button>
               </CardHeader>
               <CardContent className="pt-8">
                 <div className="space-y-4">
                   {experience.map((exp) => (
-                    <div key={exp.id} className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] group relative">
+                    <div key={exp.id || exp.role} className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] group relative">
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h4 className="text-xl font-bold text-white">{exp.role}</h4>
@@ -435,7 +668,7 @@ export default function Admin() {
                           </p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all">
+                      <Button variant="ghost" size="icon" className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('experience', exp.id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -449,11 +682,11 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Manage Services</h2>
-            <Button className="btn-primary">Add Service</Button>
+            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>Add Service</Button>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {services.map((service: any) => (
-              <div key={service.id} className="card-premium p-8 flex justify-between items-start">
+              <div key={service.id || service.title} className="card-premium p-8 flex justify-between items-start">
                 <div className="flex gap-6">
                   <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center">
                     <Cpu className="h-6 w-6 text-primary" />
@@ -464,8 +697,7 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="ghost" size="icon"><Settings className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="icon" className="text-red-500"><X className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('services', service.id)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </div>
             ))}
@@ -477,16 +709,16 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Client Testimonials</h2>
-            <Button className="btn-primary">Add Testimonial</Button>
+            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>Add Testimonial</Button>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {testimonials.map((t: any) => (
-              <div key={t.id} className="card-premium p-8 space-y-4">
+              <div key={t.id || t.name} className="card-premium p-8 space-y-4">
                 <div className="flex justify-between">
                   <div className="flex gap-1">
-                    {[...Array(t.rating)].map((_, i) => <Sparkles key={i} className="h-3 w-3 text-primary fill-primary" />)}
+                    {[...Array(t.rating || 5)].map((_, i) => <Sparkles key={i} className="h-3 w-3 text-primary fill-primary" />)}
                   </div>
-                  <Button variant="ghost" size="icon" className="text-red-500"><X className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('testimonials', t.id)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
                 <p className="text-muted italic">"{t.content}"</p>
                 <div className="pt-4 border-t border-white/5">
@@ -503,11 +735,11 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Blog Posts</h2>
-            <Button className="btn-primary">New Post</Button>
+            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>New Post</Button>
           </div>
           <div className="grid gap-6">
             {blogPosts.map((post: any) => (
-              <div key={post.id} className="card-premium p-6 flex gap-8 items-center">
+              <div key={post.id || post.title} className="card-premium p-6 flex gap-8 items-center">
                 <img src={post.image_url || 'https://picsum.photos/seed/blog/200/200'} className="h-24 w-40 object-cover rounded-lg" />
                 <div className="flex-grow">
                   <h3 className="text-xl font-bold">{post.title}</h3>
@@ -517,8 +749,7 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="ghost" size="icon"><Settings className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="icon" className="text-red-500"><X className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('blog_posts', post.id)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </div>
             ))}
@@ -530,15 +761,18 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Client Logos</h2>
-            <Button className="btn-primary">Add Client</Button>
+            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>Add Client</Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {clients.map((client: any) => (
-              <div key={client.id} className="card-premium p-6 flex flex-col items-center gap-4 group relative">
+              <div key={client.id || client.name} className="card-premium p-6 flex flex-col items-center gap-4 group relative">
                 <img src={client.logo_url} className="h-8 w-auto grayscale group-hover:grayscale-0 transition-all" />
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{client.name}</p>
-                <button className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <X className="h-3 w-3 text-white" />
+                <button 
+                  onClick={() => handleDelete('clients', client.id)}
+                  className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <Trash2 className="h-3 w-3 text-white" />
                 </button>
               </div>
             ))}
