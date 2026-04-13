@@ -134,11 +134,11 @@ const Projects = () => {
   const [filter, setFilter] = useState('All');
   const hasProjects = Array.isArray(projects) && projects.length > 0;
 
-  const filteredProjects = hasProjects 
-    ? (filter === 'All' ? projects : projects.filter(p => p.category === filter))
-    : [];
+  const categories = ['All', ...Array.from(new Set(hasProjects ? projects.map(p => p.category).filter(Boolean) : ['Web', 'AI', 'Automation', 'CRM']))];
 
-  const categories = ['All', 'Web', 'AI', 'Automation', 'CRM'];
+  const filteredProjects = hasProjects 
+    ? (filter === 'All' ? projects : projects.filter(p => p.category?.toLowerCase() === filter.toLowerCase()))
+    : [];
 
   return (
     <section id="projects" className="py-24">
@@ -148,14 +148,16 @@ const Projects = () => {
             <span className="section-label">WORK</span>
             <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">FEATURED PROJECTS.</h2>
           </div>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-2 bg-secondary/20 p-1.5 rounded-2xl border border-white/5">
             {categories.map((cat) => (
               <button 
                 key={cat} 
                 onClick={() => setFilter(cat)}
                 className={cn(
-                  "text-[11px] font-bold uppercase tracking-[2px] transition-all duration-300 interactive px-6 py-3 rounded-full border",
-                  filter === cat ? "bg-primary text-black border-primary" : "text-muted hover:text-primary border-white/5"
+                  "text-[10px] font-bold uppercase tracking-[2px] transition-all duration-500 px-6 py-3 rounded-xl",
+                  filter === cat 
+                    ? "bg-primary text-black shadow-[0_0_20px_rgba(200,245,56,0.3)]" 
+                    : "text-foreground/60 hover:text-primary hover:bg-white/5"
                 )}
               >
                 {cat}
@@ -249,6 +251,13 @@ const Experience = () => {
                   ))}
                 </ul>
               </div>
+
+              {/* Decorative content for the empty side */}
+              <div className="hidden md:flex md:w-1/2 items-center justify-center opacity-10">
+                <div className="text-7xl font-black tracking-tighter text-white/5 select-none hover:text-primary/20 transition-colors duration-700">
+                  {exp.company.split(' ')[0]}
+                </div>
+              </div>
             </div>
           )) : [1,2].map(i => <Skeleton key={i} className="h-40 w-full" />)}
         </div>
@@ -324,38 +333,41 @@ const Contact = () => {
       <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
       
       <ScrollReveal className="container mx-auto">
-        <div className="grid lg:grid-cols-5 gap-16 lg:gap-24">
-          <div className="lg:col-span-2 space-y-12">
-            <div>
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          <div className="lg:col-span-5 space-y-12">
+            <div className="max-w-xl">
               <span className="section-label">CONTACT</span>
-              <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1]">
+              <h2 className="text-[clamp(32px,4vw,56px)] font-black tracking-tighter leading-[1.1] mb-6">
                 LET'S BUILD SOMETHING <span className="text-primary italic">EXTRAORDINARY</span>.
               </h2>
+              <p className="text-lg text-foreground/60 font-medium leading-relaxed">
+                Have a project in mind? Let's collaborate to create something that stands out. I'm always open to discussing new opportunities and innovative ideas.
+              </p>
             </div>
             
-            <div className="space-y-8">
-              <div className="flex items-center gap-6 group interactive">
-                <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
-                  <Mail className="h-6 w-6 text-primary" />
+            <div className="space-y-6">
+              <div className="flex items-center gap-6 group interactive p-4 rounded-2xl hover:bg-white/5 transition-colors duration-500">
+                <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                  <Mail className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Email Me</p>
-                  <p className="text-xl font-bold tracking-tight text-foreground">kamranrasool0045@gmail.com</p>
+                  <p className="text-[9px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Email Me</p>
+                  <p className="text-lg font-bold tracking-tight text-foreground">kamranrasool0045@gmail.com</p>
                 </div>
               </div>
-              <div className="flex items-center gap-6 group interactive">
-                <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
-                  <MapPin className="h-6 w-6 text-primary" />
+              <div className="flex items-center gap-6 group interactive p-4 rounded-2xl hover:bg-white/5 transition-colors duration-500">
+                <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                  <MapPin className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Location</p>
-                  <p className="text-xl font-bold tracking-tight text-foreground">Lahore, Pakistan</p>
+                  <p className="text-[9px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Location</p>
+                  <p className="text-lg font-bold tracking-tight text-foreground">Lahore, Pakistan</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-3 card-premium">
+          <div className="lg:col-span-7 card-premium p-8 md:p-12">
             <AnimatePresence mode="wait">
               {formState === 'success' ? (
                 <motion.div
@@ -530,15 +542,19 @@ const Services = () => {
 };
 
 const Marquee = () => {
-  const skills = ["WordPress", "GoHighLevel", "React", "Next.js", "Node.js", "Automation", "UI/UX", "SEO", "Squarespace", "Zapier", "Make"];
+  const skills = [
+    "WordPress", "Plugin Development", "Theme Customization", "Elementor", 
+    "WooCommerce", "GoHighLevel", "GHL Automation", "React", "Next.js", 
+    "Node.js", "Automation", "UI/UX", "SEO", "Zapier", "Make"
+  ];
   return (
     <div className="py-12 bg-secondary/20 border-y border-white/5 overflow-hidden relative">
       <motion.div 
-        animate={{ x: [0, -1000] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        animate={{ x: [0, -1500] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         className="flex gap-20 whitespace-nowrap"
       >
-        {[...skills, ...skills].map((skill, i) => (
+        {[...skills, ...skills, ...skills].map((skill, i) => (
           <span key={i} className="text-4xl md:text-6xl font-black text-white/10 uppercase tracking-tighter hover:text-primary/40 transition-colors cursor-default">
             {skill}
           </span>
