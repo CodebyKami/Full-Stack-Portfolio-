@@ -35,7 +35,13 @@ export const useStore = create<PortfolioState>((set) => ({
         supabase.from('testimonials').select('*')
       ]);
 
-      set({ profile, projects, skills, experience, testimonials });
+      set({ 
+        profile: profile || null, 
+        projects: projects || [], 
+        skills: skills || [], 
+        experience: experience || [], 
+        testimonials: testimonials || [] 
+      });
     } catch (error) {
       console.error('Error fetching portfolio data:', error);
     } finally {
