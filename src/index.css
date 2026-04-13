@@ -8,7 +8,7 @@
   --color-secondary: #111111;
   --color-surface: #131313;
   --color-surface-hover: #1a1a1a;
-  --color-muted: #888888;
+  --color-muted: #a0a0a0;
   --color-accent: #7c3aed;
   --color-border: rgba(255, 255, 255, 0.07);
   
@@ -22,7 +22,6 @@
 @layer base {
   * {
     @apply border-border outline-none;
-    cursor: none !important;
   }
   
   body {
@@ -36,7 +35,7 @@
   }
 
   section {
-    @apply py-[120px] px-6 md:px-[60px];
+    @apply px-6 md:px-[60px];
   }
 }
 

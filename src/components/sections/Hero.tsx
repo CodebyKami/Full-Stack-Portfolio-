@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
-import { ArrowRight, Download, Sparkles, Code, Cpu, Globe } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'motion/react';
+import { ArrowRight, Sparkles, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Magnetic from '../ui/Magnetic';
 
@@ -78,7 +78,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-primary text-[11px] font-bold uppercase tracking-[3px] mb-10"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-primary text-[11px] font-bold uppercase tracking-[3px] mb-10 shadow-[0_0_20px_rgba(200,245,56,0.1)]"
           >
             <Sparkles className="h-3.5 w-3.5" />
             Available for new projects
@@ -94,7 +94,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="max-w-2xl mx-auto text-lg md:text-xl text-muted mb-12 font-medium leading-relaxed"
+            className="max-w-2xl mx-auto text-lg md:text-xl text-foreground/70 mb-12 font-medium leading-relaxed"
           >
             I'm Kamran Rasool. I craft high-performance digital solutions using WordPress, GoHighLevel, and modern Full-Stack technologies. Turning complex visions into seamless experiences.
           </motion.p>
@@ -106,13 +106,13 @@ export default function Hero() {
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             <Magnetic strength={0.2}>
-              <Button className="btn-primary interactive">
+              <Button className="btn-primary interactive h-16 px-10 rounded-full text-sm tracking-widest font-black">
                 VIEW PROJECTS
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Magnetic>
             <Magnetic strength={0.2}>
-              <Button className="btn-secondary interactive">
+              <Button className="btn-secondary interactive h-16 px-10 rounded-full text-sm tracking-widest font-black">
                 GET IN TOUCH
               </Button>
             </Magnetic>
@@ -135,7 +135,7 @@ export default function Hero() {
                 <span className="text-4xl md:text-5xl font-extrabold font-heading text-foreground mb-2">
                   <Counter value={stat.value} />
                 </span>
-                <span className="text-[10px] uppercase tracking-[2px] text-muted font-bold">
+                <span className="text-[10px] uppercase tracking-[2px] text-foreground/50 font-bold">
                   {stat.label}
                 </span>
               </div>
@@ -165,5 +165,3 @@ const ScrollProgress = () => {
     />
   );
 };
-
-import { useScroll, useSpring } from 'motion/react';

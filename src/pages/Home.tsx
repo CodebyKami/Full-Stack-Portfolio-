@@ -37,7 +37,7 @@ const ScrollReveal = ({ children, className }: { children: React.ReactNode; clas
 };
 
 const About = () => (
-  <section id="about" className="relative py-32">
+  <section id="about" className="relative py-24">
     <ScrollReveal className="container mx-auto">
       <div className="grid md:grid-cols-2 gap-24 items-center">
         <div className="space-y-8">
@@ -45,7 +45,7 @@ const About = () => (
           <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1]">
             TURNING IDEAS INTO <span className="text-primary italic">DIGITAL REALITY</span>.
           </h2>
-          <div className="space-y-6 text-lg text-muted font-medium">
+          <div className="space-y-6 text-lg text-foreground/80 font-medium">
             <p>
               I am Kamran Rasool, a Full-Stack Developer and WordPress Expert with a passion for building high-performance digital experiences. With a deep grip on WordPress, GoHighLevel, and modern web technologies, I help businesses scale through custom solutions.
             </p>
@@ -57,11 +57,11 @@ const About = () => (
           <div className="flex gap-12 pt-4">
             <div>
               <h4 className="text-2xl font-bold text-foreground">5+</h4>
-              <p className="text-[10px] uppercase tracking-widest text-muted">Years Exp.</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Years Exp.</p>
             </div>
             <div>
               <h4 className="text-2xl font-bold text-foreground">150+</h4>
-              <p className="text-[10px] uppercase tracking-widest text-muted">Projects</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Projects</p>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ const Skills = () => {
   const hasSkills = Array.isArray(skills) && skills.length > 0;
 
   return (
-    <section id="skills" className="bg-secondary/30 py-32">
+    <section id="skills" className="bg-secondary/30 py-24">
       <ScrollReveal className="container mx-auto">
         <div className="mb-20">
           <span className="section-label">EXPERTISE</span>
@@ -116,7 +116,7 @@ const Skills = () => {
           {hasSkills ? skills.map((skill, i) => (
             <div key={i} className="space-y-4">
               <div className="flex justify-between items-end">
-                <span className="text-xl font-bold font-heading uppercase tracking-tight">{skill.name}</span>
+                <span className="text-xl font-bold font-heading uppercase tracking-tight text-foreground">{skill.name}</span>
                 <span className="text-sm font-bold text-primary">{skill.proficiency || 80}%</span>
               </div>
               <div className="h-[2px] w-full bg-white/5 relative overflow-hidden">
@@ -148,7 +148,7 @@ const Projects = () => {
   const categories = ['All', 'Web', 'AI', 'Automation', 'CRM'];
 
   return (
-    <section id="projects" className="py-32">
+    <section id="projects" className="py-24">
       <ScrollReveal className="container mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
@@ -209,13 +209,13 @@ const Projects = () => {
               </div>
               <div className="p-10">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-bold tracking-tight">{project.title}</h3>
+                  <h3 className="text-2xl font-bold tracking-tight text-foreground">{project.title}</h3>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{project.category || 'WEB'}</span>
                 </div>
-                <p className="text-muted mb-8 line-clamp-2">{project.description}</p>
+                <p className="text-foreground/70 mb-8 line-clamp-2">{project.description}</p>
                 <div className="flex flex-wrap gap-3">
                   {project.tags?.map((tag: string) => (
-                    <span key={tag} className="text-[10px] font-bold uppercase tracking-wider text-muted px-4 py-1.5 rounded-full border border-white/5 bg-white/5">{tag}</span>
+                    <span key={tag} className="text-[10px] font-bold uppercase tracking-wider text-foreground/60 px-4 py-1.5 rounded-full border border-white/5 bg-white/5">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -232,7 +232,7 @@ const Experience = () => {
   const hasExperience = Array.isArray(experience) && experience.length > 0;
 
   return (
-    <section id="experience" className="py-32 bg-secondary/10">
+    <section id="experience" className="py-24 bg-secondary/10">
       <ScrollReveal className="container mx-auto">
         <div className="mb-20">
           <span className="section-label">MY JOURNEY</span>
@@ -251,11 +251,11 @@ const Experience = () => {
                 <div className="inline-block px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest">
                   {exp.start_date} — {exp.end_date}
                 </div>
-                <h3 className="text-3xl font-bold tracking-tight">{exp.role}</h3>
+                <h3 className="text-3xl font-bold tracking-tight text-foreground">{exp.role}</h3>
                 <p className="text-xl text-primary/80 font-medium">{exp.company}</p>
                 <ul className="space-y-3">
                   {exp.description?.map((item: string, j: number) => (
-                    <li key={j} className="text-muted flex items-start gap-3">
+                    <li key={j} className="text-foreground/70 flex items-start gap-3">
                       <span className="h-1.5 w-1.5 rounded-full bg-primary/40 mt-2.5 shrink-0" />
                       {item}
                     </li>
@@ -278,7 +278,7 @@ const Pricing = () => {
   ];
 
   return (
-    <section id="pricing" className="py-32">
+    <section id="pricing" className="py-24">
       <ScrollReveal className="container mx-auto">
         <div className="mb-20">
           <span className="section-label">PRICING</span>
@@ -296,14 +296,14 @@ const Pricing = () => {
               )}
             >
               {plan.featured && <span className="text-[10px] font-bold uppercase tracking-[3px] text-primary mb-6">Most Popular</span>}
-              <h3 className="text-3xl font-bold mb-2 tracking-tight">{plan.name}</h3>
+              <h3 className="text-3xl font-bold mb-2 tracking-tight text-foreground">{plan.name}</h3>
               <div className="flex items-baseline gap-2 mb-10">
                 <span className="text-5xl font-black tracking-tighter text-foreground">${plan.price}</span>
-                <span className="text-muted font-medium">/project</span>
+                <span className="text-foreground/60 font-medium">/project</span>
               </div>
               <ul className="space-y-5 mb-12 flex-grow">
                 {plan.features.map((feature, j) => (
-                  <li key={j} className="flex items-center gap-4 text-muted font-medium">
+                  <li key={j} className="flex items-center gap-4 text-foreground/70 font-medium">
                     <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                     {feature}
                   </li>
@@ -333,7 +333,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-32 relative overflow-hidden">
+    <section id="contact" className="py-24 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
       
       <ScrollReveal className="container mx-auto">
@@ -352,8 +352,8 @@ const Contact = () => {
                   <Mail className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[3px] text-muted font-bold mb-1">Email Me</p>
-                  <p className="text-2xl font-bold tracking-tight">kamranrasool0045@gmail.com</p>
+                  <p className="text-[10px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Email Me</p>
+                  <p className="text-2xl font-bold tracking-tight text-foreground">kamranrasool0045@gmail.com</p>
                 </div>
               </div>
               <div className="flex items-center gap-8 group interactive">
@@ -361,8 +361,8 @@ const Contact = () => {
                   <MapPin className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[3px] text-muted font-bold mb-1">Location</p>
-                  <p className="text-2xl font-bold tracking-tight">Lahore, Pakistan</p>
+                  <p className="text-[10px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Location</p>
+                  <p className="text-2xl font-bold tracking-tight text-foreground">Lahore, Pakistan</p>
                 </div>
               </div>
             </div>
@@ -385,8 +385,8 @@ const Contact = () => {
                   >
                     <CheckCircle2 className="h-10 w-10 text-primary" />
                   </motion.div>
-                  <h3 className="text-3xl font-bold">MESSAGE SENT!</h3>
-                  <p className="text-muted">Thank you for reaching out. I'll get back to you within 24 hours.</p>
+                  <h3 className="text-3xl font-bold text-foreground">MESSAGE SENT!</h3>
+                  <p className="text-foreground/70">Thank you for reaching out. I'll get back to you within 24 hours.</p>
                   <Button variant="outline" onClick={() => setFormState('idle')} className="btn-secondary">SEND ANOTHER</Button>
                 </motion.div>
               ) : (
@@ -400,21 +400,21 @@ const Contact = () => {
                 >
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-3">
-                      <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Full Name</label>
-                      <input required type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium" />
+                      <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Full Name</label>
+                      <input required type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
                     </div>
                     <div className="space-y-3">
-                      <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Email Address</label>
-                      <input required type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium" />
+                      <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Email Address</label>
+                      <input required type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Subject</label>
-                    <input required type="text" placeholder="Project Inquiry" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium" />
+                    <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Subject</label>
+                    <input required type="text" placeholder="Project Inquiry" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[3px] font-bold text-muted ml-1">Message</label>
-                    <textarea required placeholder="Tell me about your project..." rows={5} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium resize-none" />
+                    <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Message</label>
+                    <textarea required placeholder="Tell me about your project..." rows={5} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium resize-none text-foreground" />
                   </div>
                   <Button type="submit" disabled={formState === 'loading'} className="btn-primary w-full h-16 rounded-2xl font-bold text-sm tracking-widest uppercase interactive">
                     {formState === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
@@ -452,7 +452,7 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-32">
+    <section id="services" className="py-24">
       <ScrollReveal className="container mx-auto">
         <div className="mb-20">
           <span className="section-label">SERVICES</span>
@@ -478,8 +478,8 @@ const Services = () => {
                   <div className="h-20 w-20 rounded-2xl bg-white/5 flex items-center justify-center mb-10 group-hover:bg-primary/10 transition-colors">
                     <Icon className="h-10 w-10 text-primary group-hover:scale-125 transition-transform duration-500" />
                   </div>
-                  <h3 className="text-3xl font-bold mb-6 tracking-tight">{service.title}</h3>
-                  <p className="text-muted text-lg leading-relaxed">{service.description}</p>
+                  <h3 className="text-3xl font-bold mb-6 tracking-tight text-foreground">{service.title}</h3>
+                  <p className="text-foreground/70 text-lg leading-relaxed">{service.description}</p>
                 </div>
               </motion.div>
             );
@@ -569,7 +569,7 @@ const Testimonials = () => {
   const hasTestimonials = Array.isArray(testimonials) && testimonials.length > 0;
 
   return (
-    <section id="testimonials" className="py-32 bg-secondary/30">
+    <section id="testimonials" className="py-24 bg-secondary/30">
       <ScrollReveal className="container mx-auto">
         <div className="mb-20">
           <span className="section-label">FEEDBACK</span>
@@ -591,14 +591,14 @@ const Testimonials = () => {
                   <Sparkles key={j} className="h-4 w-4 text-primary fill-primary" />
                 ))}
               </div>
-              <p className="text-xl italic text-muted leading-relaxed font-medium">"{t.content}"</p>
+              <p className="text-xl italic text-foreground/80 leading-relaxed font-medium">"{t.content}"</p>
               <div className="flex items-center gap-5 mt-auto pt-8 border-t border-white/5">
                 <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black text-xl">
                   {t.name[0]}
                 </div>
                 <div>
                   <h4 className="font-bold text-white text-lg">{t.name}</h4>
-                  <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold">{t.role} @ {t.company}</p>
+                  <p className="text-sm text-foreground/60 uppercase tracking-widest font-bold">{t.role} @ {t.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -614,7 +614,7 @@ const Blog = () => {
   const hasPosts = Array.isArray(blogPosts) && blogPosts.length > 0;
 
   return (
-    <section id="blog" className="py-32">
+    <section id="blog" className="py-24">
       <ScrollReveal className="container mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
@@ -644,10 +644,10 @@ const Blog = () => {
               <div className="p-10 space-y-6">
                 <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[3px] text-primary">
                   <span>{post.tags?.[0] || 'TECH'}</span>
-                  <span className="text-muted">{post.read_time || '5 MIN READ'}</span>
+                  <span className="text-foreground/60">{post.read_time || '5 MIN READ'}</span>
                 </div>
                 <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors tracking-tight">{post.title}</h3>
-                <p className="text-lg text-muted line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
+                <p className="text-lg text-foreground/70 line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
                 <div className="pt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[3px] text-white group-hover:gap-4 transition-all">
                   READ MORE <ChevronRight className="h-4 w-4" />
                 </div>
@@ -699,7 +699,7 @@ export default function Home() {
       <Pricing />
       <Contact />
       
-      <footer className="pt-32 pb-12 border-t border-white/5 bg-secondary/10 relative overflow-hidden">
+      <footer className="pt-24 pb-12 border-t border-white/5 bg-secondary/10 relative overflow-hidden">
         {/* Decorative background glow */}
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
         
@@ -718,7 +718,7 @@ export default function Home() {
               <h2 className="text-5xl font-extrabold font-heading tracking-tighter">
                 KAMRAN<span className="text-primary">.</span>
               </h2>
-              <p className="text-muted text-xl max-w-md leading-relaxed font-medium">
+              <p className="text-foreground/70 text-xl max-w-md leading-relaxed font-medium">
                 Transforming complex ideas into seamless digital experiences. Specializing in high-performance web systems and AI-driven automation.
               </p>
               <div className="flex gap-5">
@@ -747,7 +747,7 @@ export default function Home() {
               <ul className="space-y-5">
                 {['Home', 'About', 'Services', 'Projects', 'Experience', 'Contact'].map((item) => (
                   <li key={item}>
-                    <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-primary transition-all duration-300 font-bold text-sm tracking-tight interactive flex items-center gap-2 group">
+                    <a href={`#${item.toLowerCase()}`} className="text-foreground/60 hover:text-primary transition-all duration-300 font-bold text-sm tracking-tight interactive flex items-center gap-2 group">
                       <span className="h-[1px] w-0 bg-primary group-hover:w-4 transition-all duration-300" />
                       {item}
                     </a>
@@ -760,7 +760,7 @@ export default function Home() {
               <h4 className="text-[11px] uppercase tracking-[4px] font-bold text-primary/80">Expertise</h4>
               <ul className="space-y-5">
                 {['Full-Stack Dev', 'AI Automation', 'UI/UX Design', 'Cloud Solutions'].map((item) => (
-                  <li key={item} className="text-muted font-bold text-sm tracking-tight flex items-center gap-3">
+                  <li key={item} className="text-foreground/60 font-bold text-sm tracking-tight flex items-center gap-3">
                     <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
                     {item}
                   </li>
@@ -771,7 +771,7 @@ export default function Home() {
 
           <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col gap-2">
-              <p className="text-[10px] text-muted uppercase tracking-[3px] font-black">
+              <p className="text-[10px] text-foreground/60 uppercase tracking-[3px] font-black">
                 © 2025 Crafted with Passion
               </p>
             </div>

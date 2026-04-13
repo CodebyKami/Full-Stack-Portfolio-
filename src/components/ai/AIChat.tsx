@@ -157,13 +157,18 @@ export default function AIChat() {
         size="icon"
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "h-14 w-14 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95",
+          "h-16 w-16 rounded-full shadow-[0_0_30px_rgba(200,245,56,0.3)] transition-all duration-500 hover:scale-110 active:scale-95 group relative overflow-hidden",
           isOpen ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90"
         )}
       >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        {isOpen ? (
+          <X className="h-7 w-7 text-white" />
+        ) : (
+          <Bot className="h-7 w-7 text-black group-hover:rotate-12 transition-transform" />
+        )}
         {!isOpen && (
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-white animate-bounce">
+          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-white shadow-lg animate-bounce">
             1
           </span>
         )}
