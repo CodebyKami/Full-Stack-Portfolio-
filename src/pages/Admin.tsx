@@ -300,7 +300,7 @@ export default function Admin() {
           <p className="text-[10px] text-muted-foreground uppercase tracking-[2px] mt-1">Portfolio Manager</p>
         </div>
 
-        <nav className="flex-grow p-4 space-y-2">
+        <nav className="flex-grow p-4 space-y-2 overflow-y-auto custom-scrollbar">
           {menuItems.map((item) => (
             <button
               key={item.id}
