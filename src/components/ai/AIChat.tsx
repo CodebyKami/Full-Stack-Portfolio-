@@ -45,9 +45,10 @@ export default function AIChat() {
       setMessages(prev => [...prev, { role: 'assistant', content: response.data.response }]);
     } catch (error: any) {
       console.error('AI Chat Error:', error);
-      const errorMessage = error.response?.status === 500 
-        ? "I'm having trouble connecting to my brain right now. Please ensure the API keys are configured correctly in the settings."
-        : "Sorry, I encountered an error. Please try again later.";
+      const errorMessage = error.response?.data?.details || 
+        (error.response?.status === 500 
+          ? "I'm having trouble connecting to my brain right now. Please ensure the API keys are configured correctly in the settings."
+          : "Sorry, I encountered an error. Please try again later.");
       setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
     } finally {
       setIsLoading(false);

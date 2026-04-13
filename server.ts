@@ -38,10 +38,28 @@ app.post("/api/ai", async (req, res) => {
   try {
     const { message, context } = req.body;
 
-    // Fetch portfolio data for context
-    const { data: projects } = await supabase.from("projects").select("*");
-    const { data: skills } = await supabase.from("skills").select("*");
-    const { data: experience } = await supabase.from("experience").select("*");
+    if (!process.env.GROQ_API_KEY) {
+      return res.status(500).json({ 
+        error: "GROQ_API_KEY is not configured",
+        details: "Please add your GROQ_API_KEY to the environment variables in settings."
+      });
+    }
+
+    // Fetch portfolio data for context with fallback
+    let projects = [];
+    let skills = [];
+    let experience = [];
+
+    try {
+      const { data: p } = await supabase.from("projects").select("*");
+      const { data: s } = await supabase.from("skills").select("*");
+      const { data: e } = await supabase.from("experience").select("*");
+      projects = p || [];
+      skills = s || [];
+      experience = e || [];
+    } catch (dbError) {
+      console.error("Database fetch error (AI context):", dbError);
+    }
 
     const portfolioContext = `
       Developer Portfolio Data:

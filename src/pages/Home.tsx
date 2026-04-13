@@ -333,15 +333,15 @@ const Contact = () => {
       <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
       
       <ScrollReveal className="container mx-auto">
-        <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
-          <div className="lg:col-span-5 space-y-12">
-            <div className="max-w-xl">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-center">
+          <div className="space-y-12">
+            <div className="max-w-lg">
               <span className="section-label">CONTACT</span>
-              <h2 className="text-[clamp(32px,4vw,56px)] font-black tracking-tighter leading-[1.1] mb-6">
+              <h2 className="text-[clamp(32px,4.5vw,52px)] font-black tracking-tighter leading-[1] mb-8">
                 LET'S BUILD SOMETHING <span className="text-primary italic">EXTRAORDINARY</span>.
               </h2>
-              <p className="text-lg text-foreground/60 font-medium leading-relaxed">
-                Have a project in mind? Let's collaborate to create something that stands out. I'm always open to discussing new opportunities and innovative ideas.
+              <p className="text-lg text-foreground/60 font-medium leading-relaxed max-w-md">
+                Have a project in mind? Let's collaborate to create something that stands out. I'm always open to discussing new opportunities.
               </p>
             </div>
             
@@ -367,7 +367,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7 card-premium p-8 md:p-12">
+          <div className="card-premium p-8 md:p-12 relative z-10">
             <AnimatePresence mode="wait">
               {formState === 'success' ? (
                 <motion.div
