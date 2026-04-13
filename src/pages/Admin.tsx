@@ -22,7 +22,10 @@ import {
   Settings,
   ExternalLink,
   ChevronRight,
-  Globe
+  Globe,
+  Cpu,
+  Sparkles,
+  X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -33,7 +36,7 @@ export default function Admin() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
 
-  const { projects, skills, experience, fetchPortfolio } = useStore();
+  const { projects, skills, experience, services, testimonials, blogPosts, clients, fetchPortfolio } = useStore();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -109,6 +112,31 @@ export default function Admin() {
         { name: 'Node.js', category: 'Backend', proficiency: 85 },
       ]);
 
+      // Seed Services
+      await supabase.from('services').insert([
+        { title: 'Full-Stack Development', description: 'Building scalable, high-performance web applications.', details: 'I specialize in React, Next.js, and Node.js to build robust applications.', icon_name: 'Code', order_index: 0 },
+        { title: 'AI Automation', description: 'Streamlining business processes with intelligent AI agents.', details: 'Using Zapier, Make, and custom AI agents to automate your workflow.', icon_name: 'Cpu', order_index: 1 },
+        { title: 'UI/UX Design', description: 'Creating intuitive, visually stunning interfaces.', details: 'Focusing on user-centric design principles and modern aesthetics.', icon_name: 'Globe', order_index: 2 },
+      ]);
+
+      // Seed Testimonials
+      await supabase.from('testimonials').insert([
+        { name: 'John Doe', role: 'CEO', company: 'TechCorp', content: 'Kamran is an exceptional developer who delivered our project ahead of schedule.', rating: 5 },
+        { name: 'Jane Smith', role: 'Founder', company: 'StartupInc', content: 'The automation workflows Kamran built saved us 20+ hours a week.', rating: 5 },
+      ]);
+
+      // Seed Blog Posts
+      await supabase.from('blog_posts').insert([
+        { title: 'The Future of AI in Web Dev', excerpt: 'How AI is changing the way we build websites in 2025.', content: 'Full content here...', read_time: '5 min read', tags: ['AI', 'Web Dev'] },
+        { title: 'Mastering GoHighLevel', excerpt: 'Tips and tricks for advanced CRM automation.', content: 'Full content here...', read_time: '8 min read', tags: ['GHL', 'Automation'] },
+      ]);
+
+      // Seed Clients
+      await supabase.from('clients').insert([
+        { name: 'Google', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg' },
+        { name: 'Meta', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg' },
+      ]);
+
       toast.success('Database seeded successfully!');
       fetchPortfolio();
     } catch (error: any) {
@@ -119,6 +147,7 @@ export default function Admin() {
   };
 
   if (!user) {
+    // ... (keep existing login UI)
     return (
       <div className="min-h-screen flex items-center justify-center p-6 bg-[#050505]">
         <div className="w-full max-w-md space-y-8">
@@ -191,7 +220,11 @@ export default function Admin() {
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'projects', label: 'Projects', icon: Code },
     { id: 'skills', label: 'Skills', icon: User },
+    { id: 'services', label: 'Services', icon: Cpu },
     { id: 'experience', label: 'Experience', icon: Briefcase },
+    { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
+    { id: 'blog', label: 'Blog', icon: Mail },
+    { id: 'clients', label: 'Clients', icon: Globe },
     { id: 'messages', label: 'Messages', icon: MessageSquare },
     { id: 'setup', label: 'System Setup', icon: Settings },
   ];
@@ -271,6 +304,18 @@ export default function Admin() {
                 <Card className="bg-[#0a0a0a] border-white/5 p-8 space-y-4">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[3px]">Total Projects</p>
                   <h3 className="text-5xl font-black text-white">{projects.length}</h3>
+                </Card>
+                <Card className="bg-[#0a0a0a] border-white/5 p-8 space-y-4">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[3px]">Services Offered</p>
+                  <h3 className="text-5xl font-black text-white">{services.length}</h3>
+                </Card>
+                <Card className="bg-[#0a0a0a] border-white/5 p-8 space-y-4">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[3px]">Testimonials</p>
+                  <h3 className="text-5xl font-black text-white">{testimonials.length}</h3>
+                </Card>
+                <Card className="bg-[#0a0a0a] border-white/5 p-8 space-y-4">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[3px]">Blog Posts</p>
+                  <h3 className="text-5xl font-black text-white">{blogPosts.length}</h3>
                 </Card>
                 <Card className="bg-[#0a0a0a] border-white/5 p-8 space-y-4">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[3px]">Skills Tracked</p>
@@ -400,7 +445,108 @@ export default function Admin() {
             </Card>
           )}
 
-          {activeTab === 'messages' && (
+          {activeTab === 'services' && (
+        <div className="space-y-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-black tracking-tighter">Manage Services</h2>
+            <Button className="btn-primary">Add Service</Button>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {services.map((service: any) => (
+              <div key={service.id} className="card-premium p-8 flex justify-between items-start">
+                <div className="flex gap-6">
+                  <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <Cpu className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold">{service.title}</h3>
+                    <p className="text-muted text-sm line-clamp-2">{service.description}</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="icon"><Settings className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500"><X className="h-4 w-4" /></Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'testimonials' && (
+        <div className="space-y-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-black tracking-tighter">Client Testimonials</h2>
+            <Button className="btn-primary">Add Testimonial</Button>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {testimonials.map((t: any) => (
+              <div key={t.id} className="card-premium p-8 space-y-4">
+                <div className="flex justify-between">
+                  <div className="flex gap-1">
+                    {[...Array(t.rating)].map((_, i) => <Sparkles key={i} className="h-3 w-3 text-primary fill-primary" />)}
+                  </div>
+                  <Button variant="ghost" size="icon" className="text-red-500"><X className="h-4 w-4" /></Button>
+                </div>
+                <p className="text-muted italic">"{t.content}"</p>
+                <div className="pt-4 border-t border-white/5">
+                  <h4 className="font-bold">{t.name}</h4>
+                  <p className="text-xs text-muted-foreground">{t.role} @ {t.company}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'blog' && (
+        <div className="space-y-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-black tracking-tighter">Blog Posts</h2>
+            <Button className="btn-primary">New Post</Button>
+          </div>
+          <div className="grid gap-6">
+            {blogPosts.map((post: any) => (
+              <div key={post.id} className="card-premium p-6 flex gap-8 items-center">
+                <img src={post.image_url || 'https://picsum.photos/seed/blog/200/200'} className="h-24 w-40 object-cover rounded-lg" />
+                <div className="flex-grow">
+                  <h3 className="text-xl font-bold">{post.title}</h3>
+                  <p className="text-muted text-sm line-clamp-1">{post.excerpt}</p>
+                  <div className="flex gap-4 mt-2">
+                    {post.tags?.map((tag: string) => <span key={tag} className="text-[10px] text-primary font-bold uppercase tracking-widest">#{tag}</span>)}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="icon"><Settings className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500"><X className="h-4 w-4" /></Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'clients' && (
+        <div className="space-y-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-black tracking-tighter">Client Logos</h2>
+            <Button className="btn-primary">Add Client</Button>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {clients.map((client: any) => (
+              <div key={client.id} className="card-premium p-6 flex flex-col items-center gap-4 group relative">
+                <img src={client.logo_url} className="h-8 w-auto grayscale group-hover:grayscale-0 transition-all" />
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{client.name}</p>
+                <button className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <X className="h-3 w-3 text-white" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'messages' && (
             <Card className="bg-[#0a0a0a] border-white/5">
               <CardHeader className="border-b border-white/5 pb-8">
                 <CardTitle className="text-2xl font-bold">Inbound Messages</CardTitle>

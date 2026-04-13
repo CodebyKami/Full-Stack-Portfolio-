@@ -5,7 +5,7 @@ import { motion, useInView, AnimatePresence } from 'motion/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ExternalLink, Github, Mail, MapPin, Send, CheckCircle2, Sparkles, Code, Cpu, Globe, Linkedin } from 'lucide-react';
+import { ExternalLink, Github, Mail, MapPin, Send, CheckCircle2, Sparkles, Code, Cpu, Globe, Linkedin, X, ChevronRight } from 'lucide-react';
 import Magnetic from '../components/ui/Magnetic';
 
 const ScrollReveal = ({ children, className }: { children: React.ReactNode; className?: string }) => {
@@ -138,7 +138,14 @@ const Skills = () => {
 
 const Projects = () => {
   const projects = useStore(state => state.projects);
+  const [filter, setFilter] = useState('All');
   const hasProjects = Array.isArray(projects) && projects.length > 0;
+
+  const filteredProjects = hasProjects 
+    ? (filter === 'All' ? projects : projects.filter(p => p.category === filter))
+    : [];
+
+  const categories = ['All', 'Web', 'AI', 'Automation', 'CRM'];
 
   return (
     <section id="projects">
@@ -148,9 +155,16 @@ const Projects = () => {
             <span className="section-label">04 / WORK</span>
             <h2 className="text-[clamp(36px,5vw,56px)]">FEATURED PROJECTS.</h2>
           </div>
-          <div className="flex gap-4">
-            {['All', 'Web', 'AI', 'Automation'].map((cat) => (
-              <button key={cat} className="text-[11px] font-bold uppercase tracking-[2px] text-muted hover:text-primary transition-colors interactive">
+          <div className="flex flex-wrap gap-4">
+            {categories.map((cat) => (
+              <button 
+                key={cat} 
+                onClick={() => setFilter(cat)}
+                className={cn(
+                  "text-[11px] font-bold uppercase tracking-[2px] transition-all duration-300 interactive px-4 py-2 rounded-full border",
+                  filter === cat ? "bg-primary text-black border-primary" : "text-muted hover:text-primary border-white/5"
+                )}
+              >
                 {cat}
               </button>
             ))}
@@ -158,15 +172,24 @@ const Projects = () => {
         </div>
         
         <div className="grid md:grid-cols-2 gap-12">
-          {hasProjects ? projects.map((project, i) => (
+          {filteredProjects.map((project, i) => (
             <motion.div 
               key={i}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
               whileHover={{ y: -6 }}
-              className="group card-premium p-0 overflow-hidden interactive"
+              className={cn(
+                "group card-premium p-0 overflow-hidden interactive",
+                i === 0 && filter === 'All' ? "md:col-span-2" : ""
+              )}
             >
-              <div className="aspect-[16/10] overflow-hidden relative">
+              <div className={cn(
+                "overflow-hidden relative",
+                i === 0 && filter === 'All' ? "aspect-[21/9]" : "aspect-[16/10]"
+              )}>
                 <motion.img 
-                  whileHover={{ scale: 1.08 }}
+                  whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.6 }}
                   src={project.image_url || `https://picsum.photos/seed/${project.title}/1200/800`} 
                   alt={project.title} 
@@ -174,18 +197,14 @@ const Projects = () => {
                   referrerPolicy="no-referrer" 
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4">
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    whileHover={{ y: 0, opacity: 1 }}
-                    className="flex gap-4"
-                  >
+                  <div className="flex gap-4">
                     <Button className="btn-primary h-auto py-3 px-6 text-xs">
-                      VIEW CASE <ExternalLink className="ml-2 h-3 w-3" />
+                      VIEW LIVE <ExternalLink className="ml-2 h-3 w-3" />
                     </Button>
                     <Button className="btn-secondary h-auto py-3 px-6 text-xs">
                       GITHUB <Github className="ml-2 h-3 w-3" />
                     </Button>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
               <div className="p-10">
@@ -201,7 +220,7 @@ const Projects = () => {
                 </div>
               </div>
             </motion.div>
-          )) : [1,2].map(i => <Skeleton key={i} className="h-[500px] rounded-[20px]" />)}
+          ))}
         </div>
       </ScrollReveal>
     </section>
@@ -474,12 +493,25 @@ const Contact = () => {
 };
 
 const Services = () => {
-  const services = [
-    { title: "Full-Stack Development", desc: "Building scalable, high-performance web applications using modern stacks.", icon: Code },
-    { title: "AI Automation", desc: "Streamlining business processes with intelligent AI agents and custom workflows.", icon: Cpu },
-    { title: "UI/UX Design", desc: "Creating intuitive, visually stunning interfaces that prioritize user experience.", icon: Globe },
-    { title: "Cloud Solutions", desc: "Deploying and managing robust infrastructure on AWS, Google Cloud, and Azure.", icon: Sparkles },
+  const services = useStore(state => state.services);
+  const [selectedService, setSelectedService] = useState<any>(null);
+  const hasServices = Array.isArray(services) && services.length > 0;
+
+  const displayServices = hasServices ? services : [
+    { title: "Full-Stack Development", description: "Building scalable, high-performance web applications using modern stacks.", icon_name: "Code" },
+    { title: "AI Automation", description: "Streamlining business processes with intelligent AI agents and custom workflows.", icon_name: "Cpu" },
+    { title: "UI/UX Design", description: "Creating intuitive, visually stunning interfaces that prioritize user experience.", icon_name: "Globe" },
+    { title: "Cloud Solutions", description: "Deploying and managing robust infrastructure on AWS, Google Cloud, and Azure.", icon_name: "Sparkles" },
   ];
+
+  const getIcon = (name: string) => {
+    switch(name) {
+      case 'Code': return Code;
+      case 'Cpu': return Cpu;
+      case 'Globe': return Globe;
+      default: return Sparkles;
+    }
+  };
 
   return (
     <section id="services">
@@ -490,32 +522,226 @@ const Services = () => {
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, i) => (
+          {displayServices.map((service, i) => {
+            const Icon = getIcon(service.icon_name);
+            return (
+              <motion.div 
+                key={i}
+                whileHover={{ y: -10 }}
+                onClick={() => setSelectedService(service)}
+                className="group relative card-premium p-10 pt-16 overflow-hidden interactive cursor-pointer"
+              >
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <span className="absolute top-4 right-8 text-8xl font-black text-white/[0.03] font-heading select-none group-hover:text-white/[0.05] transition-colors">
+                  0{i + 1}
+                </span>
+
+                <div className="relative z-10">
+                  <div className="h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors">
+                    <Icon className="h-8 w-8 text-primary group-hover:scale-125 transition-transform duration-500" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 tracking-tight">{service.title}</h3>
+                  <p className="text-muted leading-relaxed">{service.description}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </ScrollReveal>
+
+      <AnimatePresence>
+        {selectedService && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedService(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-xl"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-2xl bg-surface border border-white/10 rounded-[32px] p-12 shadow-2xl overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-primary" />
+              <button 
+                onClick={() => setSelectedService(null)}
+                className="absolute top-8 right-8 text-muted hover:text-white transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+              
+              <div className="space-y-8">
+                <div className="flex items-center gap-6">
+                  <div className="h-20 w-20 rounded-2xl bg-primary/10 flex items-center justify-center">
+                    {React.createElement(getIcon(selectedService.icon_name), { className: "h-10 w-10 text-primary" })}
+                  </div>
+                  <div>
+                    <h3 className="text-4xl font-black tracking-tighter">{selectedService.title}</h3>
+                    <p className="text-primary font-bold uppercase tracking-[2px] text-xs mt-1">Premium Service</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                  <p className="text-xl text-muted leading-relaxed">{selectedService.description}</p>
+                  <div className="p-8 rounded-2xl bg-white/5 border border-white/5">
+                    <h4 className="text-sm font-bold uppercase tracking-[2px] text-white mb-4">Service Details</h4>
+                    <p className="text-muted leading-relaxed">{selectedService.details || "I provide comprehensive solutions tailored to your specific business needs, ensuring high performance and scalability."}</p>
+                  </div>
+                </div>
+
+                <Button className="btn-primary w-full h-14 font-bold" onClick={() => {
+                  setSelectedService(null);
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  BOOK THIS SERVICE
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+};
+
+const Marquee = () => {
+  const skills = ["WordPress", "GoHighLevel", "React", "Next.js", "Node.js", "Automation", "UI/UX", "SEO", "Squarespace", "Zapier", "Make"];
+  return (
+    <div className="py-12 bg-secondary/20 border-y border-white/5 overflow-hidden relative">
+      <motion.div 
+        animate={{ x: [0, -1000] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="flex gap-20 whitespace-nowrap"
+      >
+        {[...skills, ...skills].map((skill, i) => (
+          <span key={i} className="text-4xl md:text-6xl font-black text-white/10 uppercase tracking-tighter hover:text-primary/40 transition-colors cursor-default">
+            {skill}
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+const Testimonials = () => {
+  const testimonials = useStore(state => state.testimonials);
+  const hasTestimonials = Array.isArray(testimonials) && testimonials.length > 0;
+
+  return (
+    <section id="testimonials" className="bg-secondary/30">
+      <ScrollReveal className="container mx-auto">
+        <div className="mb-20 text-center">
+          <span className="section-label">08 / FEEDBACK</span>
+          <h2 className="text-[clamp(36px,5vw,56px)]">CLIENT STORIES.</h2>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-8">
+          {hasTestimonials ? testimonials.map((t, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}
-              className="group relative card-premium p-10 pt-16 overflow-hidden interactive"
+              className={cn(
+                "card-premium p-10 flex flex-col gap-6 interactive",
+                i === 1 ? "md:-translate-y-8" : ""
+              )}
             >
-              {/* Top Border Reveal */}
-              <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              
-              {/* Background Number */}
-              <span className="absolute top-4 right-8 text-8xl font-black text-white/[0.03] font-heading select-none group-hover:text-white/[0.05] transition-colors">
-                0{i + 1}
-              </span>
-
-              <div className="relative z-10">
-                <div className="h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors">
-                  <service.icon className="h-8 w-8 text-primary group-hover:scale-125 transition-transform duration-500" />
+              <div className="flex gap-1">
+                {[...Array(t.rating || 5)].map((_, j) => (
+                  <Sparkles key={j} className="h-4 w-4 text-primary fill-primary" />
+                ))}
+              </div>
+              <p className="text-lg italic text-muted leading-relaxed">"{t.content}"</p>
+              <div className="flex items-center gap-4 mt-auto pt-6 border-t border-white/5">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">
+                  {t.name[0]}
                 </div>
-                <h3 className="text-2xl font-bold mb-4 tracking-tight">{service.title}</h3>
-                <p className="text-muted leading-relaxed">{service.desc}</p>
+                <div>
+                  <h4 className="font-bold text-white">{t.name}</h4>
+                  <p className="text-xs text-muted-foreground uppercase tracking-widest">{t.role} @ {t.company}</p>
+                </div>
               </div>
             </motion.div>
-          ))}
+          )) : [1,2,3].map(i => <Skeleton key={i} className="h-64 w-full" />)}
         </div>
       </ScrollReveal>
     </section>
+  );
+};
+
+const Blog = () => {
+  const blogPosts = useStore(state => state.blogPosts);
+  const hasPosts = Array.isArray(blogPosts) && blogPosts.length > 0;
+
+  return (
+    <section id="blog">
+      <ScrollReveal className="container mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+          <div>
+            <span className="section-label">09 / INSIGHTS</span>
+            <h2 className="text-[clamp(36px,5vw,56px)]">LATEST ARTICLES.</h2>
+          </div>
+          <Button variant="outline" className="h-auto py-3 px-8 text-xs font-bold border-white/10 hover:bg-white/5">
+            VIEW ALL POSTS
+          </Button>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-8">
+          {hasPosts ? blogPosts.map((post, i) => (
+            <motion.div 
+              key={i}
+              whileHover={{ y: -10 }}
+              className="group card-premium p-0 overflow-hidden interactive"
+            >
+              <div className="aspect-[16/9] overflow-hidden">
+                <img 
+                  src={post.image_url || `https://picsum.photos/seed/${post.title}/800/450`} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="p-8 space-y-4">
+                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-primary">
+                  <span>{post.tags?.[0] || 'TECH'}</span>
+                  <span className="text-muted">{post.read_time || '5 MIN READ'}</span>
+                </div>
+                <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{post.title}</h3>
+                <p className="text-sm text-muted line-clamp-2">{post.excerpt}</p>
+                <div className="pt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[2px] text-white group-hover:gap-4 transition-all">
+                  READ MORE <ChevronRight className="h-3 w-3" />
+                </div>
+              </div>
+            </motion.div>
+          )) : [1,2,3].map(i => <Skeleton key={i} className="h-96 w-full" />)}
+        </div>
+      </ScrollReveal>
+    </section>
+  );
+};
+
+const Clients = () => {
+  const clients = useStore(state => state.clients);
+  const hasClients = Array.isArray(clients) && clients.length > 0;
+
+  return (
+    <div className="py-24 border-y border-white/5 bg-secondary/10">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-wrap justify-center items-center gap-16 md:gap-32 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+          {hasClients ? clients.map((client, i) => (
+            <img 
+              key={i} 
+              src={client.logo_url} 
+              alt={client.name} 
+              className="h-8 md:h-12 w-auto object-contain hover:scale-110 transition-transform"
+              referrerPolicy="no-referrer"
+            />
+          )) : [1,2,3,4,5].map(i => <div key={i} className="h-12 w-32 bg-white/5 rounded-lg animate-pulse" />)}
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -523,11 +749,15 @@ export default function Home() {
   return (
     <div className="relative">
       <Hero />
+      <Marquee />
       <About />
       <Services />
+      <Clients />
       <Skills />
       <Projects />
       <Experience />
+      <Testimonials />
+      <Blog />
       <Pricing />
       <Contact />
       
@@ -536,6 +766,15 @@ export default function Home() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
         
         <div className="container mx-auto px-6 md:px-[60px] relative z-10">
+          <div className="flex justify-end mb-12">
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="h-16 w-16 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-black hover:border-primary transition-all duration-500 interactive group"
+            >
+              <ChevronRight className="h-6 w-6 -rotate-90 group-hover:scale-125 transition-transform" />
+            </button>
+          </div>
+
           <div className="grid md:grid-cols-4 gap-16 mb-24">
             <div className="md:col-span-2 space-y-10">
               <h2 className="text-5xl font-extrabold font-heading tracking-tighter">

@@ -7,6 +7,7 @@ import Navbar from './components/layout/Navbar';
 import AIChat from './components/ai/AIChat';
 import { Toaster } from 'sonner';
 import CustomCursor from './components/ui/CustomCursor';
+import Preloader from './components/ui/Preloader';
 import { AnimatePresence, motion } from 'motion/react';
 
 function AppContent() {
@@ -21,8 +22,9 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 relative">
+      <Preloader />
       <div className="noise-overlay" />
-      {!isAdminPage && <CustomCursor />}
+      <CustomCursor />
       {!isAdminPage && <Navbar />}
       <main>
         <AnimatePresence mode="wait">
