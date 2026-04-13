@@ -40,15 +40,15 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-400 ease-in-out",
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out",
         isScrolled 
-          ? "bg-[#0a0a0a]/85 backdrop-blur-[20px] border-b border-white/10 py-4" 
+          ? "bg-[#050505]/80 backdrop-blur-xl border-b border-white/5 py-4" 
           : "bg-transparent py-8"
       )}
     >
-      <div className="container mx-auto px-6 md:px-[60px] flex items-center justify-between">
+      <div className="container mx-auto px-6 md:px-12 lg:px-24 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group interactive">
-          <span className="text-2xl font-extrabold tracking-[-0.05em] font-heading">
+          <span className="text-2xl font-black tracking-[-0.05em] font-heading">
             KAMRAN<span className="text-primary">.</span>
           </span>
         </Link>
@@ -63,7 +63,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "text-[13px] font-bold uppercase tracking-[2px] transition-colors relative interactive",
+                    "text-[11px] font-bold uppercase tracking-[3px] transition-colors relative interactive",
                     isActive ? "text-primary" : "text-muted hover:text-foreground"
                   )}
                 >
@@ -71,7 +71,7 @@ export default function Navbar() {
                   {isActive && (
                     <motion.div
                       layoutId="nav-underline"
-                      className="absolute -bottom-2 left-0 right-0 h-[2px] bg-primary"
+                      className="absolute -bottom-2 left-0 right-0 h-[1px] bg-primary"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -80,7 +80,7 @@ export default function Navbar() {
             })}
           </div>
           
-          <Button className="btn-primary h-auto interactive">
+          <Button className="btn-primary h-auto py-3 px-6 text-[10px] tracking-widest interactive">
             LET'S TALK
           </Button>
         </div>

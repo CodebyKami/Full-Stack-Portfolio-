@@ -1,22 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0a0a0a;
-  --color-foreground: #f0f0f0;
+  --color-background: #050505;
+  --color-foreground: #fafafa;
   --color-primary: #c8f538;
-  --color-secondary: #111111;
-  --color-surface: #131313;
-  --color-surface-hover: #1a1a1a;
-  --color-muted: #a0a0a0;
+  --color-secondary: #0d0d0d;
+  --color-surface: #0d0d0d;
+  --color-surface-hover: #141414;
+  --color-muted: #737373;
   --color-accent: #7c3aed;
-  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border: rgba(255, 255, 255, 0.08);
   
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Syne", sans-serif;
 
-  --radius-lg: 20px;
-  --radius-full: 100px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
 }
 
 @layer base {
@@ -27,34 +27,43 @@
   
   body {
     @apply bg-background text-foreground antialiased font-sans;
-    line-height: 1.7;
+    line-height: 1.6;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-extrabold tracking-[-0.03em];
+    @apply font-heading font-extrabold tracking-[-0.04em];
+    line-height: 1.1;
   }
 
   main section {
-    @apply px-6 md:px-[60px];
+    @apply px-6 md:px-12 lg:px-24;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-black px-9 py-4 rounded-full font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(200,245,56,0.4)];
+    @apply bg-primary text-black px-8 py-4 rounded-full font-bold transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(200,245,56,0.3)];
   }
   
   .btn-secondary {
-    @apply bg-transparent border border-white/10 text-foreground px-9 py-4 rounded-full font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/25;
+    @apply bg-transparent border border-white/10 text-foreground px-8 py-4 rounded-full font-medium transition-all duration-500 hover:bg-white/5 hover:border-white/25;
   }
 
   .card-premium {
-    @apply bg-surface/50 backdrop-blur-sm border border-white/5 rounded-[24px] p-7 transition-all duration-500 hover:border-primary/30 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)];
+    @apply bg-surface border border-white/5 rounded-[32px] p-8 transition-all duration-700 hover:border-primary/20 hover:-translate-y-2 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)];
   }
 
   .section-label {
-    @apply text-[12px] uppercase tracking-[3px] text-muted mb-6 block;
+    @apply text-[11px] font-bold uppercase tracking-[0.3em] text-primary mb-8 block;
+  }
+
+  .fluid-h1 {
+    @apply text-[clamp(40px,10vw,120px)] font-black leading-[0.9] tracking-[-0.05em];
+  }
+
+  .fluid-h2 {
+    @apply text-[clamp(32px,6vw,64px)] font-extrabold leading-[1] tracking-[-0.04em];
   }
 }
 

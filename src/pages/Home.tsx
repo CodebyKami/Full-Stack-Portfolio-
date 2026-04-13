@@ -37,12 +37,12 @@ const ScrollReveal = ({ children, className }: { children: React.ReactNode; clas
 };
 
 const About = () => (
-  <section id="about" className="relative py-24 overflow-hidden">
+  <section id="about" className="relative py-24 lg:py-32 overflow-hidden">
     <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
     
-    <ScrollReveal className="container mx-auto">
-      <div className="grid lg:grid-cols-2 gap-20 items-center">
-        <div className="relative group">
+    <ScrollReveal className="container mx-auto px-6">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+        <div className="relative group max-w-xl mx-auto lg:mx-0">
           <div className="absolute -inset-4 bg-primary/20 blur-2xl rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/10">
             <img 
@@ -53,36 +53,36 @@ const About = () => (
             />
           </div>
           {/* Experience Badge */}
-          <div className="absolute -bottom-10 -right-10 bg-surface border border-white/10 p-8 rounded-3xl shadow-2xl hidden md:block">
-            <p className="text-5xl font-black text-primary mb-1">5+</p>
-            <p className="text-[10px] font-bold uppercase tracking-[3px] text-foreground/60">Years of<br />Experience</p>
+          <div className="absolute -bottom-6 -right-6 bg-surface border border-white/10 p-6 lg:p-8 rounded-3xl shadow-2xl hidden sm:block">
+            <p className="text-4xl lg:text-5xl font-black text-primary mb-1">5+</p>
+            <p className="text-[9px] lg:text-[10px] font-bold uppercase tracking-[3px] text-foreground/60">Years of<br />Experience</p>
           </div>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-8 lg:space-y-12">
           <div>
             <span className="section-label">ABOUT ME</span>
-            <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1] mb-8">
+            <h2 className="fluid-h2 mb-8">
               I ARCHITECT <span className="text-primary italic">DIGITAL</span> EXPERIENCES.
             </h2>
-            <p className="text-xl text-foreground/70 leading-relaxed font-medium">
+            <p className="text-lg lg:text-xl text-foreground/70 leading-relaxed font-medium">
               I'm a Full-Stack Developer and WordPress Architect with a passion for building high-performance, scalable web systems. With over 5 years of experience, I've helped businesses automate their workflows and establish a dominant online presence.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h4 className="text-primary font-bold uppercase tracking-widest text-xs">My Mission</h4>
+              <h4 className="text-primary font-bold uppercase tracking-widest text-[10px]">My Mission</h4>
               <p className="text-foreground/60 text-sm leading-relaxed">To bridge the gap between complex technology and seamless user experiences through innovative engineering.</p>
             </div>
             <div className="space-y-4">
-              <h4 className="text-primary font-bold uppercase tracking-widest text-xs">My Approach</h4>
+              <h4 className="text-primary font-bold uppercase tracking-widest text-[10px]">My Approach</h4>
               <p className="text-foreground/60 text-sm leading-relaxed">I prioritize clean code, performance optimization, and user-centric design in every project I undertake.</p>
             </div>
           </div>
 
-          <div className="pt-6">
-            <Button className="btn-primary h-14 px-8 rounded-full text-xs tracking-widest font-black">
+          <div className="pt-4">
+            <Button className="btn-primary h-14 px-8 rounded-full text-[10px] tracking-widest font-black">
               DOWNLOAD CV
               <Download className="ml-2 h-4 w-4" />
             </Button>
@@ -98,27 +98,27 @@ const Skills = () => {
   const hasSkills = Array.isArray(skills) && skills.length > 0;
 
   return (
-    <section id="skills" className="bg-secondary/30 py-24">
-      <ScrollReveal className="container mx-auto">
-        <div className="mb-20">
+    <section id="skills" className="bg-secondary/30 py-24 lg:py-32">
+      <ScrollReveal className="container mx-auto px-6">
+        <div className="mb-16 lg:mb-24">
           <span className="section-label">EXPERTISE</span>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">TECHNICAL ARSENAL.</h2>
+          <h2 className="fluid-h2">TECHNICAL ARSENAL.</h2>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-x-24 gap-y-12">
+        <div className="grid sm:grid-cols-2 gap-x-12 lg:gap-x-24 gap-y-10 lg:gap-y-16">
           {hasSkills ? skills.map((skill, i) => (
             <div key={i} className="space-y-4">
               <div className="flex justify-between items-end">
-                <span className="text-xl font-bold font-heading uppercase tracking-tight text-foreground">{skill.name}</span>
-                <span className="text-sm font-bold text-primary">{skill.proficiency || 80}%</span>
+                <span className="text-lg lg:text-xl font-bold font-heading uppercase tracking-tight text-foreground">{skill.name}</span>
+                <span className="text-xs lg:text-sm font-bold text-primary">{skill.proficiency || 80}%</span>
               </div>
-              <div className="h-[2px] w-full bg-white/5 relative overflow-hidden">
+              <div className="h-[1px] w-full bg-white/5 relative overflow-hidden">
                 <motion.div 
                   initial={{ width: 0 }}
                   whileInView={{ width: `${skill.proficiency || 80}%` }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1.2, ease: "easeOut", delay: i * 0.15 }}
-                  className="absolute top-0 left-0 h-full bg-primary shimmer"
+                  transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                  className="absolute top-0 left-0 h-full bg-primary"
                 />
               </div>
             </div>
@@ -141,20 +141,20 @@ const Projects = () => {
     : [];
 
   return (
-    <section id="projects" className="py-24">
-      <ScrollReveal className="container mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+    <section id="projects" className="py-24 lg:py-32">
+      <ScrollReveal className="container mx-auto px-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 lg:mb-24 gap-8">
           <div>
             <span className="section-label">WORK</span>
-            <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">FEATURED PROJECTS.</h2>
+            <h2 className="fluid-h2">FEATURED PROJECTS.</h2>
           </div>
-          <div className="flex flex-wrap gap-2 bg-secondary/20 p-1.5 rounded-2xl border border-white/5">
+          <div className="flex flex-wrap gap-2 bg-secondary/20 p-1 rounded-2xl border border-white/5">
             {categories.map((cat) => (
               <button 
                 key={cat} 
                 onClick={() => setFilter(cat)}
                 className={cn(
-                  "text-[10px] font-bold uppercase tracking-[2px] transition-all duration-500 px-6 py-3 rounded-xl",
+                  "text-[9px] font-bold uppercase tracking-[2px] transition-all duration-500 px-5 py-2.5 rounded-xl",
                   filter === cat 
                     ? "bg-primary text-black shadow-[0_0_20px_rgba(200,245,56,0.3)]" 
                     : "text-foreground/60 hover:text-primary hover:bg-white/5"
@@ -166,45 +166,45 @@ const Projects = () => {
           </div>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {filteredProjects.map((project, i) => (
             <motion.div 
               key={i}
               layout
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ y: -6 }}
+              whileHover={{ y: -10 }}
               className="group card-premium p-0 overflow-hidden interactive"
             >
-              <div className="overflow-hidden relative aspect-[16/10]">
+              <div className="overflow-hidden relative aspect-[16/11]">
                 <motion.img 
                   whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   src={project.image_url || `https://picsum.photos/seed/${project.title}/1200/800`} 
                   alt={project.title} 
                   className="object-cover w-full h-full" 
                   referrerPolicy="no-referrer" 
                 />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4">
-                  <div className="flex gap-4">
-                    <Button className="btn-primary h-auto py-3 px-6 text-xs">
-                      VIEW LIVE <ExternalLink className="ml-2 h-3 w-3" />
+                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                  <div className="flex gap-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <Button className="btn-primary h-auto py-3 px-6 text-[10px] tracking-widest">
+                      VIEW LIVE
                     </Button>
-                    <Button className="btn-secondary h-auto py-3 px-6 text-xs">
-                      GITHUB <Github className="ml-2 h-3 w-3" />
+                    <Button className="btn-secondary h-auto py-3 px-6 text-[10px] tracking-widest">
+                      GITHUB
                     </Button>
                   </div>
                 </div>
               </div>
-              <div className="p-8">
+              <div className="p-8 lg:p-10">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold tracking-tight text-foreground">{project.title}</h3>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{project.category || 'WEB'}</span>
+                  <h3 className="text-xl lg:text-2xl font-bold tracking-tight text-foreground">{project.title}</h3>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-primary">{project.category || 'WEB'}</span>
                 </div>
-                <p className="text-foreground/70 text-sm mb-6 line-clamp-2">{project.description}</p>
+                <p className="text-foreground/60 text-sm mb-8 line-clamp-2 font-medium leading-relaxed">{project.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags?.map((tag: string) => (
-                    <span key={tag} className="text-[9px] font-bold uppercase tracking-wider text-foreground/60 px-3 py-1 rounded-full border border-white/5 bg-white/5">{tag}</span>
+                    <span key={tag} className="text-[9px] font-bold uppercase tracking-wider text-foreground/50 px-3 py-1 rounded-full border border-white/5 bg-white/5">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -221,11 +221,11 @@ const Experience = () => {
   const hasExperience = Array.isArray(experience) && experience.length > 0;
 
   return (
-    <section id="experience" className="py-24 bg-secondary/10">
-      <ScrollReveal className="container mx-auto">
-        <div className="mb-20">
+    <section id="experience" className="py-24 lg:py-32 bg-secondary/10">
+      <ScrollReveal className="container mx-auto px-6">
+        <div className="mb-16 lg:mb-24">
           <span className="section-label">MY JOURNEY</span>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">EXPERIENCE.</h2>
+          <h2 className="fluid-h2">EXPERIENCE.</h2>
         </div>
         
         <div className="space-y-12 relative before:absolute before:left-0 md:before:left-1/2 before:top-0 before:bottom-0 before:w-[1px] before:bg-white/5">
@@ -236,25 +236,26 @@ const Experience = () => {
             )}>
               <div className="absolute left-[-5px] md:left-1/2 md:ml-[-5px] top-0 h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_15px_rgba(200,245,56,0.5)] z-10" />
               
-              <div className="md:w-1/2 space-y-4">
-                <div className="inline-block px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[9px] font-bold uppercase tracking-widest">
+              <div className="md:w-1/2 space-y-6">
+                <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[9px] font-bold uppercase tracking-widest">
                   {exp.start_date} — {exp.end_date}
                 </div>
-                <h3 className="text-2xl font-bold tracking-tight text-foreground">{exp.role}</h3>
-                <p className="text-lg text-primary/80 font-medium">{exp.company}</p>
-                <ul className="space-y-3">
+                <div>
+                  <h3 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground mb-1">{exp.role}</h3>
+                  <p className="text-lg lg:text-xl text-primary/80 font-bold">{exp.company}</p>
+                </div>
+                <ul className="space-y-4">
                   {exp.description?.map((item: string, j: number) => (
-                    <li key={j} className="text-sm text-foreground/70 flex items-start gap-3 leading-relaxed">
-                      <span className="h-1 w-1 rounded-full bg-primary/40 mt-2 shrink-0" />
+                    <li key={j} className="text-sm lg:text-base text-foreground/60 flex items-start gap-4 leading-relaxed font-medium">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary/30 mt-2 shrink-0" />
                       {item}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Decorative content for the empty side */}
-              <div className="hidden md:flex md:w-1/2 items-center justify-center opacity-10">
-                <div className="text-7xl font-black tracking-tighter text-white/5 select-none hover:text-primary/20 transition-colors duration-700">
+              <div className="hidden md:flex md:w-1/2 items-center justify-center opacity-5">
+                <div className="text-7xl lg:text-9xl font-black tracking-tighter text-white select-none">
                   {exp.company.split(' ')[0]}
                 </div>
               </div>
@@ -329,15 +330,15 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
+    <section id="contact" className="py-24 lg:py-32 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
       
-      <ScrollReveal className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-center">
-          <div className="space-y-12">
+      <ScrollReveal className="container mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-start">
+          <div className="space-y-12 lg:sticky lg:top-32">
             <div className="max-w-lg">
               <span className="section-label">CONTACT</span>
-              <h2 className="text-[clamp(32px,4.5vw,52px)] font-black tracking-tighter leading-[1] mb-8">
+              <h2 className="fluid-h2 mb-8">
                 LET'S BUILD SOMETHING <span className="text-primary italic">EXTRAORDINARY</span>.
               </h2>
               <p className="text-lg text-foreground/60 font-medium leading-relaxed max-w-md">
@@ -397,7 +398,7 @@ const Contact = () => {
                   onSubmit={handleSubmit}
                   className="space-y-6"
                 >
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Full Name</label>
                       <input required type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-xl h-14 px-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
@@ -415,7 +416,7 @@ const Contact = () => {
                     <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Message</label>
                     <textarea required placeholder="Tell me about your project..." rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl p-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium resize-none text-foreground" />
                   </div>
-                  <Button type="submit" disabled={formState === 'loading'} className="btn-primary w-full h-14 rounded-xl font-bold text-sm tracking-widest uppercase interactive">
+                  <Button type="submit" disabled={formState === 'loading'} className="btn-primary w-full h-14 rounded-xl font-bold text-[10px] tracking-widest uppercase interactive">
                     {formState === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
                     <Send className="ml-3 h-4 w-4" />
                   </Button>
@@ -451,14 +452,14 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-24">
-      <ScrollReveal className="container mx-auto">
-        <div className="mb-20">
+    <section id="services" className="py-24 lg:py-32">
+      <ScrollReveal className="container mx-auto px-6">
+        <div className="mb-16 lg:mb-24">
           <span className="section-label">SERVICES</span>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">WHAT I OFFER.</h2>
+          <h2 className="fluid-h2">WHAT I OFFER.</h2>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {displayServices.map((service, i) => {
             const Icon = getIcon(service.icon_name);
             return (
@@ -468,14 +469,14 @@ const Services = () => {
                 onClick={() => setSelectedService(service)}
                 className="group relative card-premium p-10 overflow-hidden interactive cursor-pointer"
               >
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
                 
                 <div className="relative z-10">
-                  <div className="h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors">
-                    <Icon className="h-8 w-8 text-primary group-hover:scale-125 transition-transform duration-500" />
+                  <div className="h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors duration-500">
+                    <Icon className="h-8 w-8 text-primary group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   <h3 className="text-2xl font-bold mb-4 tracking-tight text-foreground">{service.title}</h3>
-                  <p className="text-foreground/70 text-base leading-relaxed line-clamp-3">{service.description}</p>
+                  <p className="text-foreground/60 text-base leading-relaxed line-clamp-3 font-medium">{service.description}</p>
                 </div>
               </motion.div>
             );
@@ -569,33 +570,33 @@ const Testimonials = () => {
   const hasTestimonials = Array.isArray(testimonials) && testimonials.length > 0;
 
   return (
-    <section id="testimonials" className="py-24 bg-secondary/30">
-      <ScrollReveal className="container mx-auto">
-        <div className="mb-20">
+    <section id="testimonials" className="py-24 lg:py-32 bg-secondary/30">
+      <ScrollReveal className="container mx-auto px-6">
+        <div className="mb-16 lg:mb-24">
           <span className="section-label">FEEDBACK</span>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">CLIENT STORIES.</h2>
+          <h2 className="fluid-h2">CLIENT STORIES.</h2>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {hasTestimonials ? testimonials.map((t, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}
-              className="card-premium p-10 flex flex-col gap-6 interactive"
+              className="card-premium p-10 flex flex-col gap-8 interactive"
             >
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {[...Array(t.rating || 5)].map((_, j) => (
                   <Sparkles key={j} className="h-3.5 w-3.5 text-primary fill-primary" />
                 ))}
               </div>
-              <p className="text-lg italic text-foreground/80 leading-relaxed font-medium">"{t.content}"</p>
-              <div className="flex items-center gap-4 mt-auto pt-6 border-t border-white/5">
+              <p className="text-lg lg:text-xl italic text-foreground/80 leading-relaxed font-medium">"{t.content}"</p>
+              <div className="flex items-center gap-4 mt-auto pt-8 border-t border-white/5">
                 <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black text-lg">
                   {t.name[0]}
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-base">{t.name}</h4>
-                  <p className="text-[10px] text-foreground/60 uppercase tracking-widest font-bold">{t.role} @ {t.company}</p>
+                  <h4 className="font-bold text-white text-base tracking-tight">{t.name}</h4>
+                  <p className="text-[10px] text-foreground/50 uppercase tracking-widest font-bold">{t.role} @ {t.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -611,19 +612,19 @@ const Blog = () => {
   const hasPosts = Array.isArray(blogPosts) && blogPosts.length > 0;
 
   return (
-    <section id="blog" className="py-24">
-      <ScrollReveal className="container mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+    <section id="blog" className="py-24 lg:py-32">
+      <ScrollReveal className="container mx-auto px-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 lg:mb-24 gap-8">
           <div>
             <span className="section-label">INSIGHTS</span>
-            <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter">LATEST ARTICLES.</h2>
+            <h2 className="fluid-h2">LATEST ARTICLES.</h2>
           </div>
-          <Button variant="outline" className="btn-secondary interactive">
+          <Button variant="outline" className="btn-secondary interactive text-[10px] tracking-widest">
             VIEW ALL POSTS
           </Button>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {hasPosts ? blogPosts.map((post, i) => (
             <motion.div 
               key={i}
@@ -634,19 +635,19 @@ const Blog = () => {
                 <img 
                   src={post.image_url || `https://picsum.photos/seed/${post.title}/800/450`} 
                   alt={post.title} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800"
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="p-8 space-y-5">
+              <div className="p-8 lg:p-10 space-y-6">
                 <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[3px] text-primary">
                   <span>{post.tags?.[0] || 'TECH'}</span>
-                  <span className="text-foreground/60">{post.read_time || '5 MIN READ'}</span>
+                  <span className="text-foreground/40">{post.read_time || '5 MIN READ'}</span>
                 </div>
-                <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors tracking-tight">{post.title}</h3>
-                <p className="text-sm text-foreground/70 line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
-                <div className="pt-2 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[3px] text-white group-hover:gap-4 transition-all">
-                  READ MORE <ChevronRight className="h-3.5 w-3.5" />
+                <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-primary transition-colors duration-500 tracking-tight leading-tight">{post.title}</h3>
+                <p className="text-sm lg:text-base text-foreground/60 line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
+                <div className="pt-2 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[3px] text-white group-hover:gap-4 transition-all duration-500">
+                  READ MORE <ChevronRight className="h-4 w-4" />
                 </div>
               </div>
             </motion.div>
