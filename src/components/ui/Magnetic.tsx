@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 interface MagneticProps {
   children: ReactNode;
   strength?: number;
+  key?: React.Key;
 }
 
 export default function Magnetic({ children, strength = 0.5 }: MagneticProps) {

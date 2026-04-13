@@ -531,41 +531,47 @@ export default function Home() {
       <Pricing />
       <Contact />
       
-      <footer className="pt-32 pb-12 border-t border-white/5 bg-secondary/10">
-        <div className="container mx-auto px-6 md:px-[60px]">
+      <footer className="pt-32 pb-12 border-t border-white/5 bg-secondary/10 relative overflow-hidden">
+        {/* Decorative background glow */}
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="container mx-auto px-6 md:px-[60px] relative z-10">
           <div className="grid md:grid-cols-4 gap-16 mb-24">
-            <div className="md:col-span-2 space-y-8">
-              <h2 className="text-4xl font-extrabold font-heading tracking-tighter">
+            <div className="md:col-span-2 space-y-10">
+              <h2 className="text-5xl font-extrabold font-heading tracking-tighter">
                 KAMRAN<span className="text-primary">.</span>
               </h2>
-              <p className="text-muted text-lg max-w-md leading-relaxed">
+              <p className="text-muted text-xl max-w-md leading-relaxed font-medium">
                 Transforming complex ideas into seamless digital experiences. Specializing in high-performance web systems and AI-driven automation.
               </p>
-              <div className="flex gap-6">
+              <div className="flex gap-5">
                 {[
-                  { icon: Github, href: "https://github.com/codebykami" },
-                  { icon: Linkedin, href: "https://linkedin.com/in/kamranrasool" },
-                  { icon: Mail, href: "mailto:kamranrasool0045@gmail.com" }
+                  { icon: Github, href: "https://github.com/codebykami", label: "Github" },
+                  { icon: Linkedin, href: "https://linkedin.com/in/kamranrasool", label: "LinkedIn" },
+                  { icon: Mail, href: "mailto:kamranrasool0045@gmail.com", label: "Email" }
                 ].map((social, i) => (
-                  <a 
-                    key={i} 
-                    href={social.href} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="h-12 w-12 rounded-full border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all duration-300 interactive"
-                  >
-                    <social.icon className="h-5 w-5" />
-                  </a>
+                  <Magnetic key={i} strength={0.2}>
+                    <a 
+                      href={social.href} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all duration-500 interactive group"
+                      aria-label={social.label}
+                    >
+                      <social.icon className="h-6 w-6 group-hover:scale-110 transition-transform" />
+                    </a>
+                  </Magnetic>
                 ))}
               </div>
             </div>
             
-            <div className="space-y-8">
-              <h4 className="text-[10px] uppercase tracking-[3px] font-bold text-primary">Navigation</h4>
-              <ul className="space-y-4">
+            <div className="space-y-10">
+              <h4 className="text-[11px] uppercase tracking-[4px] font-bold text-primary/80">Navigation</h4>
+              <ul className="space-y-5">
                 {['Home', 'About', 'Services', 'Projects', 'Experience', 'Contact'].map((item) => (
                   <li key={item}>
-                    <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-foreground transition-colors font-medium interactive">
+                    <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-primary transition-all duration-300 font-bold text-sm tracking-tight interactive flex items-center gap-2 group">
+                      <span className="h-[1px] w-0 bg-primary group-hover:w-4 transition-all duration-300" />
                       {item}
                     </a>
                   </li>
@@ -573,11 +579,12 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="space-y-8">
-              <h4 className="text-[10px] uppercase tracking-[3px] font-bold text-primary">Services</h4>
-              <ul className="space-y-4">
-                {['Web Development', 'AI Automation', 'UI/UX Design', 'Cloud Solutions'].map((item) => (
-                  <li key={item} className="text-muted font-medium">
+            <div className="space-y-10">
+              <h4 className="text-[11px] uppercase tracking-[4px] font-bold text-primary/80">Expertise</h4>
+              <ul className="space-y-5">
+                {['Full-Stack Dev', 'AI Automation', 'UI/UX Design', 'Cloud Solutions'].map((item) => (
+                  <li key={item} className="text-muted font-bold text-sm tracking-tight flex items-center gap-3">
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
                     {item}
                   </li>
                 ))}
@@ -585,13 +592,18 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-xs text-muted uppercase tracking-[2px] font-bold">
-              © 2026 Crafted with Passion by Kamran Rasool
-            </p>
-            <div className="flex gap-8">
-              <a href="#" className="text-[10px] uppercase tracking-[2px] text-muted hover:text-primary transition-colors font-bold interactive">Privacy Policy</a>
-              <a href="#" className="text-[10px] uppercase tracking-[2px] text-muted hover:text-primary transition-colors font-bold interactive">Terms of Service</a>
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex flex-col gap-2">
+              <p className="text-[10px] text-muted uppercase tracking-[3px] font-black">
+                © 2026 Crafted with Passion
+              </p>
+              <p className="text-[10px] text-primary uppercase tracking-[3px] font-black">
+                By Kamran Rasool
+              </p>
+            </div>
+            <div className="flex gap-10">
+              <a href="#" className="text-[10px] uppercase tracking-[3px] text-muted hover:text-primary transition-colors font-black interactive">Privacy</a>
+              <a href="#" className="text-[10px] uppercase tracking-[3px] text-muted hover:text-primary transition-colors font-black interactive">Terms</a>
             </div>
           </div>
         </div>

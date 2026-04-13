@@ -17,11 +17,13 @@ function AppContent() {
     fetchPortfolio();
   }, [fetchPortfolio]);
 
+  const isAdminPage = location.pathname === '/admin';
+
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 relative">
       <div className="noise-overlay" />
-      <CustomCursor />
-      <Navbar />
+      {!isAdminPage && <CustomCursor />}
+      {!isAdminPage && <Navbar />}
       <main>
         <AnimatePresence mode="wait">
           <motion.div
@@ -38,7 +40,7 @@ function AppContent() {
           </motion.div>
         </AnimatePresence>
       </main>
-      <AIChat />
+      {!isAdminPage && <AIChat />}
       <Toaster position="top-center" richColors />
     </div>
   );
