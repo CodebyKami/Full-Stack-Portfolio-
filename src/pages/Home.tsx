@@ -5,7 +5,7 @@ import { motion, useInView, AnimatePresence } from 'motion/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ExternalLink, Github, Mail, MapPin, Send, CheckCircle2, Sparkles, Code, Cpu, Globe, Linkedin, X, ChevronRight } from 'lucide-react';
+import { ExternalLink, Github, Mail, MapPin, Send, CheckCircle2, Sparkles, Code, Cpu, Globe, Linkedin, X, ChevronRight, Download } from 'lucide-react';
 import Magnetic from '../components/ui/Magnetic';
 
 const ScrollReveal = ({ children, className }: { children: React.ReactNode; className?: string }) => {
@@ -37,63 +37,56 @@ const ScrollReveal = ({ children, className }: { children: React.ReactNode; clas
 };
 
 const About = () => (
-  <section id="about" className="relative py-24">
+  <section id="about" className="relative py-24 overflow-hidden">
+    <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+    
     <ScrollReveal className="container mx-auto">
-      <div className="grid md:grid-cols-2 gap-24 items-center">
-        <div className="space-y-8">
-          <span className="section-label">ABOUT ME</span>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1]">
-            TURNING IDEAS INTO <span className="text-primary italic">DIGITAL REALITY</span>.
-          </h2>
-          <div className="space-y-6 text-lg text-foreground/80 font-medium">
-            <p>
-              I am Kamran Rasool, a Full-Stack Developer and WordPress Expert with a passion for building high-performance digital experiences. With a deep grip on WordPress, GoHighLevel, and modern web technologies, I help businesses scale through custom solutions.
-            </p>
-            <p>
-              My expertise lies in bridging the gap between complex technical requirements and intuitive user interfaces. Whether it's a custom WordPress theme or a complex SaaS application, I deliver excellence.
-            </p>
+      <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="relative group">
+          <div className="absolute -inset-4 bg-primary/20 blur-2xl rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/10">
+            <img 
+              src="https://picsum.photos/seed/kamran/800/800" 
+              alt="Kamran Rasool" 
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              referrerPolicy="no-referrer"
+            />
           </div>
-          
-          <div className="flex gap-12 pt-4">
-            <div>
-              <h4 className="text-2xl font-bold text-foreground">5+</h4>
-              <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Years Exp.</p>
-            </div>
-            <div>
-              <h4 className="text-2xl font-bold text-foreground">150+</h4>
-              <p className="text-[10px] uppercase tracking-widest text-muted font-bold">Projects</p>
-            </div>
+          {/* Experience Badge */}
+          <div className="absolute -bottom-10 -right-10 bg-surface border border-white/10 p-8 rounded-3xl shadow-2xl hidden md:block">
+            <p className="text-5xl font-black text-primary mb-1">5+</p>
+            <p className="text-[10px] font-bold uppercase tracking-[3px] text-foreground/60">Years of<br />Experience</p>
           </div>
         </div>
 
-        <div className="relative">
-          <motion.div
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-10 aspect-[4/5] rounded-[20px] overflow-hidden border border-white/10 group interactive"
-          >
-            <motion.div 
-              whileHover={{ scale: 1.04 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="w-full h-full"
-            >
-              <img 
-                src="https://picsum.photos/seed/kamran/800/1000" 
-                alt="Kamran Rasool" 
-                className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" 
-                referrerPolicy="no-referrer" 
-              />
-            </motion.div>
-            
-            {/* Glowing Ring */}
-            <div className="absolute inset-0 pointer-events-none border-[2px] border-transparent rounded-[20px] overflow-hidden">
-              <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0%,#c8f538_20%,transparent_40%)] animate-[spin_3s_linear_infinite]" />
+        <div className="space-y-10">
+          <div>
+            <span className="section-label">ABOUT ME</span>
+            <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1] mb-8">
+              I ARCHITECT <span className="text-primary italic">DIGITAL</span> EXPERIENCES.
+            </h2>
+            <p className="text-xl text-foreground/70 leading-relaxed font-medium">
+              I'm a Full-Stack Developer and WordPress Architect with a passion for building high-performance, scalable web systems. With over 5 years of experience, I've helped businesses automate their workflows and establish a dominant online presence.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <h4 className="text-primary font-bold uppercase tracking-widest text-xs">My Mission</h4>
+              <p className="text-foreground/60 text-sm leading-relaxed">To bridge the gap between complex technology and seamless user experiences through innovative engineering.</p>
             </div>
-          </motion.div>
-          
-          {/* Decorative Elements */}
-          <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/10 blur-3xl -z-10" />
-          <div className="absolute -top-10 -left-10 w-40 h-40 bg-accent/10 blur-3xl -z-10" />
+            <div className="space-y-4">
+              <h4 className="text-primary font-bold uppercase tracking-widest text-xs">My Approach</h4>
+              <p className="text-foreground/60 text-sm leading-relaxed">I prioritize clean code, performance optimization, and user-centric design in every project I undertake.</p>
+            </div>
+          </div>
+
+          <div className="pt-6">
+            <Button className="btn-primary h-14 px-8 rounded-full text-xs tracking-widest font-black">
+              DOWNLOAD CV
+              <Download className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </ScrollReveal>
@@ -171,7 +164,7 @@ const Projects = () => {
           </div>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, i) => (
             <motion.div 
               key={i}
@@ -179,15 +172,9 @@ const Projects = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ y: -6 }}
-              className={cn(
-                "group card-premium p-0 overflow-hidden interactive",
-                i === 0 && filter === 'All' ? "md:col-span-2" : ""
-              )}
+              className="group card-premium p-0 overflow-hidden interactive"
             >
-              <div className={cn(
-                "overflow-hidden relative",
-                i === 0 && filter === 'All' ? "aspect-[21/9]" : "aspect-[16/10]"
-              )}>
+              <div className="overflow-hidden relative aspect-[16/10]">
                 <motion.img 
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.6 }}
@@ -207,15 +194,15 @@ const Projects = () => {
                   </div>
                 </div>
               </div>
-              <div className="p-10">
+              <div className="p-8">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-bold tracking-tight text-foreground">{project.title}</h3>
+                  <h3 className="text-xl font-bold tracking-tight text-foreground">{project.title}</h3>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{project.category || 'WEB'}</span>
                 </div>
-                <p className="text-foreground/70 mb-8 line-clamp-2">{project.description}</p>
-                <div className="flex flex-wrap gap-3">
+                <p className="text-foreground/70 text-sm mb-6 line-clamp-2">{project.description}</p>
+                <div className="flex flex-wrap gap-2">
                   {project.tags?.map((tag: string) => (
-                    <span key={tag} className="text-[10px] font-bold uppercase tracking-wider text-foreground/60 px-4 py-1.5 rounded-full border border-white/5 bg-white/5">{tag}</span>
+                    <span key={tag} className="text-[9px] font-bold uppercase tracking-wider text-foreground/60 px-3 py-1 rounded-full border border-white/5 bg-white/5">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -242,21 +229,21 @@ const Experience = () => {
         <div className="space-y-12 relative before:absolute before:left-0 md:before:left-1/2 before:top-0 before:bottom-0 before:w-[1px] before:bg-white/5">
           {hasExperience ? experience.map((exp, i) => (
             <div key={i} className={cn(
-              "relative flex flex-col md:flex-row gap-12",
+              "relative flex flex-col md:flex-row gap-8 md:gap-16",
               i % 2 === 0 ? "md:flex-row-reverse" : ""
             )}>
-              <div className="absolute left-[-5px] md:left-1/2 md:ml-[-5px] top-0 h-3 w-3 rounded-full bg-primary shadow-[0_0_15px_rgba(200,245,56,0.5)] z-10" />
+              <div className="absolute left-[-5px] md:left-1/2 md:ml-[-5px] top-0 h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_15px_rgba(200,245,56,0.5)] z-10" />
               
               <div className="md:w-1/2 space-y-4">
-                <div className="inline-block px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest">
+                <div className="inline-block px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[9px] font-bold uppercase tracking-widest">
                   {exp.start_date} — {exp.end_date}
                 </div>
-                <h3 className="text-3xl font-bold tracking-tight text-foreground">{exp.role}</h3>
-                <p className="text-xl text-primary/80 font-medium">{exp.company}</p>
+                <h3 className="text-2xl font-bold tracking-tight text-foreground">{exp.role}</h3>
+                <p className="text-lg text-primary/80 font-medium">{exp.company}</p>
                 <ul className="space-y-3">
                   {exp.description?.map((item: string, j: number) => (
-                    <li key={j} className="text-foreground/70 flex items-start gap-3">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary/40 mt-2.5 shrink-0" />
+                    <li key={j} className="text-sm text-foreground/70 flex items-start gap-3 leading-relaxed">
+                      <span className="h-1 w-1 rounded-full bg-primary/40 mt-2 shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -291,26 +278,26 @@ const Pricing = () => {
               key={i}
               whileHover={{ y: -10 }}
               className={cn(
-                "card-premium p-12 flex flex-col interactive h-full",
+                "card-premium p-10 flex flex-col interactive h-full",
                 plan.featured ? "border-primary/50 bg-primary/[0.02] shadow-[0_0_50px_rgba(200,245,56,0.1)]" : "bg-secondary/20"
               )}
             >
               {plan.featured && <span className="text-[10px] font-bold uppercase tracking-[3px] text-primary mb-6">Most Popular</span>}
-              <h3 className="text-3xl font-bold mb-2 tracking-tight text-foreground">{plan.name}</h3>
-              <div className="flex items-baseline gap-2 mb-10">
-                <span className="text-5xl font-black tracking-tighter text-foreground">${plan.price}</span>
-                <span className="text-foreground/60 font-medium">/project</span>
+              <h3 className="text-2xl font-bold mb-2 tracking-tight text-foreground">{plan.name}</h3>
+              <div className="flex items-baseline gap-2 mb-8">
+                <span className="text-4xl font-black tracking-tighter text-foreground">${plan.price}</span>
+                <span className="text-foreground/60 text-xs font-medium uppercase tracking-widest">/project</span>
               </div>
-              <ul className="space-y-5 mb-12 flex-grow">
+              <ul className="space-y-4 mb-10 flex-grow">
                 {plan.features.map((feature, j) => (
-                  <li key={j} className="flex items-center gap-4 text-foreground/70 font-medium">
-                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                  <li key={j} className="flex items-center gap-3 text-foreground/70 text-sm font-medium">
+                    <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <Button className={cn(
-                "w-full h-16 rounded-2xl font-bold text-sm tracking-widest uppercase interactive",
+                "w-full h-14 rounded-xl font-bold text-xs tracking-widest uppercase interactive",
                 plan.featured ? "btn-primary" : "btn-secondary"
               )}>
                 GET STARTED
@@ -337,8 +324,8 @@ const Contact = () => {
       <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
       
       <ScrollReveal className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-24">
-          <div className="space-y-12">
+        <div className="grid lg:grid-cols-5 gap-16 lg:gap-24">
+          <div className="lg:col-span-2 space-y-12">
             <div>
               <span className="section-label">CONTACT</span>
               <h2 className="text-[clamp(36px,5vw,64px)] font-black tracking-tighter leading-[1.1]">
@@ -346,29 +333,29 @@ const Contact = () => {
               </h2>
             </div>
             
-            <div className="space-y-10">
-              <div className="flex items-center gap-8 group interactive">
-                <div className="h-20 w-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
-                  <Mail className="h-8 w-8 text-primary" />
+            <div className="space-y-8">
+              <div className="flex items-center gap-6 group interactive">
+                <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                  <Mail className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Email Me</p>
-                  <p className="text-2xl font-bold tracking-tight text-foreground">kamranrasool0045@gmail.com</p>
+                  <p className="text-xl font-bold tracking-tight text-foreground">kamranrasool0045@gmail.com</p>
                 </div>
               </div>
-              <div className="flex items-center gap-8 group interactive">
-                <div className="h-20 w-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
-                  <MapPin className="h-8 w-8 text-primary" />
+              <div className="flex items-center gap-6 group interactive">
+                <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                  <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-[3px] text-foreground/60 font-bold mb-1">Location</p>
-                  <p className="text-2xl font-bold tracking-tight text-foreground">Lahore, Pakistan</p>
+                  <p className="text-xl font-bold tracking-tight text-foreground">Lahore, Pakistan</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="card-premium">
+          <div className="lg:col-span-3 card-premium">
             <AnimatePresence mode="wait">
               {formState === 'success' ? (
                 <motion.div
@@ -396,29 +383,29 @@ const Contact = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onSubmit={handleSubmit}
-                  className="space-y-8"
+                  className="space-y-6"
                 >
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="space-y-3">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Full Name</label>
-                      <input required type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
+                      <input required type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-xl h-14 px-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Email Address</label>
-                      <input required type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
+                      <input required type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-xl h-14 px-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
                     </div>
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Subject</label>
-                    <input required type="text" placeholder="Project Inquiry" className="w-full bg-white/5 border border-white/10 rounded-2xl h-16 px-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
+                    <input required type="text" placeholder="Project Inquiry" className="w-full bg-white/5 border border-white/10 rounded-xl h-14 px-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-[3px] font-bold text-foreground/60 ml-1">Message</label>
-                    <textarea required placeholder="Tell me about your project..." rows={5} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium resize-none text-foreground" />
+                    <textarea required placeholder="Tell me about your project..." rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl p-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium resize-none text-foreground" />
                   </div>
-                  <Button type="submit" disabled={formState === 'loading'} className="btn-primary w-full h-16 rounded-2xl font-bold text-sm tracking-widest uppercase interactive">
+                  <Button type="submit" disabled={formState === 'loading'} className="btn-primary w-full h-14 rounded-xl font-bold text-sm tracking-widest uppercase interactive">
                     {formState === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
-                    <Send className="ml-3 h-5 w-5" />
+                    <Send className="ml-3 h-4 w-4" />
                   </Button>
                 </motion.form>
               )}
@@ -467,19 +454,16 @@ const Services = () => {
                 key={i}
                 whileHover={{ y: -10 }}
                 onClick={() => setSelectedService(service)}
-                className={cn(
-                  "group relative card-premium p-12 overflow-hidden interactive cursor-pointer",
-                  i === 0 ? "md:col-span-2 lg:col-span-1" : ""
-                )}
+                className="group relative card-premium p-10 overflow-hidden interactive cursor-pointer"
               >
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 
                 <div className="relative z-10">
-                  <div className="h-20 w-20 rounded-2xl bg-white/5 flex items-center justify-center mb-10 group-hover:bg-primary/10 transition-colors">
-                    <Icon className="h-10 w-10 text-primary group-hover:scale-125 transition-transform duration-500" />
+                  <div className="h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors">
+                    <Icon className="h-8 w-8 text-primary group-hover:scale-125 transition-transform duration-500" />
                   </div>
-                  <h3 className="text-3xl font-bold mb-6 tracking-tight text-foreground">{service.title}</h3>
-                  <p className="text-foreground/70 text-lg leading-relaxed">{service.description}</p>
+                  <h3 className="text-2xl font-bold mb-4 tracking-tight text-foreground">{service.title}</h3>
+                  <p className="text-foreground/70 text-base leading-relaxed line-clamp-3">{service.description}</p>
                 </div>
               </motion.div>
             );
@@ -581,24 +565,21 @@ const Testimonials = () => {
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}
-              className={cn(
-                "card-premium p-12 flex flex-col gap-8 interactive",
-                i === 1 ? "md:-translate-y-8" : ""
-              )}
+              className="card-premium p-10 flex flex-col gap-6 interactive"
             >
               <div className="flex gap-1">
                 {[...Array(t.rating || 5)].map((_, j) => (
-                  <Sparkles key={j} className="h-4 w-4 text-primary fill-primary" />
+                  <Sparkles key={j} className="h-3.5 w-3.5 text-primary fill-primary" />
                 ))}
               </div>
-              <p className="text-xl italic text-foreground/80 leading-relaxed font-medium">"{t.content}"</p>
-              <div className="flex items-center gap-5 mt-auto pt-8 border-t border-white/5">
-                <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black text-xl">
+              <p className="text-lg italic text-foreground/80 leading-relaxed font-medium">"{t.content}"</p>
+              <div className="flex items-center gap-4 mt-auto pt-6 border-t border-white/5">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black text-lg">
                   {t.name[0]}
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-lg">{t.name}</h4>
-                  <p className="text-sm text-foreground/60 uppercase tracking-widest font-bold">{t.role} @ {t.company}</p>
+                  <h4 className="font-bold text-white text-base">{t.name}</h4>
+                  <p className="text-[10px] text-foreground/60 uppercase tracking-widest font-bold">{t.role} @ {t.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -626,14 +607,14 @@ const Blog = () => {
           </Button>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid md:grid-cols-3 gap-8">
           {hasPosts ? blogPosts.map((post, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}
               className="group card-premium p-0 overflow-hidden interactive"
             >
-              <div className="aspect-[16/9] overflow-hidden">
+              <div className="aspect-[16/10] overflow-hidden">
                 <img 
                   src={post.image_url || `https://picsum.photos/seed/${post.title}/800/450`} 
                   alt={post.title} 
@@ -641,15 +622,15 @@ const Blog = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="p-10 space-y-6">
-                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[3px] text-primary">
+              <div className="p-8 space-y-5">
+                <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-[3px] text-primary">
                   <span>{post.tags?.[0] || 'TECH'}</span>
                   <span className="text-foreground/60">{post.read_time || '5 MIN READ'}</span>
                 </div>
-                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors tracking-tight">{post.title}</h3>
-                <p className="text-lg text-foreground/70 line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
-                <div className="pt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[3px] text-white group-hover:gap-4 transition-all">
-                  READ MORE <ChevronRight className="h-4 w-4" />
+                <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors tracking-tight">{post.title}</h3>
+                <p className="text-sm text-foreground/70 line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
+                <div className="pt-2 flex items-center gap-2 text-[9px] font-bold uppercase tracking-[3px] text-white group-hover:gap-4 transition-all">
+                  READ MORE <ChevronRight className="h-3.5 w-3.5" />
                 </div>
               </div>
             </motion.div>

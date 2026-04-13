@@ -50,7 +50,7 @@
   }
 
   .card-premium {
-    @apply bg-surface border border-white/5 rounded-[20px] p-9 transition-all duration-500 hover:border-primary/25 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)];
+    @apply bg-surface/50 backdrop-blur-sm border border-white/5 rounded-[24px] p-7 transition-all duration-500 hover:border-primary/30 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)];
   }
 
   .section-label {
