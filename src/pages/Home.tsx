@@ -10,7 +10,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { 
-  ExternalLink, 
   Github, 
   Mail, 
   MapPin, 
@@ -24,13 +23,8 @@ import {
   X, 
   ChevronRight, 
   Download, 
-  Terminal,
   ArrowRight,
-  Star,
-  MessageSquare,
-  Plus,
-  Minus,
-  ArrowUpRight
+  Plus
 } from 'lucide-react';
 import Magnetic from '../components/ui/Magnetic';
 import ErrorBoundary from '../components/ui/ErrorBoundary';
@@ -64,7 +58,7 @@ const ScrollReveal = ({ children, className }: { children: React.ReactNode; clas
 };
 
 const About = () => (
-  <section id="about" className="relative py-24 md:py-32 bg-white">
+  <section id="about" className="relative bg-white">
     <ScrollReveal className="container">
       <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
         <div className="order-2 lg:order-1 relative">
@@ -169,7 +163,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-24 md:py-32 bg-surface">
+    <section id="skills" className="bg-surface">
       <ScrollReveal className="container">
         <div className="mb-16 md:mb-24 text-center">
           <span className="section-label mx-auto">Expertise</span>
@@ -224,7 +218,7 @@ const Projects = () => {
       ];
 
   return (
-    <section id="projects" className="py-24 md:py-32 bg-white">
+    <section id="projects" className="bg-white">
       <ScrollReveal className="container">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-10">
           <div className="max-w-2xl">
@@ -311,7 +305,7 @@ const Experience = () => {
   const displayExperience = hasExperience ? experience : defaultExperience;
 
   return (
-    <section id="experience" className="py-24 md:py-32 bg-surface">
+    <section id="experience" className="bg-surface">
       <ScrollReveal className="container">
         <div className="mb-16 md:mb-24 text-center">
           <span className="section-label mx-auto">My Journey</span>
@@ -360,59 +354,6 @@ const Experience = () => {
   );
 };
 
-const Pricing = () => {
-  const plans = [
-    { name: "Starter", price: "999", features: ["Single Page Website", "Basic SEO", "Contact Form", "Mobile Responsive"], featured: false },
-    { name: "Professional", price: "2499", features: ["Multi-page Website", "Advanced SEO", "AI Chatbot Integration", "CMS Setup"], featured: true },
-    { name: "Enterprise", price: "4999", features: ["Custom SaaS Solution", "Full Automation", "AI Agent Development", "24/7 Support"], featured: false },
-  ];
-
-  return (
-    <section id="pricing" className="py-20 md:py-32">
-      <ScrollReveal className="container">
-        <div className="mb-12 md:mb-20 text-center lg:text-left">
-          <span className="section-label">Investment</span>
-          <h2 className="fluid-h2">Pricing <span className="text-primary">plans</span>.</h2>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
-          {plans.map((plan, i) => (
-            <motion.div 
-              key={i}
-              whileHover={{ y: -8 }}
-              className={cn(
-                "card-premium p-8 md:p-10 flex flex-col h-full",
-                plan.featured ? "border-primary/40 bg-primary/[0.02]" : ""
-              )}
-            >
-              {plan.featured && <span className="text-[10px] font-bold uppercase tracking-widest text-primary mb-6">Most Popular</span>}
-              <h3 className="text-lg md:text-xl font-bold mb-2 text-foreground">{plan.name}</h3>
-              <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-3xl md:text-4xl font-bold tracking-tighter text-foreground">${plan.price}</span>
-                <span className="text-muted text-[9px] md:text-[10px] font-bold uppercase tracking-widest">/project</span>
-              </div>
-              <ul className="space-y-3 md:space-y-4 mb-10 flex-grow">
-                {plan.features.map((feature, j) => (
-                  <li key={j} className="flex items-center gap-3 text-muted text-xs md:text-sm font-medium">
-                    <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <Button className={cn(
-                "w-full h-12 font-bold text-[12px]",
-                plan.featured ? "btn-primary" : "btn-secondary"
-              )}>
-                Get Started
-              </Button>
-            </motion.div>
-          ))}
-        </div>
-      </ScrollReveal>
-    </section>
-  );
-};
-
 const Contact = () => {
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
   const [formData, setFormData] = useState({
@@ -451,7 +392,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-white relative overflow-hidden">
+    <section id="contact" className="bg-white relative overflow-hidden">
       <ScrollReveal className="container">
         <div className="grid lg:grid-cols-2 gap-20 md:gap-32">
           <div className="space-y-12">
@@ -586,272 +527,17 @@ const Contact = () => {
   );
 };
 
-const Services = () => {
-  const services = useStore(state => state.services);
-  const [selectedService, setSelectedService] = useState<any>(null);
-  const hasServices = Array.isArray(services) && services.length > 0;
-
-  const displayServices = hasServices ? services : [
-    { title: "Product Engineering", description: "End-to-end development of high-performance web applications using React, Next.js, and Node.js.", icon_name: "Code" },
-    { title: "AI & Automation", description: "Streamlining business processes with custom AI solutions, LLM integrations, and automated workflows.", icon_name: "Cpu" },
-    { title: "UI/UX Design", description: "Creating intuitive, visually stunning interfaces that prioritize user experience, conversion, and brand identity.", icon_name: "Sparkles" },
-    { title: "Cloud Architecture", description: "Scalable and secure cloud infrastructure design, deployment, and optimization on AWS and Vercel.", icon_name: "Globe" },
-  ];
-
-  const getIcon = (name: string) => {
-    switch(name) {
-      case 'Code': return Code;
-      case 'Cpu': return Cpu;
-      case 'Globe': return Globe;
-      default: return Sparkles;
-    }
-  };
-
-  return (
-    <section id="services" className="py-24 md:py-32 bg-white">
-      <ScrollReveal className="container">
-        <div className="mb-16 md:mb-24 text-center">
-          <span className="section-label mx-auto">Expertise</span>
-          <h2 className="fluid-h2">Services <span className="text-primary">offered</span>.</h2>
-        </div>
-        
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {displayServices.map((service, i) => {
-            const Icon = getIcon(service.icon_name);
-            return (
-              <motion.div 
-                key={i}
-                whileHover={{ y: -10 }}
-                onClick={() => setSelectedService(service)}
-                className="group bg-surface border border-border rounded-[32px] p-10 flex flex-col h-full cursor-pointer hover:border-primary/20 hover:bg-white hover:shadow-hover transition-all duration-500"
-              >
-                <div className="h-14 w-14 rounded-2xl bg-white border border-border flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500 shadow-sm">
-                  <Icon className="h-7 w-7" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-foreground tracking-tight">{service.title}</h3>
-                <p className="text-base text-muted leading-relaxed mb-8 flex-grow font-medium">{service.description}</p>
-                <div className="flex items-center text-[11px] font-bold uppercase tracking-widest text-primary group-hover:gap-3 transition-all">
-                  Learn More <ChevronRight className="ml-1 h-4 w-4" />
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </ScrollReveal>
-
-      <AnimatePresence>
-        {selectedService && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedService(null)}
-              className="absolute inset-0 bg-white/80 backdrop-blur-xl"
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-white border border-border rounded-[40px] p-12 md:p-16 shadow-2xl overflow-hidden"
-            >
-              <button 
-                onClick={() => setSelectedService(null)}
-                className="absolute top-8 right-8 text-muted hover:text-foreground transition-colors p-2 hover:bg-surface rounded-full"
-              >
-                <X className="h-6 w-6" />
-              </button>
-              
-              <div className="space-y-10">
-                <div className="flex items-center gap-6">
-                  <div className="h-16 w-16 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
-                    {React.createElement(getIcon(selectedService.icon_name), { className: "h-8 w-8 text-primary" })}
-                  </div>
-                  <div>
-                    <h3 className="text-3xl font-bold tracking-tight">{selectedService.title}</h3>
-                    <p className="text-primary text-[11px] font-bold uppercase tracking-widest mt-1">Premium Expertise</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-8">
-                  <p className="text-xl text-muted leading-relaxed font-medium">{selectedService.description}</p>
-                  <div className="p-8 rounded-3xl bg-surface border border-border">
-                    <h4 className="text-[12px] font-bold uppercase tracking-widest text-foreground mb-6">What's Included</h4>
-                    <ul className="grid sm:grid-cols-2 gap-4">
-                      {["Customized Strategy", "High-Performance Implementation", "Ongoing Support", "Security Audit", "Performance Tuning", "SEO Optimization"].map((item, idx) => (
-                        <li key={idx} className="text-sm text-muted flex items-center gap-3 font-bold">
-                          <CheckCircle2 className="h-4 w-4 text-primary" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <Button className="btn-primary w-full h-16 text-lg" onClick={() => {
-                  setSelectedService(null);
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}>
-                  Inquire Now
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-};
-
-const Marquee = () => {
-  const skills = [
-    "React", "Next.js", "TypeScript", "Node.js", "Python", "Supabase", 
-    "PostgreSQL", "Tailwind CSS", "Framer Motion", "AWS", "Docker", 
-    "Stripe", "OpenAI", "UI/UX", "Product Strategy"
-  ];
-  return (
-    <div className="py-16 bg-surface border-y border-border overflow-hidden relative">
-      <motion.div 
-        animate={{ x: [0, -2000] }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="flex gap-24 whitespace-nowrap"
-      >
-        {[...skills, ...skills, ...skills].map((skill, i) => (
-          <span key={i} className="text-5xl md:text-7xl font-bold text-muted/10 uppercase tracking-tighter hover:text-primary/20 transition-colors cursor-default">
-            {skill}
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-};
-
-const Testimonials = () => {
-  const testimonials = useStore(state => state.testimonials);
-  const hasTestimonials = Array.isArray(testimonials) && testimonials.length > 0;
-
-  const defaultTestimonials = [
-    { name: "Sarah Johnson", role: "CEO", company: "InnovateX", content: "Kamran delivered a world-class platform that exceeded our expectations. His attention to detail and technical depth are unmatched.", rating: 5 },
-    { name: "Michael Chen", role: "Product Manager", company: "CloudScale", content: "The automation workflows Kamran built saved us hundreds of hours. A true professional and expert in modern web engineering.", rating: 5 },
-    { name: "Alex Rivera", role: "Founder", company: "Nexus AI", content: "Working with Kamran was a game-changer for our startup. He didn't just write code; he helped us define our product strategy.", rating: 5 },
-  ];
-
-  const displayTestimonials = hasTestimonials ? testimonials : defaultTestimonials;
-
-  return (
-    <section id="testimonials" className="py-24 md:py-32 bg-surface">
-      <ScrollReveal className="container">
-        <div className="mb-16 md:mb-24 text-center">
-          <span className="section-label mx-auto">Feedback</span>
-          <h2 className="fluid-h2">Client <span className="text-primary">stories</span>.</h2>
-        </div>
-        
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayTestimonials.map((t, i) => (
-            <motion.div 
-              key={i}
-              whileHover={{ y: -10 }}
-              className="bg-white p-10 md:p-12 rounded-[32px] shadow-premium border border-border flex flex-col gap-8 transition-all duration-500"
-            >
-              <div className="flex gap-1.5">
-                {[...Array(t.rating || 5)].map((_, j) => (
-                  <Sparkles key={j} className="h-4 w-4 text-primary fill-primary" />
-                ))}
-              </div>
-              <p className="text-lg md:text-xl italic text-muted leading-relaxed font-medium">"{t.content}"</p>
-              <div className="flex items-center gap-5 mt-auto pt-8 border-t border-border">
-                <div className="h-12 w-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary font-bold text-base border border-primary/10">
-                  {t.name[0]}
-                </div>
-                <div>
-                  <h4 className="font-bold text-foreground text-base tracking-tight">{t.name}</h4>
-                  <p className="text-[11px] text-muted font-bold uppercase tracking-widest">{t.role} @ {t.company}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </ScrollReveal>
-    </section>
-  );
-};
-
-const Blog = () => {
-  const blogPosts = useStore(state => state.blogPosts);
-  const hasPosts = Array.isArray(blogPosts) && blogPosts.length > 0;
-
-  const defaultPosts = [
-    { title: "The Future of AI in Web Development", excerpt: "Exploring how generative AI is transforming the way we build and maintain modern web applications.", tags: ["AI", "Tech"], read_time: "5 min read" },
-    { title: "Mastering Framer Motion for Immersive UI", excerpt: "A comprehensive guide to creating fluid, high-performance animations in React applications.", tags: ["UI/UX", "Design"], read_time: "8 min read" },
-    { title: "Scalable Architecture with Next.js", excerpt: "How to structure large-scale Next.js projects for maximum maintainability and performance.", tags: ["Engineering", "Next.js"], read_time: "12 min read" },
-  ];
-
-  const displayPosts = hasPosts ? blogPosts : defaultPosts;
-
-  return (
-    <section id="blog" className="py-24 md:py-32 bg-white">
-      <ScrollReveal className="container">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-10">
-          <div className="max-w-2xl">
-            <span className="section-label">Insights</span>
-            <h2 className="fluid-h2 tracking-tight">Latest <span className="text-primary">articles</span>.</h2>
-            <p className="text-lg text-muted mt-6 font-medium">Sharing my thoughts on technology, design, and the future of the web.</p>
-          </div>
-          <Button variant="outline" className="btn-secondary h-12 px-8 font-bold">
-            View All Posts
-          </Button>
-        </div>
-        
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayPosts.map((post, i) => (
-            <motion.div 
-              key={i}
-              whileHover={{ y: -10 }}
-              className="group bg-white rounded-[32px] border border-border overflow-hidden hover:border-primary/20 hover:shadow-hover transition-all duration-500"
-            >
-              <div className="aspect-[16/10] overflow-hidden">
-                <img 
-                  src={post.image_url || `https://picsum.photos/seed/${post.title}/800/450`} 
-                  alt={post.title} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <div className="p-10 space-y-6">
-                <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest text-primary">
-                  <span className="px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10">{post.tags?.[0] || 'Tech'}</span>
-                  <span className="text-muted">{post.read_time || '5 min read'}</span>
-                </div>
-                <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight tracking-tight">{post.title}</h3>
-                <p className="text-base text-muted line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
-                <div className="pt-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-foreground group-hover:gap-4 transition-all">
-                  Read More <ChevronRight className="ml-1 h-4 w-4" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </ScrollReveal>
-    </section>
-  );
-};
-
 export default function Home() {
   return (
     <div className="relative overflow-x-hidden">
       <Hero />
-      <Marquee />
       <About />
-      <Services />
       <Skills />
       <Projects />
       <Experience />
-      <Testimonials />
-      <Blog />
-      <Pricing />
       <Contact />
       
-      <footer className="py-24 md:py-32 bg-surface border-t border-border relative overflow-hidden">
+      <footer className="py-12 md:py-20 bg-surface border-t border-border relative overflow-hidden">
         <div className="container relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-24">
             <div className="md:col-span-2 space-y-8">

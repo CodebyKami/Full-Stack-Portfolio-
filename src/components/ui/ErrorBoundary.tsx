@@ -11,10 +11,10 @@ interface State {
   error: Error | null;
 }
 
-export default class ErrorBoundary extends React.Component<any, any> {
+export default class ErrorBoundary extends Component<any, any> {
   constructor(props: any) {
     super(props);
-    this.state = {
+    (this as any).state = {
       hasError: false,
       error: null
     };
@@ -29,7 +29,7 @@ export default class ErrorBoundary extends React.Component<any, any> {
   }
 
   public render() {
-    const { hasError, error } = this.state as any;
+    const { hasError, error } = (this as any).state;
     
     if (hasError) {
       return (
@@ -51,6 +51,6 @@ export default class ErrorBoundary extends React.Component<any, any> {
       );
     }
 
-    return (this.props as any).children;
+    return (this as any).props.children;
   }
 }
