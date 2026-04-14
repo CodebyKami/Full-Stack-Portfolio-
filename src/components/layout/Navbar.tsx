@@ -40,22 +40,22 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out",
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-in-out",
         isScrolled 
-          ? "bg-[#050505]/80 backdrop-blur-xl border-b border-white/5 py-4" 
-          : "bg-transparent py-8"
+          ? "bg-background/70 backdrop-blur-md border-b border-border py-4" 
+          : "bg-transparent py-6"
       )}
     >
-      <div className="container mx-auto px-6 md:px-12 lg:px-24 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group interactive">
-          <span className="text-2xl font-black tracking-[-0.05em] font-heading">
+      <div className="container mx-auto px-6 md:px-12 lg:px-24 flex items-center justify-between w-full">
+        <Link to="/" className="flex items-center gap-2 group">
+          <span className="text-xl font-bold tracking-tighter">
             KAMRAN<span className="text-primary">.</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-12">
-          <div className="flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-8">
+          <div className="flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -63,25 +63,18 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "text-[11px] font-bold uppercase tracking-[3px] transition-colors relative interactive",
+                    "text-[13px] font-medium transition-colors relative",
                     isActive ? "text-primary" : "text-muted hover:text-foreground"
                   )}
                 >
                   {link.name}
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-underline"
-                      className="absolute -bottom-2 left-0 right-0 h-[1px] bg-primary"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
                 </a>
               );
             })}
           </div>
           
-          <Button className="btn-primary h-auto py-3 px-6 text-[10px] tracking-widest interactive">
-            LET'S TALK
+          <Button className="btn-primary h-auto py-2.5 px-6 text-[12px] tracking-tight">
+            Let's Talk
           </Button>
         </div>
 
