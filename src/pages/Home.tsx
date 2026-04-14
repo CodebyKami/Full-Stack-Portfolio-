@@ -1,12 +1,39 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Hero from '../components/sections/Hero';
 import { useStore } from '../store/useStore';
+import { supabase } from '../lib/supabase';
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
-import { ExternalLink, Github, Mail, MapPin, Send, CheckCircle2, Sparkles, Code, Cpu, Globe, Linkedin, X, ChevronRight, Download, Terminal } from 'lucide-react';
+import { 
+  ExternalLink, 
+  Github, 
+  Mail, 
+  MapPin, 
+  Send, 
+  CheckCircle2, 
+  Sparkles, 
+  Code, 
+  Cpu, 
+  Globe, 
+  Linkedin, 
+  X, 
+  ChevronRight, 
+  Download, 
+  Terminal,
+  ArrowRight,
+  Star,
+  MessageSquare,
+  Plus,
+  Minus,
+  ArrowUpRight
+} from 'lucide-react';
 import Magnetic from '../components/ui/Magnetic';
+import ErrorBoundary from '../components/ui/ErrorBoundary';
 
 const ScrollReveal = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   const ref = useRef(null);
@@ -37,71 +64,85 @@ const ScrollReveal = ({ children, className }: { children: React.ReactNode; clas
 };
 
 const About = () => (
-  <section id="about" className="relative py-24 lg:py-32 overflow-hidden">
-    <div className="absolute top-[20%] left-[-10%] glow opacity-20" />
-    
-    <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-      <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-center">
-        <div className="space-y-12">
-          <div>
-            <span className="section-label">About Me</span>
-            <h2 className="fluid-h2 mb-8">
-              Architecting <span className="text-primary">digital</span> excellence.
+  <section id="about" className="relative py-24 md:py-32 bg-white">
+    <ScrollReveal className="container">
+      <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
+        <div className="order-2 lg:order-1 relative">
+          <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border">
+            <img 
+              src="https://picsum.photos/seed/kamran/800/1000" 
+              alt="Kamran Rasool" 
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </div>
+          
+          {/* Achievement Cards */}
+          <motion.div 
+            initial={{ x: -20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 glass p-6 md:p-8 rounded-3xl shadow-premium border border-border/50 max-w-[200px] md:max-w-[240px]"
+          >
+            <div className="text-3xl md:text-4xl font-bold text-primary mb-1">8+</div>
+            <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted leading-tight">Years of Engineering Excellence</div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ x: 20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="absolute top-10 -right-6 md:-right-10 glass p-5 md:p-6 rounded-3xl shadow-premium border border-border/50"
+          >
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-2xl bg-secondary/10 flex items-center justify-center">
+                <Globe className="h-5 w-5 text-secondary" />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-foreground">Global Clients</div>
+                <div className="text-[10px] text-muted font-medium">20+ Countries</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="order-1 lg:order-2 space-y-10">
+          <div className="space-y-6">
+            <span className="section-label">The Story</span>
+            <h2 className="fluid-h2 leading-[1.1]">
+              Crafting <span className="text-primary">exceptional</span> digital experiences.
             </h2>
-            <p className="text-lg text-muted leading-relaxed font-medium">
-              I'm a Full-Stack Developer with a passion for building high-performance, scalable web systems. With over 5 years of experience, I've helped businesses automate their workflows and establish a dominant online presence.
+            <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
+              I'm a Senior Product Engineer with a deep focus on the intersection of design and engineering. My mission is to build digital products that are not just functional, but delightful to use.
+            </p>
+            <p className="text-base text-muted/80 leading-relaxed">
+              With a background in both frontend and backend systems, I bridge the gap between complex technical requirements and intuitive user interfaces. I specialize in building scalable architectures that power modern web applications.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-10">
-            <div className="space-y-4">
-              <h4 className="text-foreground font-bold text-sm tracking-tight">Technical Leadership</h4>
-              <p className="text-muted text-sm leading-relaxed">Guiding projects from conception to deployment with a focus on architecture and scalability.</p>
+          <div className="grid sm:grid-cols-2 gap-8">
+            <div className="space-y-3">
+              <div className="h-1 w-12 bg-primary rounded-full" />
+              <h4 className="text-foreground font-bold text-base">Product Strategy</h4>
+              <p className="text-muted text-sm leading-relaxed">Aligning technical decisions with business goals to ensure long-term success.</p>
             </div>
-            <div className="space-y-4">
-              <h4 className="text-foreground font-bold text-sm tracking-tight">User-Centric Design</h4>
-              <p className="text-muted text-sm leading-relaxed">Prioritizing intuitive interfaces and seamless interactions to drive user engagement.</p>
+            <div className="space-y-3">
+              <div className="h-1 w-12 bg-secondary rounded-full" />
+              <h4 className="text-foreground font-bold text-base">System Design</h4>
+              <p className="text-muted text-sm leading-relaxed">Building robust, scalable, and maintainable architectures from day one.</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
-            <Button className="btn-primary">
-              Download CV
-              <Download className="ml-2 h-4 w-4" />
+          <div className="pt-4 flex flex-wrap gap-4">
+            <Button className="btn-primary h-14 px-8">
+              Download Resume
+              <Download className="ml-2 h-5 w-5" />
             </Button>
-            <div className="flex -space-x-3">
-              {[1, 2, 3, 4].map(i => (
-                <div key={i} className="h-10 w-10 rounded-full border-2 border-background bg-surface flex items-center justify-center overflow-hidden">
-                  <img src={`https://picsum.photos/seed/${i + 10}/100/100`} alt="Avatar" className="h-full w-full object-cover" />
-                </div>
-              ))}
-              <div className="h-10 w-10 rounded-full border-2 border-background bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
-                +80
-              </div>
-            </div>
+            <Button className="btn-secondary h-14 px-8">
+              Read My Blog
+            </Button>
           </div>
-        </div>
-
-        <div className="relative">
-          <div className="card-premium p-1 aspect-square max-w-md mx-auto lg:ml-auto overflow-hidden">
-            <div className="h-full w-full rounded-xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-              <img 
-                src="https://picsum.photos/seed/kamran/800/800" 
-                alt="Kamran Rasool" 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-          </div>
-          {/* Floating Badge */}
-          <motion.div 
-            animate={{ y: [0, 15, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-6 -left-6 glass p-6 rounded-2xl shadow-2xl hidden sm:block"
-          >
-            <div className="text-3xl font-black text-primary mb-1">5+</div>
-            <div className="text-[10px] font-bold uppercase tracking-widest text-muted">Years of Experience</div>
-          </motion.div>
         </div>
       </div>
     </ScrollReveal>
@@ -109,47 +150,52 @@ const About = () => (
 );
 
 const Skills = () => {
-  const skills = useStore(state => state.skills);
-  const hasSkills = Array.isArray(skills) && skills.length > 0;
-
-  const defaultSkills = [
-    { name: "React / Next.js", proficiency: 95 },
-    { name: "TypeScript", proficiency: 90 },
-    { name: "Node.js", proficiency: 85 },
-    { name: "Tailwind CSS", proficiency: 98 },
-    { name: "Supabase / Firebase", proficiency: 88 },
-    { name: "Framer Motion", proficiency: 85 },
+  const skillCategories = [
+    {
+      title: "Frontend",
+      skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Three.js"],
+      icon: Code
+    },
+    {
+      title: "Backend",
+      skills: ["Node.js", "Python", "PostgreSQL", "Supabase", "Redis", "GraphQL"],
+      icon: Cpu
+    },
+    {
+      title: "Tools & DevOps",
+      skills: ["Docker", "AWS", "Vercel", "Git", "Figma", "Stripe API"],
+      icon: Globe
+    }
   ];
 
-  const displaySkills = hasSkills ? skills : defaultSkills;
-
   return (
-    <section id="skills" className="py-24 lg:py-32 bg-surface/30">
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="mb-16 lg:mb-24">
-          <span className="section-label">Expertise</span>
+    <section id="skills" className="py-24 md:py-32 bg-surface">
+      <ScrollReveal className="container">
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Expertise</span>
           <h2 className="fluid-h2">Technical <span className="text-primary">arsenal</span>.</h2>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {displaySkills.map((skill, i) => (
+        <div className="grid md:grid-cols-3 gap-8">
+          {skillCategories.map((category, i) => (
             <motion.div 
               key={i}
-              whileHover={{ y: -5 }}
-              className="glass p-8 rounded-2xl flex flex-col items-center text-center group transition-all duration-300 hover:border-primary/30 hover:bg-primary/5"
+              whileHover={{ y: -10 }}
+              className="bg-white p-10 rounded-[32px] shadow-premium border border-border group transition-all duration-500"
             >
-              <div className="h-12 w-12 rounded-xl bg-white/5 border border-border flex items-center justify-center mb-6 group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors">
-                <Terminal className="h-6 w-6 text-muted group-hover:text-primary transition-colors" />
+              <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                <category.icon className="h-7 w-7" />
               </div>
-              <h3 className="text-sm font-bold text-foreground mb-2">{skill.name}</h3>
-              <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden mt-auto">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${skill.proficiency}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: i * 0.1 }}
-                  className="h-full bg-primary/50"
-                />
+              <h3 className="text-2xl font-bold text-foreground mb-6 tracking-tight">{category.title}</h3>
+              <div className="flex flex-wrap gap-3">
+                {category.skills.map((skill, j) => (
+                  <span 
+                    key={j} 
+                    className="px-4 py-2 rounded-xl bg-surface border border-border text-sm font-medium text-muted hover:border-primary/30 hover:text-primary transition-colors"
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
             </motion.div>
           ))}
@@ -164,34 +210,38 @@ const Projects = () => {
   const [filter, setFilter] = useState('All');
   const hasProjects = Array.isArray(projects) && projects.length > 0;
 
-  const categories = ['All', ...Array.from(new Set(hasProjects ? projects.map(p => p.category).filter(Boolean) : ['Web', 'AI', 'Automation']))];
+  const categories = ['All', ...Array.from(new Set(hasProjects ? projects.map(p => p.category).filter(Boolean) : ['Web', 'AI', 'SaaS']))];
 
   const filteredProjects = hasProjects 
     ? (filter === 'All' ? projects : projects.filter(p => p.category?.toLowerCase() === filter.toLowerCase()))
     : [
-        { title: "Quantum Dashboard", category: "Web", description: "A high-performance analytics dashboard with real-time data visualization.", tags: ["React", "D3.js", "Tailwind"] },
-        { title: "AI Content Engine", category: "AI", description: "Automated content generation platform powered by large language models.", tags: ["Next.js", "OpenAI", "Supabase"] },
-        { title: "Nexus CRM", category: "Automation", description: "Custom CRM solution with integrated workflow automation and lead tracking.", tags: ["GHL", "Node.js", "PostgreSQL"] },
+        { title: "Quantum Dashboard", category: "Web", description: "A high-performance analytics dashboard with real-time data visualization and predictive insights.", tags: ["React", "D3.js", "Tailwind"] },
+        { title: "AI Content Engine", category: "AI", description: "Automated content generation platform powered by LLMs with multi-modal support.", tags: ["Next.js", "OpenAI", "Supabase"] },
+        { title: "Nexus CRM", category: "SaaS", description: "Custom CRM solution with integrated workflow automation and advanced lead tracking.", tags: ["Node.js", "PostgreSQL", "Redis"] },
+        { title: "Stripe Integration", category: "Web", description: "Seamless payment processing system with subscription management and tax handling.", tags: ["React", "Stripe", "Node.js"] },
+        { title: "Linear Clone", category: "SaaS", description: "A high-performance project management tool with real-time collaboration.", tags: ["Next.js", "Socket.io", "Prisma"] },
+        { title: "Apple Store UI", category: "Web", description: "A pixel-perfect recreation of the Apple Store experience with fluid animations.", tags: ["React", "Framer Motion", "GSAP"] },
       ];
 
   return (
-    <section id="projects" className="py-24 lg:py-32">
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 lg:mb-24 gap-8">
-          <div>
+    <section id="projects" className="py-24 md:py-32 bg-white">
+      <ScrollReveal className="container">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-10">
+          <div className="max-w-2xl">
             <span className="section-label">Selected Work</span>
-            <h2 className="fluid-h2">Building digital <span className="text-primary">legacies</span>.</h2>
+            <h2 className="fluid-h2 tracking-tight">Building digital <span className="text-primary">legacies</span>.</h2>
+            <p className="text-lg text-muted mt-6 font-medium">A collection of projects that push the boundaries of web engineering and user experience design.</p>
           </div>
-          <div className="flex flex-wrap gap-2 p-1 rounded-xl bg-surface border border-border">
+          <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-surface border border-border w-fit">
             {categories.map((cat) => (
               <button 
                 key={cat} 
                 onClick={() => setFilter(cat)}
                 className={cn(
-                  "text-[12px] font-semibold transition-all duration-300 px-5 py-2 rounded-lg",
+                  "text-[13px] font-bold transition-all duration-300 px-6 py-2.5 rounded-xl",
                   filter === cat 
-                    ? "bg-primary text-white shadow-lg" 
-                    : "text-muted hover:text-foreground hover:bg-white/5"
+                    ? "bg-white text-primary shadow-sm border border-border" 
+                    : "text-muted hover:text-foreground"
                 )}
               >
                 {cat}
@@ -200,43 +250,44 @@ const Projects = () => {
           </div>
         </div>
         
-        <div className="bento-grid">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, i) => (
             <motion.div 
               key={i}
               layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group relative card-premium p-0 overflow-hidden flex flex-col"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="group relative flex flex-col bg-white rounded-[32px] border border-border overflow-hidden hover:border-primary/20 hover:shadow-hover transition-all duration-500"
             >
               <div className="overflow-hidden relative aspect-[16/10]">
                 <img 
                   src={project.image_url || `https://picsum.photos/seed/${project.title}/1200/800`} 
                   alt={project.title} 
-                  className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+                  className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-110" 
                   referrerPolicy="no-referrer" 
                 />
-                <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-sm">
-                  <div className="flex gap-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <Button className="btn-primary py-2 px-5 text-[12px]">
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                  <div className="flex gap-4 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                    <Button className="bg-white text-foreground hover:bg-white/90 h-11 px-6 rounded-xl font-bold text-sm">
                       Live Demo
                     </Button>
-                    <Button className="btn-secondary py-2 px-5 text-[12px]">
+                    <Button className="bg-white/20 backdrop-blur-md text-white hover:bg-white/30 h-11 px-6 rounded-xl font-bold text-sm border border-white/30">
                       GitHub
                     </Button>
                   </div>
                 </div>
               </div>
-              <div className="p-8 flex flex-col flex-grow">
+              <div className="p-10 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">{project.title}</h3>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary/60">{project.category}</span>
+                  <h3 className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{project.title}</h3>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10">{project.category}</span>
                 </div>
-                <p className="text-muted text-sm mb-6 line-clamp-2 font-medium leading-relaxed">{project.description}</p>
+                <p className="text-muted text-base mb-8 line-clamp-2 font-medium leading-relaxed">{project.description}</p>
                 <div className="mt-auto flex flex-wrap gap-2">
                   {project.tags?.map((tag: string) => (
-                    <span key={tag} className="text-[10px] font-medium text-muted px-2 py-1 rounded-md bg-white/5 border border-border">{tag}</span>
+                    <span key={tag} className="text-[11px] font-bold text-muted/80 px-3 py-1.5 rounded-lg bg-surface border border-border uppercase tracking-wider">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -253,50 +304,50 @@ const Experience = () => {
   const hasExperience = Array.isArray(experience) && experience.length > 0;
 
   const defaultExperience = [
-    { role: "Senior Full Stack Developer", company: "TechFlow Solutions", start_date: "2022", end_date: "Present", description: ["Leading development of enterprise-scale web applications.", "Architecting microservices using Node.js and Go."] },
-    { role: "Frontend Engineer", company: "Creative Minds Agency", start_date: "2020", end_date: "2022", description: ["Built immersive user experiences with React and GSAP.", "Optimized performance for high-traffic client websites."] },
+    { role: "Senior Product Engineer", company: "TechFlow Solutions", start_date: "2022", end_date: "Present", description: ["Leading development of enterprise-scale web applications.", "Architecting microservices using Node.js and Go.", "Mentoring junior engineers and establishing best practices."] },
+    { role: "Frontend Architect", company: "Creative Minds Agency", start_date: "2020", end_date: "2022", description: ["Built immersive user experiences with React and GSAP.", "Optimized performance for high-traffic client websites.", "Developed a custom UI library used across 20+ projects."] },
   ];
 
   const displayExperience = hasExperience ? experience : defaultExperience;
 
   return (
-    <section id="experience" className="py-24 lg:py-32">
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="mb-16 lg:mb-24">
-          <span className="section-label">My Journey</span>
+    <section id="experience" className="py-24 md:py-32 bg-surface">
+      <ScrollReveal className="container">
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">My Journey</span>
           <h2 className="fluid-h2">Professional <span className="text-primary">experience</span>.</h2>
         </div>
         
-        <div className="max-w-4xl mx-auto space-y-16 relative before:absolute before:left-0 md:before:left-1/2 before:top-0 before:bottom-0 before:w-[1px] before:bg-border">
+        <div className="max-w-5xl mx-auto space-y-12 relative before:absolute before:left-0 md:before:left-1/2 before:top-0 before:bottom-0 before:w-[1px] before:bg-border">
           {displayExperience.map((exp, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
               className={cn(
-                "relative pl-8 md:pl-0 flex flex-col md:flex-row gap-8",
+                "relative pl-10 md:pl-0 flex flex-col md:flex-row gap-10",
                 i % 2 === 0 ? "md:flex-row-reverse" : ""
               )}
             >
-              <div className="absolute left-[-4px] md:left-1/2 md:ml-[-4px] top-0 h-2 w-2 rounded-full bg-primary ring-4 ring-primary/20 z-10" />
+              <div className="absolute left-[-5px] md:left-1/2 md:ml-[-5px] top-0 h-2.5 w-2.5 rounded-full bg-primary ring-[6px] ring-primary/10 z-10" />
               
               <div className={cn(
                 "md:w-1/2",
-                i % 2 === 0 ? "md:pl-12" : "md:pr-12 md:text-right"
+                i % 2 === 0 ? "md:pl-16" : "md:pr-16 md:text-right"
               )}>
-                <div className="inline-block px-3 py-1 rounded-lg bg-surface border border-border text-[10px] font-bold text-primary mb-4">
+                <div className="inline-block px-4 py-1.5 rounded-xl bg-white border border-border text-[11px] font-bold text-primary mb-6 shadow-sm">
                   {exp.start_date} — {exp.end_date}
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-1">{exp.role}</h3>
-                <p className="text-primary font-semibold mb-4">{exp.company}</p>
+                <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">{exp.role}</h3>
+                <p className="text-primary text-base font-bold mb-6">{exp.company}</p>
                 <div className={cn(
-                  "space-y-2",
+                  "space-y-4",
                   i % 2 === 0 ? "" : "md:items-end flex flex-col"
                 )}>
                   {exp.description?.map((item: string, j: number) => (
-                    <p key={j} className="text-sm text-muted leading-relaxed max-w-md">{item}</p>
+                    <p key={j} className="text-base text-muted leading-relaxed max-w-lg font-medium">{item}</p>
                   ))}
                 </div>
               </div>
@@ -317,32 +368,32 @@ const Pricing = () => {
   ];
 
   return (
-    <section id="pricing" className="py-24 lg:py-32">
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="mb-16 lg:mb-24">
+    <section id="pricing" className="py-20 md:py-32">
+      <ScrollReveal className="container">
+        <div className="mb-12 md:mb-20 text-center lg:text-left">
           <span className="section-label">Investment</span>
           <h2 className="fluid-h2">Pricing <span className="text-primary">plans</span>.</h2>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
           {plans.map((plan, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -8 }}
               className={cn(
-                "card-premium p-10 flex flex-col h-full",
+                "card-premium p-8 md:p-10 flex flex-col h-full",
                 plan.featured ? "border-primary/40 bg-primary/[0.02]" : ""
               )}
             >
               {plan.featured && <span className="text-[10px] font-bold uppercase tracking-widest text-primary mb-6">Most Popular</span>}
-              <h3 className="text-xl font-bold mb-2 text-foreground">{plan.name}</h3>
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-foreground">{plan.name}</h3>
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-4xl font-bold tracking-tighter text-foreground">${plan.price}</span>
-                <span className="text-muted text-[10px] font-bold uppercase tracking-widest">/project</span>
+                <span className="text-3xl md:text-4xl font-bold tracking-tighter text-foreground">${plan.price}</span>
+                <span className="text-muted text-[9px] md:text-[10px] font-bold uppercase tracking-widest">/project</span>
               </div>
-              <ul className="space-y-4 mb-10 flex-grow">
+              <ul className="space-y-3 md:space-y-4 mb-10 flex-grow">
                 {plan.features.map((feature, j) => (
-                  <li key={j} className="flex items-center gap-3 text-muted text-sm font-medium">
+                  <li key={j} className="flex items-center gap-3 text-muted text-xs md:text-sm font-medium">
                     <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                     {feature}
                   </li>
@@ -364,68 +415,102 @@ const Pricing = () => {
 
 const Contact = () => {
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('loading');
-    setTimeout(() => setFormState('success'), 2000);
+    
+    try {
+      const { error } = await supabase
+        .from('messages')
+        .insert([
+          { 
+            name: formData.name, 
+            email: formData.email, 
+            subject: formData.subject, 
+            message: formData.message 
+          }
+        ]);
+
+      if (error) throw error;
+      
+      setFormState('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      toast.success('Message sent successfully!');
+    } catch (error: any) {
+      console.error('Error sending message:', error);
+      toast.error('Failed to send message. Please try again.');
+      setFormState('idle');
+    }
   };
 
   return (
-    <section id="contact" className="py-24 lg:py-32 relative overflow-hidden">
-      <div className="absolute top-0 right-0 glow opacity-10" />
-      
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-32">
+    <section id="contact" className="py-24 md:py-32 bg-white relative overflow-hidden">
+      <ScrollReveal className="container">
+        <div className="grid lg:grid-cols-2 gap-20 md:gap-32">
           <div className="space-y-12">
-            <div>
+            <div className="space-y-6">
               <span className="section-label">Contact</span>
-              <h2 className="fluid-h2 mb-8">
+              <h2 className="fluid-h2 leading-tight">
                 Let's build something <span className="text-primary">extraordinary</span>.
               </h2>
-              <p className="text-lg text-muted font-medium leading-relaxed max-w-md">
-                Have a project in mind? Let's collaborate to create something that stands out. I'm always open to discussing new opportunities.
+              <p className="text-lg md:text-xl text-muted font-medium leading-relaxed max-w-md">
+                Ready to take your project to the next level? I'm currently accepting new projects and consulting opportunities.
               </p>
             </div>
             
-            <div className="space-y-8">
+            <div className="space-y-10">
               <div className="flex items-center gap-6 group">
-                <div className="h-12 w-12 rounded-xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/50 transition-all duration-300">
-                  <Mail className="h-5 w-5 text-primary" />
+                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500">
+                  <Mail className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-bold text-muted mb-1">Email Me</p>
-                  <p className="text-lg font-bold text-foreground">kamranrasool0045@gmail.com</p>
+                  <p className="text-[11px] font-bold text-muted uppercase tracking-widest mb-1">Email Me</p>
+                  <p className="text-xl font-bold text-foreground break-all tracking-tight">kamranrasool0045@gmail.com</p>
                 </div>
               </div>
               <div className="flex items-center gap-6 group">
-                <div className="h-12 w-12 rounded-xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/50 transition-all duration-300">
-                  <MapPin className="h-5 w-5 text-primary" />
+                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500">
+                  <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-bold text-muted mb-1">Location</p>
-                  <p className="text-lg font-bold text-foreground">Lahore, Pakistan</p>
+                  <p className="text-[11px] font-bold text-muted uppercase tracking-widest mb-1">Location</p>
+                  <p className="text-xl font-bold text-foreground tracking-tight">Lahore, Pakistan</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="relative">
-            <div className="card-premium p-8 md:p-10">
+            <div className="bg-surface border border-border rounded-[40px] p-10 md:p-12 shadow-premium">
               <AnimatePresence mode="wait">
                 {formState === 'success' ? (
                   <motion.div
                     key="success"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="h-full flex flex-col items-center justify-center text-center space-y-6 py-12"
+                    className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12"
                   >
-                    <div className="h-20 w-20 rounded-full bg-primary/20 flex items-center justify-center">
-                      <CheckCircle2 className="h-10 w-10 text-primary" />
+                    <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
+                      <CheckCircle2 className="h-12 w-12 text-primary" />
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground">Message Sent!</h3>
-                    <p className="text-muted">Thank you for reaching out. I'll get back to you within 24 hours.</p>
-                    <Button onClick={() => setFormState('idle')} className="btn-secondary">Send Another</Button>
+                    <div className="space-y-4">
+                      <h3 className="text-3xl font-bold text-foreground tracking-tight">Message Sent!</h3>
+                      <p className="text-lg text-muted font-medium">Thank you for reaching out. I'll get back to you within 24 hours.</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setFormState('idle')}
+                      className="btn-secondary h-12 px-8 font-bold"
+                    >
+                      Send Another
+                    </Button>
                   </motion.div>
                 ) : (
                   <motion.form
@@ -434,29 +519,61 @@ const Contact = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onSubmit={handleSubmit}
-                    className="space-y-6"
+                    className="space-y-8"
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-[12px] font-bold text-muted ml-1">Full Name</label>
-                        <input required type="text" placeholder="John Doe" className="w-full bg-background/50 border border-border rounded-xl h-12 px-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                      <div className="space-y-3">
+                        <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Full Name</label>
+                        <Input 
+                          required 
+                          value={formData.name}
+                          onChange={e => setFormData({ ...formData, name: e.target.value })}
+                          placeholder="John Doe" 
+                          className="bg-white border-border h-14 rounded-2xl focus:ring-primary/20 focus:border-primary transition-all font-medium" 
+                        />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-[12px] font-bold text-muted ml-1">Email Address</label>
-                        <input required type="email" placeholder="john@example.com" className="w-full bg-background/50 border border-border rounded-xl h-12 px-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
+                      <div className="space-y-3">
+                        <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Email Address</label>
+                        <Input 
+                          required 
+                          type="email" 
+                          value={formData.email}
+                          onChange={e => setFormData({ ...formData, email: e.target.value })}
+                          placeholder="john@example.com" 
+                          className="bg-white border-border h-14 rounded-2xl focus:ring-primary/20 focus:border-primary transition-all font-medium" 
+                        />
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-[12px] font-bold text-muted ml-1">Subject</label>
-                      <input required type="text" placeholder="Project Inquiry" className="w-full bg-background/50 border border-border rounded-xl h-12 px-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground" />
+                    <div className="space-y-3">
+                      <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Subject</label>
+                      <Input 
+                        required 
+                        value={formData.subject}
+                        onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                        placeholder="Project Inquiry" 
+                        className="bg-white border-border h-14 rounded-2xl focus:ring-primary/20 focus:border-primary transition-all font-medium" 
+                      />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-[12px] font-bold text-muted ml-1">Message</label>
-                      <textarea required rows={4} placeholder="How can I help you?" className="w-full bg-background/50 border border-border rounded-xl p-5 focus:border-primary/50 focus:bg-primary/5 outline-none transition-all font-medium text-foreground resize-none" />
+                    <div className="space-y-3">
+                      <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Message</label>
+                      <Textarea 
+                        required 
+                        value={formData.message}
+                        onChange={e => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Tell me about your project..." 
+                        className="bg-white border-border min-h-[180px] rounded-[24px] focus:ring-primary/20 focus:border-primary transition-all p-6 font-medium resize-none" 
+                      />
                     </div>
-                    <Button type="submit" disabled={formState === 'loading'} className="btn-primary w-full h-12">
-                      {formState === 'loading' ? 'Sending...' : 'Send Message'}
-                      <Send className="ml-2 h-4 w-4" />
+                    <Button 
+                      type="submit" 
+                      disabled={formState === 'loading'}
+                      className="w-full btn-primary h-16 text-lg rounded-2xl group"
+                    >
+                      {formState === 'loading' ? 'Sending...' : (
+                        <span className="flex items-center gap-3">
+                          Send Message <Send className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        </span>
+                      )}
                     </Button>
                   </motion.form>
                 )}
@@ -475,10 +592,10 @@ const Services = () => {
   const hasServices = Array.isArray(services) && services.length > 0;
 
   const displayServices = hasServices ? services : [
-    { title: "Full-Stack Development", description: "End-to-end web applications built with modern technologies like React, Next.js, and Node.js.", icon_name: "Code" },
-    { title: "AI & Automation", description: "Streamlining business processes with custom AI solutions and automated workflows.", icon_name: "Cpu" },
-    { title: "UI/UX Design", description: "Creating intuitive, visually stunning interfaces that prioritize user experience and conversion.", icon_name: "Sparkles" },
-    { title: "Cloud Architecture", description: "Scalable and secure cloud infrastructure design and deployment.", icon_name: "Globe" },
+    { title: "Product Engineering", description: "End-to-end development of high-performance web applications using React, Next.js, and Node.js.", icon_name: "Code" },
+    { title: "AI & Automation", description: "Streamlining business processes with custom AI solutions, LLM integrations, and automated workflows.", icon_name: "Cpu" },
+    { title: "UI/UX Design", description: "Creating intuitive, visually stunning interfaces that prioritize user experience, conversion, and brand identity.", icon_name: "Sparkles" },
+    { title: "Cloud Architecture", description: "Scalable and secure cloud infrastructure design, deployment, and optimization on AWS and Vercel.", icon_name: "Globe" },
   ];
 
   const getIcon = (name: string) => {
@@ -491,30 +608,30 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-24 lg:py-32">
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="mb-16 lg:mb-24">
-          <span className="section-label">Expertise</span>
+    <section id="services" className="py-24 md:py-32 bg-white">
+      <ScrollReveal className="container">
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Expertise</span>
           <h2 className="fluid-h2">Services <span className="text-primary">offered</span>.</h2>
         </div>
         
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {displayServices.map((service, i) => {
             const Icon = getIcon(service.icon_name);
             return (
               <motion.div 
                 key={i}
-                whileHover={{ y: -8 }}
+                whileHover={{ y: -10 }}
                 onClick={() => setSelectedService(service)}
-                className="group card-premium p-8 flex flex-col h-full cursor-pointer"
+                className="group bg-surface border border-border rounded-[32px] p-10 flex flex-col h-full cursor-pointer hover:border-primary/20 hover:bg-white hover:shadow-hover transition-all duration-500"
               >
-                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-background transition-all duration-300">
-                  <Icon className="h-6 w-6" />
+                <div className="h-14 w-14 rounded-2xl bg-white border border-border flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500 shadow-sm">
+                  <Icon className="h-7 w-7" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-foreground">{service.title}</h3>
-                <p className="text-sm text-muted leading-relaxed mb-6 flex-grow">{service.description}</p>
-                <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-primary group-hover:gap-2 transition-all">
-                  Learn More <ChevronRight className="h-3 w-3" />
+                <h3 className="text-2xl font-bold mb-4 text-foreground tracking-tight">{service.title}</h3>
+                <p className="text-base text-muted leading-relaxed mb-8 flex-grow font-medium">{service.description}</p>
+                <div className="flex items-center text-[11px] font-bold uppercase tracking-widest text-primary group-hover:gap-3 transition-all">
+                  Learn More <ChevronRight className="ml-1 h-4 w-4" />
                 </div>
               </motion.div>
             );
@@ -530,40 +647,40 @@ const Services = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedService(null)}
-              className="absolute inset-0 bg-background/80 backdrop-blur-md"
+              className="absolute inset-0 bg-white/80 backdrop-blur-xl"
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-xl bg-surface border border-border rounded-3xl p-10 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-2xl bg-white border border-border rounded-[40px] p-12 md:p-16 shadow-2xl overflow-hidden"
             >
               <button 
                 onClick={() => setSelectedService(null)}
-                className="absolute top-6 right-6 text-muted hover:text-foreground transition-colors"
+                className="absolute top-8 right-8 text-muted hover:text-foreground transition-colors p-2 hover:bg-surface rounded-full"
               >
-                <X className="h-5 w-5" />
+                <X className="h-6 w-6" />
               </button>
               
-              <div className="space-y-8">
-                <div className="flex items-center gap-5">
-                  <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    {React.createElement(getIcon(selectedService.icon_name), { className: "h-7 w-7 text-primary" })}
+              <div className="space-y-10">
+                <div className="flex items-center gap-6">
+                  <div className="h-16 w-16 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
+                    {React.createElement(getIcon(selectedService.icon_name), { className: "h-8 w-8 text-primary" })}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold">{selectedService.title}</h3>
-                    <p className="text-primary text-[10px] font-bold uppercase tracking-widest mt-1">Premium Expertise</p>
+                    <h3 className="text-3xl font-bold tracking-tight">{selectedService.title}</h3>
+                    <p className="text-primary text-[11px] font-bold uppercase tracking-widest mt-1">Premium Expertise</p>
                   </div>
                 </div>
                 
-                <div className="space-y-6">
-                  <p className="text-lg text-muted leading-relaxed">{selectedService.description}</p>
-                  <div className="p-6 rounded-2xl bg-background/50 border border-border">
-                    <h4 className="text-[12px] font-bold uppercase tracking-widest text-foreground mb-3">What's Included</h4>
-                    <ul className="space-y-2">
-                      {["Customized Strategy", "High-Performance Implementation", "Ongoing Support & Optimization"].map((item, idx) => (
-                        <li key={idx} className="text-sm text-muted flex items-center gap-2">
-                          <div className="h-1 w-1 rounded-full bg-primary" />
+                <div className="space-y-8">
+                  <p className="text-xl text-muted leading-relaxed font-medium">{selectedService.description}</p>
+                  <div className="p-8 rounded-3xl bg-surface border border-border">
+                    <h4 className="text-[12px] font-bold uppercase tracking-widest text-foreground mb-6">What's Included</h4>
+                    <ul className="grid sm:grid-cols-2 gap-4">
+                      {["Customized Strategy", "High-Performance Implementation", "Ongoing Support", "Security Audit", "Performance Tuning", "SEO Optimization"].map((item, idx) => (
+                        <li key={idx} className="text-sm text-muted flex items-center gap-3 font-bold">
+                          <CheckCircle2 className="h-4 w-4 text-primary" />
                           {item}
                         </li>
                       ))}
@@ -571,7 +688,7 @@ const Services = () => {
                   </div>
                 </div>
 
-                <Button className="btn-primary w-full h-12" onClick={() => {
+                <Button className="btn-primary w-full h-16 text-lg" onClick={() => {
                   setSelectedService(null);
                   document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                 }}>
@@ -588,19 +705,19 @@ const Services = () => {
 
 const Marquee = () => {
   const skills = [
-    "WordPress", "Plugin Development", "Theme Customization", "Elementor", 
-    "WooCommerce", "GoHighLevel", "GHL Automation", "React", "Next.js", 
-    "Node.js", "Automation", "UI/UX", "SEO", "Zapier", "Make"
+    "React", "Next.js", "TypeScript", "Node.js", "Python", "Supabase", 
+    "PostgreSQL", "Tailwind CSS", "Framer Motion", "AWS", "Docker", 
+    "Stripe", "OpenAI", "UI/UX", "Product Strategy"
   ];
   return (
-    <div className="py-12 bg-secondary/20 border-y border-white/5 overflow-hidden relative">
+    <div className="py-16 bg-surface border-y border-border overflow-hidden relative">
       <motion.div 
-        animate={{ x: [0, -1500] }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="flex gap-20 whitespace-nowrap"
+        animate={{ x: [0, -2000] }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        className="flex gap-24 whitespace-nowrap"
       >
         {[...skills, ...skills, ...skills].map((skill, i) => (
-          <span key={i} className="text-4xl md:text-6xl font-black text-white/10 uppercase tracking-tighter hover:text-primary/40 transition-colors cursor-default">
+          <span key={i} className="text-5xl md:text-7xl font-bold text-muted/10 uppercase tracking-tighter hover:text-primary/20 transition-colors cursor-default">
             {skill}
           </span>
         ))}
@@ -614,17 +731,18 @@ const Testimonials = () => {
   const hasTestimonials = Array.isArray(testimonials) && testimonials.length > 0;
 
   const defaultTestimonials = [
-    { name: "Sarah Johnson", role: "CEO", company: "InnovateX", content: "Kamran delivered a world-class platform that exceeded our expectations. His attention to detail is unmatched.", rating: 5 },
-    { name: "Michael Chen", role: "Product Manager", company: "CloudScale", content: "The automation workflows Kamran built saved us hundreds of hours. A true professional and expert.", rating: 5 },
+    { name: "Sarah Johnson", role: "CEO", company: "InnovateX", content: "Kamran delivered a world-class platform that exceeded our expectations. His attention to detail and technical depth are unmatched.", rating: 5 },
+    { name: "Michael Chen", role: "Product Manager", company: "CloudScale", content: "The automation workflows Kamran built saved us hundreds of hours. A true professional and expert in modern web engineering.", rating: 5 },
+    { name: "Alex Rivera", role: "Founder", company: "Nexus AI", content: "Working with Kamran was a game-changer for our startup. He didn't just write code; he helped us define our product strategy.", rating: 5 },
   ];
 
   const displayTestimonials = hasTestimonials ? testimonials : defaultTestimonials;
 
   return (
-    <section id="testimonials" className="py-24 lg:py-32 bg-surface/30">
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="mb-16 lg:mb-24">
-          <span className="section-label">Feedback</span>
+    <section id="testimonials" className="py-24 md:py-32 bg-surface">
+      <ScrollReveal className="container">
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Feedback</span>
           <h2 className="fluid-h2">Client <span className="text-primary">stories</span>.</h2>
         </div>
         
@@ -632,22 +750,22 @@ const Testimonials = () => {
           {displayTestimonials.map((t, i) => (
             <motion.div 
               key={i}
-              whileHover={{ y: -8 }}
-              className="card-premium p-10 flex flex-col gap-8"
+              whileHover={{ y: -10 }}
+              className="bg-white p-10 md:p-12 rounded-[32px] shadow-premium border border-border flex flex-col gap-8 transition-all duration-500"
             >
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {[...Array(t.rating || 5)].map((_, j) => (
-                  <Sparkles key={j} className="h-3 w-3 text-primary fill-primary" />
+                  <Sparkles key={j} className="h-4 w-4 text-primary fill-primary" />
                 ))}
               </div>
-              <p className="text-lg italic text-muted leading-relaxed font-medium">"{t.content}"</p>
-              <div className="flex items-center gap-4 mt-auto pt-8 border-t border-border">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+              <p className="text-lg md:text-xl italic text-muted leading-relaxed font-medium">"{t.content}"</p>
+              <div className="flex items-center gap-5 mt-auto pt-8 border-t border-border">
+                <div className="h-12 w-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary font-bold text-base border border-primary/10">
                   {t.name[0]}
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground text-sm">{t.name}</h4>
-                  <p className="text-[10px] text-muted font-bold uppercase tracking-widest">{t.role} @ {t.company}</p>
+                  <h4 className="font-bold text-foreground text-base tracking-tight">{t.name}</h4>
+                  <p className="text-[11px] text-muted font-bold uppercase tracking-widest">{t.role} @ {t.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -665,19 +783,21 @@ const Blog = () => {
   const defaultPosts = [
     { title: "The Future of AI in Web Development", excerpt: "Exploring how generative AI is transforming the way we build and maintain modern web applications.", tags: ["AI", "Tech"], read_time: "5 min read" },
     { title: "Mastering Framer Motion for Immersive UI", excerpt: "A comprehensive guide to creating fluid, high-performance animations in React applications.", tags: ["UI/UX", "Design"], read_time: "8 min read" },
+    { title: "Scalable Architecture with Next.js", excerpt: "How to structure large-scale Next.js projects for maximum maintainability and performance.", tags: ["Engineering", "Next.js"], read_time: "12 min read" },
   ];
 
   const displayPosts = hasPosts ? blogPosts : defaultPosts;
 
   return (
-    <section id="blog" className="py-24 lg:py-32">
-      <ScrollReveal className="container mx-auto px-6 md:px-12 lg:px-24 w-full">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 lg:mb-24 gap-8">
-          <div>
+    <section id="blog" className="py-24 md:py-32 bg-white">
+      <ScrollReveal className="container">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-10">
+          <div className="max-w-2xl">
             <span className="section-label">Insights</span>
-            <h2 className="fluid-h2">Latest <span className="text-primary">articles</span>.</h2>
+            <h2 className="fluid-h2 tracking-tight">Latest <span className="text-primary">articles</span>.</h2>
+            <p className="text-lg text-muted mt-6 font-medium">Sharing my thoughts on technology, design, and the future of the web.</p>
           </div>
-          <Button variant="outline" className="btn-secondary">
+          <Button variant="outline" className="btn-secondary h-12 px-8 font-bold">
             View All Posts
           </Button>
         </div>
@@ -686,26 +806,26 @@ const Blog = () => {
           {displayPosts.map((post, i) => (
             <motion.div 
               key={i}
-              whileHover={{ y: -8 }}
-              className="group card-premium p-0 overflow-hidden"
+              whileHover={{ y: -10 }}
+              className="group bg-white rounded-[32px] border border-border overflow-hidden hover:border-primary/20 hover:shadow-hover transition-all duration-500"
             >
               <div className="aspect-[16/10] overflow-hidden">
                 <img 
                   src={post.image_url || `https://picsum.photos/seed/${post.title}/800/450`} 
                   alt={post.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="p-8 space-y-4">
-                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-primary">
-                  <span>{post.tags?.[0] || 'Tech'}</span>
+              <div className="p-10 space-y-6">
+                <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest text-primary">
+                  <span className="px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10">{post.tags?.[0] || 'Tech'}</span>
                   <span className="text-muted">{post.read_time || '5 min read'}</span>
                 </div>
-                <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight">{post.title}</h3>
-                <p className="text-sm text-muted line-clamp-2 leading-relaxed">{post.excerpt}</p>
-                <div className="pt-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-foreground group-hover:gap-3 transition-all">
-                  Read More <ChevronRight className="h-3 w-3" />
+                <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight tracking-tight">{post.title}</h3>
+                <p className="text-base text-muted line-clamp-2 leading-relaxed font-medium">{post.excerpt}</p>
+                <div className="pt-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-foreground group-hover:gap-4 transition-all">
+                  Read More <ChevronRight className="ml-1 h-4 w-4" />
                 </div>
               </div>
             </motion.div>
@@ -731,17 +851,15 @@ export default function Home() {
       <Pricing />
       <Contact />
       
-      <footer className="pt-24 pb-12 border-t border-border bg-surface/30 relative overflow-hidden">
-        <div className="absolute bottom-0 left-0 glow opacity-10" />
-        
-        <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10 w-full">
-          <div className="grid md:grid-cols-4 gap-16 mb-24">
+      <footer className="py-24 md:py-32 bg-surface border-t border-border relative overflow-hidden">
+        <div className="container relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-24">
             <div className="md:col-span-2 space-y-8">
-              <h2 className="text-2xl font-bold tracking-tighter">
+              <h2 className="text-3xl font-bold tracking-tight">
                 KAMRAN<span className="text-primary">.</span>
               </h2>
-              <p className="text-muted text-lg max-w-md leading-relaxed font-medium">
-                Transforming complex ideas into seamless digital experiences. Specializing in high-performance web systems and AI-driven automation.
+              <p className="text-lg text-muted max-w-md leading-relaxed font-medium">
+                Designing and engineering high-performance digital products. Focused on quality, performance, and user experience.
               </p>
               <div className="flex gap-4">
                 {[
@@ -754,10 +872,10 @@ export default function Home() {
                     href={social.href} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="h-10 w-10 rounded-xl bg-surface border border-border flex items-center justify-center hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all duration-300"
+                    className="h-12 w-12 rounded-2xl bg-white border border-border flex items-center justify-center hover:border-primary/30 hover:bg-primary/5 hover:text-primary transition-all duration-500 shadow-sm"
                     aria-label={social.label}
                   >
-                    <social.icon className="h-5 w-5" />
+                    <social.icon className="h-6 w-6" />
                   </a>
                 ))}
               </div>
@@ -768,7 +886,7 @@ export default function Home() {
               <ul className="space-y-4">
                 {['Home', 'About', 'Projects', 'Experience', 'Contact'].map((item) => (
                   <li key={item}>
-                    <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-primary transition-colors font-medium text-sm">
+                    <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-primary transition-colors font-bold text-base">
                       {item}
                     </a>
                   </li>
@@ -781,7 +899,7 @@ export default function Home() {
               <ul className="space-y-4">
                 {['Twitter', 'GitHub', 'LinkedIn', 'Dribbble'].map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-muted hover:text-primary transition-colors font-medium text-sm">
+                    <a href="#" className="text-muted hover:text-primary transition-colors font-bold text-base">
                       {item}
                     </a>
                   </li>
@@ -791,12 +909,12 @@ export default function Home() {
           </div>
 
           <div className="pt-12 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8">
-            <p className="text-[12px] text-muted font-medium">
-              © 2026 Kamran Rasool. All rights reserved.
+            <p className="text-sm text-muted font-bold tracking-tight">
+              © 2026 Kamran Rasool. Designed with precision.
             </p>
-            <div className="flex gap-8">
-              <a href="#" className="text-[12px] text-muted hover:text-primary transition-colors font-medium">Privacy Policy</a>
-              <a href="#" className="text-[12px] text-muted hover:text-primary transition-colors font-medium">Terms of Service</a>
+            <div className="flex gap-10">
+              <a href="#" className="text-sm text-muted hover:text-primary transition-colors font-bold">Privacy Policy</a>
+              <a href="#" className="text-sm text-muted hover:text-primary transition-colors font-bold">Terms of Service</a>
             </div>
           </div>
         </div>
