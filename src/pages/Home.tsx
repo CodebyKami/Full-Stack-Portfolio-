@@ -24,7 +24,8 @@ import {
   ChevronRight, 
   Download, 
   ArrowRight,
-  Plus
+  Plus,
+  Star
 } from 'lucide-react';
 import Magnetic from '../components/ui/Magnetic';
 import ErrorBoundary from '../components/ui/ErrorBoundary';
@@ -57,91 +58,119 @@ const ScrollReveal = ({ children, className }: { children: React.ReactNode; clas
   );
 };
 
-const About = () => (
-  <section id="about" className="relative bg-white">
-    <ScrollReveal className="container">
-      <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
-        <div className="order-2 lg:order-1 relative">
-          <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border">
-            <img 
-              src="https://picsum.photos/seed/kamran/800/1000" 
-              alt="Kamran Rasool" 
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          </div>
-          
-          {/* Achievement Cards */}
-          <motion.div 
-            initial={{ x: -20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 glass p-6 md:p-8 rounded-3xl shadow-premium border border-border/50 max-w-[200px] md:max-w-[240px]"
-          >
-            <div className="text-3xl md:text-4xl font-bold text-primary mb-1">8+</div>
-            <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted leading-tight">Years of Engineering Excellence</div>
-          </motion.div>
+const FactsBar = () => {
+  const facts = [
+    { label: "Projects Completed", value: "150+" },
+    { label: "Global Clients", value: "20+" },
+    { label: "Years Experience", value: "8+" },
+    { label: "Success Rate", value: "100%" },
+  ];
 
-          <motion.div 
-            initial={{ x: 20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="absolute top-10 -right-6 md:-right-10 glass p-5 md:p-6 rounded-3xl shadow-premium border border-border/50"
-          >
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-2xl bg-secondary/10 flex items-center justify-center">
-                <Globe className="h-5 w-5 text-secondary" />
-              </div>
-              <div>
-                <div className="text-sm font-bold text-foreground">Global Clients</div>
-                <div className="text-[10px] text-muted font-medium">20+ Countries</div>
-              </div>
+  return (
+    <div className="bg-surface py-12 border-y border-border">
+      <div className="container">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          {facts.map((fact, i) => (
+            <div key={i} className="text-center space-y-2">
+              <div className="text-3xl md:text-4xl font-black text-primary tracking-tighter">{fact.value}</div>
+              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted">{fact.label}</div>
             </div>
-          </motion.div>
-        </div>
-
-        <div className="order-1 lg:order-2 space-y-10">
-          <div className="space-y-6">
-            <span className="section-label">The Story</span>
-            <h2 className="fluid-h2 leading-[1.1]">
-              Crafting <span className="text-primary">high-performance</span> digital ecosystems.
-            </h2>
-            <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
-              I'm a Senior Web Architect & Product Engineer with over 8 years of experience in building scalable digital architectures and immersive user experiences.
-            </p>
-            <p className="text-base text-muted/80 leading-relaxed">
-              With a deep focus on the intersection of design and engineering, I bridge the gap between complex technical requirements and intuitive user interfaces. I specialize in building robust systems that power modern web applications.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <div className="h-1 w-12 bg-primary rounded-full" />
-              <h4 className="text-foreground font-bold text-base">Product Strategy</h4>
-              <p className="text-muted text-sm leading-relaxed">Aligning technical decisions with business goals to ensure long-term success.</p>
-            </div>
-            <div className="space-y-3">
-              <div className="h-1 w-12 bg-secondary rounded-full" />
-              <h4 className="text-foreground font-bold text-base">System Design</h4>
-              <p className="text-muted text-sm leading-relaxed">Building robust, scalable, and maintainable architectures from day one.</p>
-            </div>
-          </div>
-
-          <div className="pt-4 flex flex-wrap gap-4">
-            <Button className="btn-primary h-14 px-8">
-              Download Resume
-              <Download className="ml-2 h-5 w-5" />
-            </Button>
-            <Button className="btn-secondary h-14 px-8">
-              Read My Blog
-            </Button>
-          </div>
+          ))}
         </div>
       </div>
-    </ScrollReveal>
-  </section>
-);
+    </div>
+  );
+};
+
+const About = () => {
+  const profile = useStore(state => state.profile);
+  
+  return (
+    <section id="about" className="relative bg-white">
+      <ScrollReveal className="container">
+        <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
+          <div className="order-2 lg:order-1 relative">
+            <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border">
+              <img 
+                src="https://picsum.photos/seed/kamran/800/1000" 
+                alt={profile.full_name} 
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            </div>
+            
+            {/* Achievement Cards */}
+            <motion.div 
+              initial={{ x: -20, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 glass p-6 md:p-8 rounded-3xl shadow-premium border border-border/50 max-w-[200px] md:max-w-[240px]"
+            >
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-1">150+</div>
+              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted leading-tight">Projects Completed Successfully</div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ x: 20, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="absolute top-10 -right-6 md:-right-10 glass p-5 md:p-6 rounded-3xl shadow-premium border border-border/50"
+            >
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-2xl bg-secondary/10 flex items-center justify-center">
+                  <Globe className="h-5 w-5 text-secondary" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-foreground">Global Reach</div>
+                  <div className="text-[10px] text-muted font-medium">Worldwide Clients</div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="order-1 lg:order-2 space-y-10">
+            <div className="space-y-6">
+              <span className="section-label">About Me</span>
+              <h2 className="fluid-h2 leading-[1.1]">
+                {profile.title.split('|')[0]} <span className="text-primary">& Automation</span> Expert.
+              </h2>
+              <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
+                {profile.bio}
+              </p>
+              <p className="text-base text-muted/80 leading-relaxed">
+                I specialize in creating custom digital solutions that help businesses scale. Whether it's a high-performance WordPress site, a complex GoHighLevel automation, or a bespoke full-stack application, I deliver quality and results.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <div className="h-1 w-12 bg-primary rounded-full" />
+                <h4 className="text-foreground font-bold text-base">Web Development</h4>
+                <p className="text-muted text-sm leading-relaxed">Building responsive, fast, and SEO-friendly websites using modern tools.</p>
+              </div>
+              <div className="space-y-3">
+                <div className="h-1 w-12 bg-secondary rounded-full" />
+                <h4 className="text-foreground font-bold text-base">CRM Automation</h4>
+                <p className="text-muted text-sm leading-relaxed">Streamlining business processes with advanced GHL workflows and integrations.</p>
+              </div>
+            </div>
+
+            <div className="pt-4 flex flex-wrap gap-4">
+              <Button className="btn-primary h-14 px-8">
+                Download Resume
+                <Download className="ml-2 h-5 w-5" />
+              </Button>
+              <Button className="btn-secondary h-14 px-8">
+                Let's Talk
+              </Button>
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
+    </section>
+  );
+};
 
 const Skills = () => {
   const skillCategories = [
@@ -291,61 +320,167 @@ const Projects = () => {
   );
 };
 
-const Experience = () => {
+const Services = () => {
+  const services = useStore(state => state.services);
+  
+  return (
+    <section id="services" className="bg-white">
+      <ScrollReveal className="container">
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Services</span>
+          <h2 className="fluid-h2">Solutions for <span className="text-primary">growth</span>.</h2>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-8">
+          {services.map((service, i) => (
+            <motion.div 
+              key={i}
+              whileHover={{ y: -10 }}
+              className="bg-surface p-10 rounded-[32px] border border-border group transition-all duration-500"
+            >
+              <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                {service.icon_name === 'Code' && <Code className="h-7 w-7" />}
+                {service.icon_name === 'Cpu' && <Cpu className="h-7 w-7" />}
+                {service.icon_name === 'Globe' && <Globe className="h-7 w-7" />}
+              </div>
+              <h3 className="text-2xl font-bold text-foreground mb-6 tracking-tight">{service.title}</h3>
+              <p className="text-muted text-base leading-relaxed font-medium">{service.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </section>
+  );
+};
+
+const Testimonials = () => {
+  const testimonials = useStore(state => state.testimonials);
+  
+  return (
+    <section id="testimonials" className="bg-surface">
+      <ScrollReveal className="container">
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Testimonials</span>
+          <h2 className="fluid-h2">What <span className="text-primary">clients</span> say.</h2>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          {testimonials.map((testimonial, i) => (
+            <motion.div 
+              key={i}
+              className="bg-white p-10 rounded-[32px] shadow-premium border border-border flex flex-col"
+            >
+              <div className="flex gap-1 mb-6">
+                {[...Array(testimonial.rating)].map((_, j) => (
+                  <Star key={j} className="h-5 w-5 fill-primary text-primary" />
+                ))}
+              </div>
+              <p className="text-lg text-foreground font-medium leading-relaxed mb-8 flex-grow italic">
+                "{testimonial.content}"
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                  <img src={`https://picsum.photos/seed/${testimonial.name}/64/64`} alt={testimonial.name} className="h-full w-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-foreground">{testimonial.name}</h4>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest">{testimonial.role}, {testimonial.company}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </section>
+  );
+};
+
+const Resume = () => {
   const experience = useStore(state => state.experience);
   const hasExperience = Array.isArray(experience) && experience.length > 0;
 
   const defaultExperience = [
-    { role: "Senior Web Developer & Consultant", company: "Freelance", start_date: "2020", end_date: "Present", description: ["Delivered 150+ successful projects for clients in 20+ countries.", "Specialized in high-conversion WordPress themes and complex GHL automations.", "Architected scalable full-stack solutions for startups and enterprise clients."] },
-    { role: "Full-Stack Developer", company: "Tech Solutions Inc.", start_date: "2017", end_date: "2020", description: ["Developed custom CRM integrations and automated business workflows.", "Led a team of 3 developers in building a proprietary SaaS dashboard.", "Optimized database performance, reducing query times by 40%."] },
+    { role: "Senior Web Developer", company: "Freelance", start_date: "2020", end_date: "Present", description: ["Specialized in WordPress, GoHighLevel, and Squarespace development.", "Delivered 150+ successful projects for global clients.", "Implemented complex CRM automations and custom full-stack solutions."] },
+    { role: "Web Developer", company: "Digital Agency", start_date: "2018", end_date: "2020", description: ["Developed custom themes and plugins for WordPress.", "Managed client websites and ensured high performance and security.", "Collaborated with design teams to create pixel-perfect interfaces."] },
+  ];
+
+  const education = [
+    { degree: "Bachelor of Computer Science", school: "University of Engineering & Technology", year: "2018" },
   ];
 
   const displayExperience = hasExperience ? experience : defaultExperience;
 
   return (
-    <section id="experience" className="bg-surface">
+    <section id="resume" className="bg-surface">
       <ScrollReveal className="container">
         <div className="mb-16 md:mb-24 text-center">
-          <span className="section-label mx-auto">My Journey</span>
-          <h2 className="fluid-h2">A legacy of <span className="text-primary">engineering</span> excellence.</h2>
+          <span className="section-label mx-auto">Resume</span>
+          <h2 className="fluid-h2">Professional <span className="text-primary">Journey</span>.</h2>
+          <p className="text-lg text-muted mt-6 max-w-2xl mx-auto font-medium">
+            A summary of my professional experience, education, and the technical milestones that have shaped my career as a developer.
+          </p>
         </div>
         
-        <div className="max-w-5xl mx-auto space-y-12 relative before:absolute before:left-0 md:before:left-1/2 before:top-0 before:bottom-0 before:w-[1px] before:bg-border">
-          {displayExperience.map((exp, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={cn(
-                "relative pl-10 md:pl-0 flex flex-col md:flex-row gap-10",
-                i % 2 === 0 ? "md:flex-row-reverse" : ""
-              )}
-            >
-              <div className="absolute left-[-5px] md:left-1/2 md:ml-[-5px] top-0 h-2.5 w-2.5 rounded-full bg-primary ring-[6px] ring-primary/10 z-10" />
-              
-              <div className={cn(
-                "md:w-1/2",
-                i % 2 === 0 ? "md:pl-16" : "md:pr-16 md:text-right"
-              )}>
-                <div className="inline-block px-4 py-1.5 rounded-xl bg-white border border-border text-[11px] font-bold text-primary mb-6 shadow-sm">
-                  {exp.start_date} — {exp.end_date}
-                </div>
-                <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">{exp.role}</h3>
-                <p className="text-primary text-base font-bold mb-6">{exp.company}</p>
-                <div className={cn(
-                  "space-y-4",
-                  i % 2 === 0 ? "" : "md:items-end flex flex-col"
-                )}>
-                  {exp.description?.map((item: string, j: number) => (
-                    <p key={j} className="text-base text-muted leading-relaxed max-w-lg font-medium">{item}</p>
-                  ))}
-                </div>
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
+          <div className="space-y-12">
+            <h3 className="text-3xl font-bold text-foreground tracking-tight flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Code className="h-5 w-5 text-primary" />
               </div>
-              <div className="md:w-1/2" />
-            </motion.div>
-          ))}
+              Experience
+            </h3>
+            <div className="space-y-12 relative before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[1px] before:bg-border pl-8">
+              {displayExperience.map((exp, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative"
+                >
+                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-primary ring-4 ring-white" />
+                  <div className="text-sm font-bold text-primary mb-2 uppercase tracking-widest">{exp.start_date} — {exp.end_date}</div>
+                  <h4 className="text-xl font-bold text-foreground mb-1">{exp.role}</h4>
+                  <p className="text-muted font-bold mb-4">{exp.company}</p>
+                  <ul className="space-y-2">
+                    {exp.description?.map((item: string, j: number) => (
+                      <li key={j} className="text-sm text-muted leading-relaxed flex gap-2">
+                        <span className="text-primary mt-1.5 h-1 w-1 rounded-full bg-primary shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-12">
+            <h3 className="text-3xl font-bold text-foreground tracking-tight flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-secondary/10 flex items-center justify-center">
+                <Globe className="h-5 w-5 text-secondary" />
+              </div>
+              Education
+            </h3>
+            <div className="space-y-12 relative before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[1px] before:bg-border pl-8">
+              {education.map((edu, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative"
+                >
+                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-secondary ring-4 ring-white" />
+                  <div className="text-sm font-bold text-secondary mb-2 uppercase tracking-widest">{edu.year}</div>
+                  <h4 className="text-xl font-bold text-foreground mb-1">{edu.degree}</h4>
+                  <p className="text-muted font-bold">{edu.school}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </ScrollReveal>
     </section>
@@ -390,7 +525,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="bg-white relative overflow-hidden pb-0 md:pb-0">
+    <section id="contact" className="bg-white relative overflow-hidden py-16 md:py-24 lg:py-32">
       <ScrollReveal className="container">
         <div className="grid lg:grid-cols-2 gap-20 md:gap-32">
           <div className="space-y-12">
@@ -529,10 +664,13 @@ export default function Home() {
   return (
     <div className="relative overflow-x-hidden">
       <Hero />
+      <FactsBar />
       <About />
       <Skills />
+      <Resume />
       <Projects />
-      <Experience />
+      <Services />
+      <Testimonials />
       <Contact />
       
       <footer className="pt-8 pb-12 md:pt-12 md:pb-16 bg-surface border-t border-border relative overflow-hidden">
@@ -568,7 +706,7 @@ export default function Home() {
             <div className="space-y-8">
               <h4 className="text-[12px] font-bold uppercase tracking-widest text-primary">Navigation</h4>
               <ul className="space-y-4">
-                {['Home', 'About', 'Projects', 'Experience', 'Contact'].map((item) => (
+                {['Home', 'About', 'Resume', 'Projects', 'Services', 'Testimonials', 'Contact'].map((item) => (
                   <li key={item}>
                     <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-primary transition-colors font-bold text-base">
                       {item}

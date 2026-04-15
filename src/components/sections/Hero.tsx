@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring } from 'motion/react';
 import { ArrowRight, Sparkles, Bot, Code } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Magnetic from '../ui/Magnetic';
+import { useStore } from '../../store/useStore';
 
 const Counter = ({ value, suffix = "+" }: { value: number; suffix?: string }) => {
   const [count, setCount] = useState(0);
@@ -58,6 +59,8 @@ const SplitText = ({ text }: { text: string }) => {
 };
 
 export default function Hero() {
+  const profile = useStore(state => state.profile);
+
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-32 md:pt-40 overflow-hidden bg-background">
       {/* Background Elements */}
@@ -85,7 +88,7 @@ export default function Hero() {
             </motion.div>
 
             <h1 className="fluid-h1 mb-8 text-foreground tracking-tight">
-              Engineering <span className="text-primary">high-performance</span> digital ecosystems.
+              {profile.title.split('|')[0]} <span className="text-primary">Expert</span>.
             </h1>
 
             <motion.p
@@ -94,7 +97,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="max-w-xl text-lg md:text-xl text-muted mb-12 font-medium leading-relaxed"
             >
-              I'm Kamran Rasool, a Senior Web Architect & Product Engineer specializing in building scalable digital architectures and immersive user experiences.
+              {profile.bio}
             </motion.p>
 
             <motion.div
@@ -166,8 +169,8 @@ export default function Hero() {
                     <Code className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-foreground">Clean Code</div>
-                    <div className="text-[10px] text-muted font-medium">Production Ready</div>
+                    <div className="text-sm font-bold text-foreground">WordPress</div>
+                    <div className="text-[10px] text-muted font-medium">Custom Themes</div>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -190,8 +193,8 @@ export default function Hero() {
                     <Sparkles className="h-5 w-5 text-secondary" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-foreground">Premium UI</div>
-                    <div className="text-[10px] text-muted font-medium">Apple Level Design</div>
+                    <div className="text-sm font-bold text-foreground">GoHighLevel</div>
+                    <div className="text-[10px] text-muted font-medium">CRM Automation</div>
                   </div>
                 </div>
                 <div className="flex -space-x-2">

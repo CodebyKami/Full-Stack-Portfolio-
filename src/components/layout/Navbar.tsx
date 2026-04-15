@@ -9,8 +9,10 @@ import { ThemeToggle } from '../ui/ThemeToggle';
 const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
+  { name: 'Resume', href: '#resume' },
   { name: 'Projects', href: '#projects' },
   { name: 'Services', href: '#services' },
+  { name: 'Testimonials', href: '#testimonials' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -64,7 +66,7 @@ export default function Navbar() {
         )}>
           <Link to="/" className="flex items-center gap-2 group">
             <span className="text-2xl font-black tracking-tighter text-foreground">
-              AURA<span className="text-primary group-hover:animate-pulse">.</span>
+              KAMRAN<span className="text-primary group-hover:animate-pulse">.</span>
             </span>
           </Link>
 
