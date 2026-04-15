@@ -133,7 +133,7 @@ const About = () => {
             <div className="space-y-6">
               <span className="section-label">About Me</span>
               <h2 className="fluid-h2 leading-[1.1]">
-                {profile.title.split('|')[0]} <span className="text-primary">& Automation</span> Expert.
+                Web Developer & <span className="text-primary">Automation</span> Specialist.
               </h2>
               <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
                 {profile.bio}

@@ -88,7 +88,7 @@ export default function Hero() {
             </motion.div>
 
             <h1 className="fluid-h1 mb-8 text-foreground tracking-tight">
-              {profile.title.split('|')[0]} <span className="text-primary">Expert</span>.
+              Web Developer & <span className="text-primary">Automation</span> Specialist.
             </h1>
 
             <motion.p
@@ -97,7 +97,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="max-w-xl text-lg md:text-xl text-muted mb-12 font-medium leading-relaxed"
             >
-              {profile.bio}
+              I'm Kamran Rasool, a Web Developer specializing in high-performance websites and automated systems using WordPress, GoHighLevel, and Squarespace.
             </motion.p>
 
             <motion.div

@@ -54,24 +54,24 @@ export default function Navbar() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out",
-        isScrolled ? "py-4" : "py-8"
+        isScrolled ? "py-4" : "py-6"
       )}
     >
-      <div className="container">
+      <div className="container max-w-6xl">
         <div className={cn(
-          "relative flex items-center justify-between px-8 py-4 rounded-full transition-all duration-500",
+          "relative flex items-center justify-between px-6 py-3 rounded-2xl transition-all duration-500",
           isScrolled 
-            ? "bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-border shadow-premium" 
+            ? "bg-white/70 dark:bg-black/70 backdrop-blur-xl border border-border shadow-premium" 
             : "bg-transparent"
         )}>
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-2xl font-black tracking-tighter text-foreground">
+            <span className="text-xl font-black tracking-tighter text-foreground">
               KAMRAN<span className="text-primary group-hover:animate-pulse">.</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -79,7 +79,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "relative px-5 py-2 text-sm font-bold uppercase tracking-widest transition-colors",
+                    "relative px-4 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors",
                     isActive ? "text-primary" : "text-muted hover:text-foreground"
                   )}
                 >
@@ -87,7 +87,7 @@ export default function Navbar() {
                   {isActive && (
                     <motion.div
                       layoutId="nav-active"
-                      className="absolute inset-0 bg-primary/5 rounded-full -z-10"
+                      className="absolute bottom-1 left-4 right-4 h-0.5 bg-primary rounded-full"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
@@ -97,19 +97,32 @@ export default function Navbar() {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <ThemeToggle />
-            <Button className="hidden md:flex btn-primary h-11 px-8 rounded-full font-bold text-xs tracking-widest uppercase">
-              Let's Talk
+            <Button className="hidden md:flex btn-primary h-10 px-6 rounded-xl font-bold text-[11px] tracking-widest uppercase">
+              Contact
             </Button>
             
             {/* Mobile Toggle */}
             <button 
-              className="md:hidden h-10 w-10 flex items-center justify-center text-foreground interactive rounded-full hover:bg-surface transition-colors z-[130]"
+              className="md:hidden h-10 w-10 flex items-center justify-center text-foreground interactive rounded-xl hover:bg-surface transition-colors z-[130]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
+              <div className="relative w-5 h-4">
+                <span className={cn(
+                  "absolute left-0 w-full h-0.5 bg-current transition-all duration-300",
+                  isMobileMenuOpen ? "top-2 rotate-45" : "top-0"
+                )} />
+                <span className={cn(
+                  "absolute left-0 w-full h-0.5 bg-current transition-all duration-300 top-2",
+                  isMobileMenuOpen ? "opacity-0" : "opacity-100"
+                )} />
+                <span className={cn(
+                  "absolute left-0 w-full h-0.5 bg-current transition-all duration-300",
+                  isMobileMenuOpen ? "top-2 -rotate-45" : "top-4"
+                )} />
+              </div>
             </button>
           </div>
         </div>
@@ -119,23 +132,23 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-2xl z-[120] flex flex-col items-center justify-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 bg-white dark:bg-black z-[120] flex flex-col pt-32 px-10"
           >
-            <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col gap-6">
               {navLinks.map((link, i) => (
                 <motion.a
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                   transition={{ delay: i * 0.05 }}
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "text-4xl font-bold font-heading tracking-tight transition-colors",
+                    "text-5xl font-black font-heading tracking-tighter transition-colors",
                     activeSection === link.href.substring(1) ? "text-primary" : "text-foreground hover:text-primary"
                   )}
                 >
@@ -148,10 +161,13 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: navLinks.length * 0.05 }}
-                className="mt-8 flex flex-col items-center gap-6"
+                className="mt-12 pt-12 border-t border-border flex flex-col gap-8"
               >
-                <ThemeToggle />
-                <Button className="btn-primary px-12 h-14 text-lg rounded-full">Let's Talk</Button>
+                <div className="flex items-center gap-6">
+                  <ThemeToggle />
+                  <span className="text-sm font-bold text-muted uppercase tracking-widest">Switch Theme</span>
+                </div>
+                <Button className="btn-primary w-full h-16 text-xl rounded-2xl">Start a Project</Button>
               </motion.div>
             </div>
           </motion.div>

@@ -17,8 +17,8 @@ interface PortfolioState {
 export const useStore = create<PortfolioState>((set) => ({
   profile: {
     full_name: 'Kamran Rasool',
-    title: 'Web Developer | WordPress, GoHighLevel, Squarespace & Full-Stack Solutions',
-    bio: 'I am a passionate Web Developer specializing in building high-performance websites and automated systems. With expertise in WordPress, GoHighLevel, and Squarespace, I bridge the gap between complex technical requirements and intuitive user interfaces.',
+    title: 'Web Developer & Automation Specialist',
+    bio: 'I am a Web Developer specializing in high-performance websites and automated systems using WordPress, GoHighLevel, and Squarespace.',
     email: 'kamranrasool0045@gmail.com',
   },
   projects: [
