@@ -61,7 +61,7 @@
   }
 
   main section {
-    @apply relative py-16 md:py-24 overflow-hidden;
+    @apply relative py-12 md:py-20 overflow-hidden;
   }
 }
 

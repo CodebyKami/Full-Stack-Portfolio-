@@ -105,13 +105,13 @@ const About = () => (
           <div className="space-y-6">
             <span className="section-label">The Story</span>
             <h2 className="fluid-h2 leading-[1.1]">
-              Crafting <span className="text-primary">exceptional</span> digital experiences.
+              Crafting <span className="text-primary">high-performance</span> digital ecosystems.
             </h2>
             <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
-              I'm a Senior Product Engineer with a deep focus on the intersection of design and engineering. My mission is to build digital products that are not just functional, but delightful to use.
+              I'm a Senior Web Architect & Product Engineer with over 8 years of experience in building scalable digital architectures and immersive user experiences.
             </p>
             <p className="text-base text-muted/80 leading-relaxed">
-              With a background in both frontend and backend systems, I bridge the gap between complex technical requirements and intuitive user interfaces. I specialize in building scalable architectures that power modern web applications.
+              With a deep focus on the intersection of design and engineering, I bridge the gap between complex technical requirements and intuitive user interfaces. I specialize in building robust systems that power modern web applications.
             </p>
           </div>
 
@@ -146,19 +146,19 @@ const About = () => (
 const Skills = () => {
   const skillCategories = [
     {
-      title: "Frontend",
-      skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Three.js"],
+      title: "E-Commerce & CMS",
+      skills: ["WordPress", "Squarespace", "Shopify", "Custom Themes", "Plugin Dev"],
+      icon: Globe
+    },
+    {
+      title: "Full-Stack Development",
+      skills: ["React", "Next.js", "TypeScript", "Node.js", "Python", "PostgreSQL"],
       icon: Code
     },
     {
-      title: "Backend",
-      skills: ["Node.js", "Python", "PostgreSQL", "Supabase", "Redis", "GraphQL"],
+      title: "CRM & Automation",
+      skills: ["GoHighLevel", "Zapier", "API Integration", "Workflow Automation"],
       icon: Cpu
-    },
-    {
-      title: "Tools & DevOps",
-      skills: ["Docker", "AWS", "Vercel", "Git", "Figma", "Stripe API"],
-      icon: Globe
     }
   ];
 
@@ -167,7 +167,7 @@ const Skills = () => {
       <ScrollReveal className="container">
         <div className="mb-16 md:mb-24 text-center">
           <span className="section-label mx-auto">Expertise</span>
-          <h2 className="fluid-h2">Technical <span className="text-primary">arsenal</span>.</h2>
+          <h2 className="fluid-h2">Core <span className="text-primary">competencies</span>.</h2>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -209,12 +209,10 @@ const Projects = () => {
   const filteredProjects = hasProjects 
     ? (filter === 'All' ? projects : projects.filter(p => p.category?.toLowerCase() === filter.toLowerCase()))
     : [
-        { title: "Quantum Dashboard", category: "Web", description: "A high-performance analytics dashboard with real-time data visualization and predictive insights.", tags: ["React", "D3.js", "Tailwind"] },
-        { title: "AI Content Engine", category: "AI", description: "Automated content generation platform powered by LLMs with multi-modal support.", tags: ["Next.js", "OpenAI", "Supabase"] },
-        { title: "Nexus CRM", category: "SaaS", description: "Custom CRM solution with integrated workflow automation and advanced lead tracking.", tags: ["Node.js", "PostgreSQL", "Redis"] },
-        { title: "Stripe Integration", category: "Web", description: "Seamless payment processing system with subscription management and tax handling.", tags: ["React", "Stripe", "Node.js"] },
-        { title: "Linear Clone", category: "SaaS", description: "A high-performance project management tool with real-time collaboration.", tags: ["Next.js", "Socket.io", "Prisma"] },
-        { title: "Apple Store UI", category: "Web", description: "A pixel-perfect recreation of the Apple Store experience with fluid animations.", tags: ["React", "Framer Motion", "GSAP"] },
+        { title: "Enterprise E-Commerce", category: "Web", description: "A high-performance online store with advanced inventory management, custom checkout flows, and Stripe integration.", tags: ["React", "Node.js", "Stripe", "PostgreSQL"] },
+        { title: "CRM Automation Suite", category: "Automation", description: "Custom GoHighLevel workflows and Zapier integrations that streamlined lead management for 50+ global clients.", tags: ["GHL", "Zapier", "API"] },
+        { title: "AI Support Engine", category: "AI", description: "Intelligent customer support agent powered by OpenAI, seamlessly integrated into WordPress ecosystems.", tags: ["OpenAI", "WordPress", "Python"] },
+        { title: "Real Estate Portal", category: "Web", description: "A pixel-perfect property listing site with custom search algorithms and interactive map features.", tags: ["Next.js", "Tailwind", "Mapbox"] },
       ];
 
   return (
@@ -223,7 +221,7 @@ const Projects = () => {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-10">
           <div className="max-w-2xl">
             <span className="section-label">Selected Work</span>
-            <h2 className="fluid-h2 tracking-tight">Building digital <span className="text-primary">legacies</span>.</h2>
+            <h2 className="fluid-h2 tracking-tight">Architecting <span className="text-primary">scalable</span> digital solutions.</h2>
             <p className="text-lg text-muted mt-6 font-medium">A collection of projects that push the boundaries of web engineering and user experience design.</p>
           </div>
           <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-surface border border-border w-fit">
@@ -298,8 +296,8 @@ const Experience = () => {
   const hasExperience = Array.isArray(experience) && experience.length > 0;
 
   const defaultExperience = [
-    { role: "Senior Product Engineer", company: "TechFlow Solutions", start_date: "2022", end_date: "Present", description: ["Leading development of enterprise-scale web applications.", "Architecting microservices using Node.js and Go.", "Mentoring junior engineers and establishing best practices."] },
-    { role: "Frontend Architect", company: "Creative Minds Agency", start_date: "2020", end_date: "2022", description: ["Built immersive user experiences with React and GSAP.", "Optimized performance for high-traffic client websites.", "Developed a custom UI library used across 20+ projects."] },
+    { role: "Senior Web Developer & Consultant", company: "Freelance", start_date: "2020", end_date: "Present", description: ["Delivered 150+ successful projects for clients in 20+ countries.", "Specialized in high-conversion WordPress themes and complex GHL automations.", "Architected scalable full-stack solutions for startups and enterprise clients."] },
+    { role: "Full-Stack Developer", company: "Tech Solutions Inc.", start_date: "2017", end_date: "2020", description: ["Developed custom CRM integrations and automated business workflows.", "Led a team of 3 developers in building a proprietary SaaS dashboard.", "Optimized database performance, reducing query times by 40%."] },
   ];
 
   const displayExperience = hasExperience ? experience : defaultExperience;
@@ -309,7 +307,7 @@ const Experience = () => {
       <ScrollReveal className="container">
         <div className="mb-16 md:mb-24 text-center">
           <span className="section-label mx-auto">My Journey</span>
-          <h2 className="fluid-h2">Professional <span className="text-primary">experience</span>.</h2>
+          <h2 className="fluid-h2">A legacy of <span className="text-primary">engineering</span> excellence.</h2>
         </div>
         
         <div className="max-w-5xl mx-auto space-y-12 relative before:absolute before:left-0 md:before:left-1/2 before:top-0 before:bottom-0 before:w-[1px] before:bg-border">
@@ -392,7 +390,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="bg-white relative overflow-hidden">
+    <section id="contact" className="bg-white relative overflow-hidden pb-0 md:pb-0">
       <ScrollReveal className="container">
         <div className="grid lg:grid-cols-2 gap-20 md:gap-32">
           <div className="space-y-12">
@@ -537,9 +535,9 @@ export default function Home() {
       <Experience />
       <Contact />
       
-      <footer className="py-12 md:py-20 bg-surface border-t border-border relative overflow-hidden">
+      <footer className="pt-8 pb-12 md:pt-12 md:pb-16 bg-surface border-t border-border relative overflow-hidden">
         <div className="container relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-12">
             <div className="md:col-span-2 space-y-8">
               <h2 className="text-3xl font-bold tracking-tight">
                 KAMRAN<span className="text-primary">.</span>
@@ -594,7 +592,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="text-sm text-muted font-bold tracking-tight">
               © 2026 Kamran Rasool. Designed with precision.
             </p>

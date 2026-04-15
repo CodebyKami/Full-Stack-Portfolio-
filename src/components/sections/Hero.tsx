@@ -85,7 +85,7 @@ export default function Hero() {
             </motion.div>
 
             <h1 className="fluid-h1 mb-8 text-foreground tracking-tight">
-              Designing <span className="text-primary">digital</span> products that scale.
+              Engineering <span className="text-primary">high-performance</span> digital ecosystems.
             </h1>
 
             <motion.p
@@ -94,7 +94,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="max-w-xl text-lg md:text-xl text-muted mb-12 font-medium leading-relaxed"
             >
-              I'm Kamran Rasool, a Senior Product Engineer focused on building high-performance web applications with exceptional user experiences.
+              I'm Kamran Rasool, a Senior Web Architect & Product Engineer specializing in building scalable digital architectures and immersive user experiences.
             </motion.p>
 
             <motion.div
