@@ -25,7 +25,7 @@ app.use(helmet({
 
 // Supabase Client (Server-side)
 const supabaseUrl = process.env.SUPABASE_URL || "https://hhrjoxrdmckvdxhsuwce.supabase.co";
-const supabaseKey = process.env.SUPABASE_ANON_KEY || "";
+const supabaseKey = process.env.SUPABASE_ANON_KEY || "sb_publishable_qH4yArd--J_MscJj1sBlqA_Gft3eNko";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Gemini Client
