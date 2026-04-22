@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { createClient } from "@supabase/supabase-js";
 
 dotenv.config();
@@ -29,7 +29,7 @@ const supabaseKey = process.env.SUPABASE_ANON_KEY || "";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Gemini Client
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 // AI Assistant Endpoint
 app.post("/api/ai", async (req, res) => {
@@ -83,14 +83,25 @@ app.post("/api/ai", async (req, res) => {
       ${portfolioContext}
     `;
 
-    const modelName = "gemini-1.5-flash";
-    const response = await genAI.models.generateContent({
-      model: modelName,
-      contents: systemPrompt + "\n\nUser Question: " + message
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
-    // In @google/genai v1.49.0, generateContent returns the response directly with a .text helper or candidates
-    const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
+    const prompt = `
+      You are Kamran Rasool's professional AI portfolio assistant.
+      
+      Your goals:
+      - Answer questions about Kamran's skills, projects, and experience.
+      - Help potential clients understand how Kamran can help them with WordPress, GHL, or Squarespace.
+      - Be concise, professional, and persuasive.
+      - If interested in hiring, guide them to the contact form.
+      
+      Developer Context:
+      ${portfolioContext}
+      
+      User Question: ${message}
+    `;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
 
     res.json({ response: text || "I'm sorry, I couldn't process that." });
   } catch (error) {
