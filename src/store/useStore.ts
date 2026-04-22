@@ -20,6 +20,8 @@ export const useStore = create<PortfolioState>((set) => ({
     title: 'Web Developer & Automation Specialist',
     bio: 'I am a Web Developer specializing in high-performance websites and automated systems using WordPress, GoHighLevel, and Squarespace.',
     email: 'kamranrasool0045@gmail.com',
+    avatar_url: '/kamran_profile.png',
+    hero_image_url: 'https://picsum.photos/seed/abstract/800/800',
   },
   projects: [
     { title: 'E-Commerce Solution', category: 'Web', description: 'Custom WordPress e-commerce platform with advanced product filtering and seamless checkout.', tags: ['WordPress', 'WooCommerce', 'PHP'] },
@@ -88,6 +90,8 @@ export const useStore = create<PortfolioState>((set) => ({
           title: 'Senior Web Developer & Product Engineer',
           bio: 'Expert in building high-performance digital solutions using WordPress, GoHighLevel, and Squarespace. Specializing in custom themes, CRM automation, and full-stack architectures with 8+ years of engineering excellence.',
           email: 'kamranrasool0045@gmail.com',
+          avatar_url: '/kamran_profile.png',
+          hero_image_url: 'https://picsum.photos/seed/abstract/800/800',
         }, 
         projects: (projects && projects.length > 0) ? projects : [
           { title: 'Enterprise E-Commerce', category: 'Web', description: 'A high-performance online store with advanced inventory management, custom checkout flows, and Stripe integration.', tags: ['React', 'Node.js', 'Stripe', 'PostgreSQL'] },

@@ -93,7 +93,7 @@ const About = () => {
           <div className="order-2 lg:order-1 relative">
             <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border">
               <img 
-                src="/kamran_profile.png" 
+                src={profile.avatar_url || "/kamran_profile.png"} 
                 alt={profile.full_name} 
                 className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
                 referrerPolicy="no-referrer"

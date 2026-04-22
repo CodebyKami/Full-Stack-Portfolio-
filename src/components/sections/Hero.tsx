@@ -155,7 +155,7 @@ export default function Hero() {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 rounded-[40px] border border-primary/10 shadow-2xl overflow-hidden"
               >
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://picsum.photos/seed/abstract/800/800')] opacity-20 mix-blend-overlay grayscale" />
+                <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20 mix-blend-overlay grayscale" style={{ backgroundImage: `url(${profile.hero_image_url || 'https://picsum.photos/seed/abstract/800/800'})` }} />
               </motion.div>
 
               {/* Floating Cards */}

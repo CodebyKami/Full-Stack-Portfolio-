@@ -162,6 +162,8 @@ export default function Admin() {
         title: 'Full-Stack Developer & Automation Expert',
         bio: 'Expert in building high-performance websites using WordPress, GoHighLevel, and Squarespace.',
         email: 'kamranrasool0045@gmail.com',
+        avatar_url: '/kamran_profile.png',
+        hero_image_url: 'https://picsum.photos/seed/abstract/800/800',
         github_url: 'https://github.com/codebykami',
         linkedin_url: 'https://linkedin.com/in/kamranrasool',
       });
@@ -287,14 +289,15 @@ export default function Admin() {
     { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
     { id: 'blog', label: 'Blog', icon: Mail },
     { id: 'clients', label: 'Clients', icon: Globe },
+    { id: 'profile', label: 'Profile Settings', icon: User },
     { id: 'messages', label: 'Messages', icon: MessageSquare },
     { id: 'setup', label: 'System Setup', icon: Settings },
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] flex">
+    <div className="min-h-screen bg-[#050505] flex dark text-white">
       {/* Sidebar - WordPress Style */}
-      <aside className="w-72 border-r border-white/5 bg-[#0a0a0a] flex flex-col fixed inset-y-0">
+      <aside className="w-72 border-r border-white/5 bg-[#0a0a0a] flex flex-col fixed inset-y-0 text-white">
         <div className="p-8 border-b border-white/5">
           <h2 className="text-2xl font-black tracking-tighter text-white">ADMIN<span className="text-primary">.</span></h2>
           <p className="text-[10px] text-muted-foreground uppercase tracking-[2px] mt-1">Portfolio Manager</p>
@@ -371,17 +374,43 @@ export default function Admin() {
                   <form onSubmit={activeTab === 'profile' ? handleUpdateProfile : handleAddItem} className="space-y-6">
                     {activeTab === 'profile' && (
                       <>
-                        <div className="space-y-2">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
-                          <Input required value={newItemData.full_name || ''} onChange={e => setNewItemData({...newItemData, full_name: e.target.value})} className="bg-white/5 border-white/10" />
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
+                            <Input required value={newItemData.full_name || ''} onChange={e => setNewItemData({...newItemData, full_name: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Professional Title</label>
+                            <Input required value={newItemData.title || ''} onChange={e => setNewItemData({...newItemData, title: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Title</label>
-                          <Input required value={newItemData.title || ''} onChange={e => setNewItemData({...newItemData, title: e.target.value})} className="bg-white/5 border-white/10" />
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Personal Bio</label>
+                          <Textarea required value={newItemData.bio || ''} onChange={e => setNewItemData({...newItemData, bio: e.target.value})} className="bg-white/5 border-white/10 min-h-[100px]" />
                         </div>
-                        <div className="space-y-2">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Bio</label>
-                          <Input required value={newItemData.bio || ''} onChange={e => setNewItemData({...newItemData, bio: e.target.value})} className="bg-white/5 border-white/10" />
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Profile Image URL</label>
+                            <Input value={newItemData.avatar_url || ''} onChange={e => setNewItemData({...newItemData, avatar_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="/kamran_profile.png" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Hero Background URL</label>
+                            <Input value={newItemData.hero_image_url || ''} onChange={e => setNewItemData({...newItemData, hero_image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">GitHub URL</label>
+                            <Input value={newItemData.github_url || ''} onChange={e => setNewItemData({...newItemData, github_url: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">LinkedIn URL</label>
+                            <Input value={newItemData.linkedin_url || ''} onChange={e => setNewItemData({...newItemData, linkedin_url: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Email</label>
+                            <Input value={newItemData.email || ''} onChange={e => setNewItemData({...newItemData, email: e.target.value})} className="bg-white/5 border-white/10" />
+                          </div>
                         </div>
                       </>
                     )}
@@ -778,6 +807,71 @@ export default function Admin() {
             ))}
           </div>
         </div>
+      )}
+
+      {activeTab === 'profile' && (
+        <Card className="bg-[#0a0a0a] border-white/5">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-8">
+            <CardTitle className="text-2xl font-bold">Profile Identity</CardTitle>
+            <Button className="btn-primary gap-2 h-10 px-6 font-bold" onClick={() => {
+              setNewItemData(useStore.getState().profile);
+              setIsAddModalOpen(true);
+            }}>
+              <Settings className="h-4 w-4" /> EDIT PROFILE
+            </Button>
+          </CardHeader>
+          <CardContent className="pt-10">
+            <div className="flex flex-col md:flex-row gap-12 items-start">
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-tr from-primary to-secondary rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                <div className="relative h-48 w-48 rounded-2xl overflow-hidden border border-white/10 bg-[#050505]">
+                  <img 
+                    src={useStore.getState().profile.avatar_url || "/kamran_profile.png"} 
+                    className="w-full h-full object-cover" 
+                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kamran'; }}
+                  />
+                </div>
+              </div>
+              
+              <div className="flex-1 space-y-6 text-white">
+                <div>
+                  <h2 className="text-4xl font-black text-white tracking-tighter">{useStore.getState().profile.full_name}</h2>
+                  <p className="text-primary font-bold text-lg mt-1 uppercase tracking-widest">{useStore.getState().profile.title}</p>
+                </div>
+                
+                <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                  <p className="text-muted-foreground leading-relaxed italic">"{useStore.getState().profile.bio}"</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Email</p>
+                    <p className="text-sm font-medium text-white">{useStore.getState().profile.email}</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">GitHub</p>
+                    <p className="text-sm font-medium text-white truncate">{useStore.getState().profile.github_url || 'Not set'}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12 pt-12 border-t border-white/5">
+              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <Globe className="h-5 w-5 text-primary" /> Hero Background
+              </h3>
+              <div className="relative h-40 w-full rounded-2xl overflow-hidden border border-white/10 bg-[#050505]">
+                <img 
+                  src={useStore.getState().profile.hero_image_url || 'https://picsum.photos/seed/abstract/800/800'} 
+                  className="w-full h-full object-cover opacity-50" 
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <span className="text-[10px] font-bold uppercase tracking-[4px] text-white/50">Current Hero Background</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {activeTab === 'messages' && (
