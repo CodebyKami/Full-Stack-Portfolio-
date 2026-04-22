@@ -412,7 +412,7 @@ const Resume = () => {
   const displayExperience = hasExperience ? experience : defaultExperience;
 
   return (
-    <section id="resume" className="bg-white">
+    <section id="resume" className="bg-surface">
       <ScrollReveal className="container">
         <div className="mb-16 md:mb-24 text-center">
           <span className="section-label mx-auto">Resume</span>
@@ -498,13 +498,13 @@ const Contact = () => {
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (e) e.preventDefault();
+    e.preventDefault();
     setFormState('loading');
     
     try {
       const response = await axios.post('/api/contact', formData);
 
-      if (response && response.data && response.data.success) {
+      if (response.data.success) {
         setFormState('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
         toast.success('Message sent successfully!');
@@ -519,146 +519,138 @@ const Contact = () => {
   };
 
   return (
-    <ErrorBoundary>
-      <section id="contact" className="bg-background relative overflow-hidden py-24 md:py-32">
-        {/* Glow effect */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-        
-        <ScrollReveal className="container">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-12">
-              <div className="space-y-6 text-center lg:text-left">
-                <span className="section-label mx-auto lg:ml-0">Contact</span>
-                <h2 className="fluid-h2 leading-tight">
-                  Let's build something <span className="text-secondary">extraordinary</span>.
-                </h2>
-                <p className="text-lg md:text-xl text-muted font-medium leading-relaxed max-w-md mx-auto lg:ml-0">
-                  Ready to take your project to the next level? I'm currently accepting new projects and consulting opportunities.
-                </p>
-              </div>
-              
-              <div className="space-y-10 max-w-md mx-auto lg:ml-0">
-                <div className="flex items-center gap-6 group p-4 rounded-2xl hover:bg-white/5 transition-all duration-300">
-                  <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(200,245,56,0.2)] transition-all duration-500">
-                    <Mail className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-muted uppercase tracking-[0.2em] mb-1">Email Me</p>
-                    <p className="text-xl font-bold text-foreground break-all tracking-tight">kamranrasool0045@gmail.com</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 group p-4 rounded-2xl hover:bg-white/5 transition-all duration-300">
-                  <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(200,245,56,0.2)] transition-all duration-500">
-                    <MapPin className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-muted uppercase tracking-[0.2em] mb-1">Location</p>
-                    <p className="text-xl font-bold text-foreground tracking-tight">Lahore, Pakistan</p>
-                  </div>
-                </div>
-              </div>
+    <section id="contact" className="bg-white relative overflow-hidden py-16 md:py-24 lg:py-32">
+      <ScrollReveal className="container">
+        <div className="grid lg:grid-cols-2 gap-20 md:gap-32">
+          <div className="space-y-12">
+            <div className="space-y-6">
+              <span className="section-label">Contact</span>
+              <h2 className="fluid-h2 leading-tight">
+                Let's build something <span className="text-primary">extraordinary</span>.
+              </h2>
+              <p className="text-lg md:text-xl text-muted font-medium leading-relaxed max-w-md">
+                Ready to take your project to the next level? I'm currently accepting new projects and consulting opportunities.
+              </p>
             </div>
-
-            <div className="relative">
-              <div className="bg-white border border-border rounded-[32px] p-8 md:p-12 shadow-premium relative z-10">
-                <AnimatePresence mode="wait">
-                  {formState === 'success' ? (
-                    <motion.div
-                      key="success"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12"
-                    >
-                      <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
-                        <CheckCircle2 className="h-10 w-10 text-primary" />
-                      </div>
-                      <div className="space-y-4">
-                        <h3 className="text-3xl font-bold text-foreground tracking-tight">Message Sent!</h3>
-                        <p className="text-lg text-muted font-medium">Thank you for reaching out. I'll get back to you within 24 hours.</p>
-                      </div>
-                      <Button 
-                        variant="link" 
-                        onClick={() => setFormState('idle')}
-                        className="text-primary font-bold text-base"
-                      >
-                        Send Another Message
-                      </Button>
-                    </motion.div>
-                  ) : (
-                    <motion.form
-                      key="form"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      onSubmit={handleSubmit}
-                      className="space-y-6"
-                    >
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-muted ml-2">Full Name</label>
-                          <Input 
-                            required 
-                            value={formData.name}
-                            onChange={e => setFormData({ ...formData, name: e.target.value })}
-                            placeholder="John Doe" 
-                            className="bg-surface border-border h-14 rounded-2xl focus:border-primary/50 transition-all font-medium" 
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-muted ml-2">Email Address</label>
-                          <Input 
-                            required 
-                            type="email" 
-                            value={formData.email}
-                            onChange={e => setFormData({ ...formData, email: e.target.value })}
-                            placeholder="john@example.com" 
-                            className="bg-surface border-border h-14 rounded-2xl focus:border-primary/50 transition-all font-medium" 
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-muted ml-2">Subject</label>
-                        <Input 
-                          required 
-                          value={formData.subject}
-                          onChange={e => setFormData({ ...formData, subject: e.target.value })}
-                          placeholder="Project Inquiry" 
-                          className="bg-surface border-border h-14 rounded-2xl focus:border-primary/50 transition-all font-medium" 
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-muted ml-2">Message</label>
-                        <Textarea 
-                          required 
-                          value={formData.message}
-                          onChange={e => setFormData({ ...formData, message: e.target.value })}
-                          placeholder="Tell me about your project..." 
-                          className="bg-surface border-border min-h-[160px] rounded-2xl focus:border-primary/50 transition-all p-5 font-medium resize-none" 
-                        />
-                      </div>
-                      <div className="pt-4">
-                        <Button 
-                          type="submit" 
-                          disabled={formState === 'loading'}
-                          className="w-full btn-primary h-16 rounded-2xl text-lg font-bold"
-                        >
-                          {formState === 'loading' ? 'Sending...' : (
-                            <>
-                              Send Message <Send className="ml-2 h-5 w-5" />
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </motion.form>
-                  )}
-                </AnimatePresence>
+            
+            <div className="space-y-10">
+              <div className="flex items-center gap-6 group">
+                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500">
+                  <Mail className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold text-muted uppercase tracking-widest mb-1">Email Me</p>
+                  <p className="text-xl font-bold text-foreground break-all tracking-tight">kamranrasool0045@gmail.com</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-6 group">
+                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500">
+                  <MapPin className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold text-muted uppercase tracking-widest mb-1">Location</p>
+                  <p className="text-xl font-bold text-foreground tracking-tight">Lahore, Pakistan</p>
+                </div>
               </div>
             </div>
           </div>
-        </ScrollReveal>
-      </section>
-    </ErrorBoundary>
+
+          <div className="relative">
+            <div className="bg-surface border border-border rounded-[40px] p-10 md:p-12 shadow-premium">
+              <AnimatePresence mode="wait">
+                {formState === 'success' ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12"
+                  >
+                    <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
+                      <CheckCircle2 className="h-12 w-12 text-primary" />
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-3xl font-bold text-foreground tracking-tight">Message Sent!</h3>
+                      <p className="text-lg text-muted font-medium">Thank you for reaching out. I'll get back to you within 24 hours.</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setFormState('idle')}
+                      className="btn-secondary h-12 px-8 font-bold"
+                    >
+                      Send Another
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onSubmit={handleSubmit}
+                    className="space-y-8"
+                  >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                      <div className="space-y-3">
+                        <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Full Name</label>
+                        <Input 
+                          required 
+                          value={formData.name}
+                          onChange={e => setFormData({ ...formData, name: e.target.value })}
+                          placeholder="John Doe" 
+                          className="bg-white border-border h-14 rounded-2xl focus:ring-primary/20 focus:border-primary transition-all font-medium" 
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Email Address</label>
+                        <Input 
+                          required 
+                          type="email" 
+                          value={formData.email}
+                          onChange={e => setFormData({ ...formData, email: e.target.value })}
+                          placeholder="john@example.com" 
+                          className="bg-white border-border h-14 rounded-2xl focus:ring-primary/20 focus:border-primary transition-all font-medium" 
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Subject</label>
+                      <Input 
+                        required 
+                        value={formData.subject}
+                        onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                        placeholder="Project Inquiry" 
+                        className="bg-white border-border h-14 rounded-2xl focus:ring-primary/20 focus:border-primary transition-all font-medium" 
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-[11px] font-bold text-muted uppercase tracking-widest ml-1">Message</label>
+                      <Textarea 
+                        required 
+                        value={formData.message}
+                        onChange={e => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Tell me about your project..." 
+                        className="bg-white border-border min-h-[180px] rounded-[24px] focus:ring-primary/20 focus:border-primary transition-all p-6 font-medium resize-none" 
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      disabled={formState === 'loading'}
+                      className="w-full btn-primary h-16 text-lg rounded-2xl group"
+                    >
+                      {formState === 'loading' ? 'Sending...' : (
+                        <span className="flex items-center gap-3">
+                          Send Message <Send className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        </span>
+                      )}
+                    </Button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
+    </section>
   );
 };
 
@@ -675,11 +667,11 @@ export default function Home() {
       <Testimonials />
       <Contact />
       
-      <footer className="pt-16 pb-12 bg-surface border-t border-border relative overflow-hidden">
+      <footer className="pt-8 pb-12 md:pt-12 md:pb-16 bg-surface border-t border-border relative overflow-hidden">
         <div className="container relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-24 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-12">
             <div className="md:col-span-2 space-y-8">
-              <h2 className="text-2xl font-bold tracking-tight">
+              <h2 className="text-3xl font-bold tracking-tight">
                 KAMRAN<span className="text-primary">.</span>
               </h2>
               <p className="text-lg text-muted max-w-md leading-relaxed font-medium">
@@ -696,10 +688,10 @@ export default function Home() {
                     href={social.href} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="h-12 w-12 rounded-2xl bg-white border border-border flex items-center justify-center hover:border-primary/40 hover:bg-primary/5 hover:text-primary transition-all duration-500 shadow-sm"
+                    className="h-12 w-12 rounded-2xl bg-white border border-border flex items-center justify-center hover:border-primary/30 hover:bg-primary/5 hover:text-primary transition-all duration-500 shadow-sm"
                     aria-label={social.label}
                   >
-                    <social.icon className="h-5 w-5" />
+                    <social.icon className="h-6 w-6" />
                   </a>
                 ))}
               </div>
@@ -708,7 +700,7 @@ export default function Home() {
             <div className="space-y-8">
               <h4 className="text-[12px] font-bold uppercase tracking-widest text-primary">Navigation</h4>
               <ul className="space-y-4">
-                {['Home', 'About', 'Resume', 'Projects', 'Services', 'Contact'].map((item) => (
+                {['Home', 'About', 'Resume', 'Projects', 'Services', 'Testimonials', 'Contact'].map((item) => (
                   <li key={item}>
                     <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-primary transition-colors font-bold text-base">
                       {item}
@@ -719,9 +711,9 @@ export default function Home() {
             </div>
 
             <div className="space-y-8">
-              <h4 className="text-[12px] font-bold uppercase tracking-widest text-primary">Legal</h4>
+              <h4 className="text-[12px] font-bold uppercase tracking-widest text-primary">Social</h4>
               <ul className="space-y-4">
-                {['Privacy Policy', 'Terms', 'Cookies'].map((item) => (
+                {['Twitter', 'GitHub', 'LinkedIn', 'Dribbble'].map((item) => (
                   <li key={item}>
                     <a href="#" className="text-muted hover:text-primary transition-colors font-bold text-base">
                       {item}
@@ -732,10 +724,14 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+          <div className="pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="text-sm text-muted font-bold tracking-tight">
-              © {new Date().getFullYear()} Kamran Rasool. All rights reserved.
+              © 2026 Kamran Rasool. Designed with precision.
             </p>
+            <div className="flex gap-10">
+              <a href="#" className="text-sm text-muted hover:text-primary transition-colors font-bold">Privacy Policy</a>
+              <a href="#" className="text-sm text-muted hover:text-primary transition-colors font-bold">Terms of Service</a>
+            </div>
           </div>
         </div>
       </footer>

@@ -62,96 +62,150 @@ export default function Hero() {
   const profile = useStore(state => state.profile);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-white">
+    <section id="home" className="relative min-h-screen flex items-center pt-32 md:pt-40 overflow-hidden bg-background">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[-10%] w-[30%] h-[30%] bg-secondary/5 rounded-full blur-[100px]" />
+      </div>
+      
       <div className="container relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center lg:items-start text-center lg:text-left"
           >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-primary text-[13px] font-semibold mb-8 shadow-sm"
+            >
+              <Sparkles className="h-4 w-4" />
+              Available for new projects
+            </motion.div>
+
+            <h1 className="fluid-h1 mb-8 text-foreground tracking-tight">
+              Web Developer & <span className="text-primary">Automation</span> Specialist.
+            </h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="max-w-xl text-lg md:text-xl text-muted mb-12 font-medium leading-relaxed"
+            >
+              I'm Kamran Rasool, a Web Developer specializing in high-performance websites and automated systems using WordPress, GoHighLevel, and Squarespace.
+            </motion.p>
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6"
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-5"
             >
-              <Sparkles className="h-4 w-4" />
-              Available for New Opportunities
-            </motion.div>
-
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
-              Senior Web Developer <br />
-              & <span className="text-primary">Automation</span> Expert.
-            </h1>
-
-            <p className="text-xl text-muted mb-10 max-w-lg leading-relaxed">
-              Specializing in high-performance WordPress solutions, GoHighLevel ecosystems, and Squarespace architectures with 8+ years of expertise.
-            </p>
-
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="btn-primary h-14 px-8 rounded-xl font-bold">
-                Start a Project
+              <Button className="btn-primary w-full sm:w-auto h-14 px-10 text-base">
+                View My Work
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="btn-secondary h-14 px-8 rounded-xl font-bold">
-                View Portfolio
+              <Button className="btn-secondary w-full sm:w-auto h-14 px-10 text-base">
+                Let's Talk
               </Button>
-            </div>
+            </motion.div>
+
+            {/* Trusted By / Stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.8 }}
+              className="mt-16 flex items-center justify-center lg:justify-start gap-10 border-t border-border pt-10 w-full"
+            >
+              {[
+                { label: "Projects Completed", value: 150, suffix: "+" },
+                { label: "Years Experience", value: 8, suffix: "+" },
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col">
+                  <span className="text-3xl font-bold text-foreground tracking-tight">
+                    <Counter value={stat.value} suffix={stat.suffix} />
+                  </span>
+                  <span className="text-[12px] text-muted font-bold uppercase tracking-widest mt-1">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
 
+          {/* Right Side Visual - Premium Mockup/Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="hidden lg:block relative"
+            initial={{ opacity: 0, scale: 0.9, x: 50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            className="hidden lg:flex justify-center relative"
           >
-            <div className="relative z-10">
-              <div className="relative group">
-                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/40 to-transparent rounded-[40px] z-20 pointer-events-none" />
-                <img 
-                  src="/kamran_profile.png" 
-                  alt="Kamran Rasool" 
-                  className="rounded-[40px] shadow-2xl relative z-10 w-full object-cover aspect-[4/5] max-h-[600px]" 
-                />
-              </div>
-              
-              {/* Floating elements */}
-              <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -top-6 -right-6 bg-white p-6 rounded-[24px] shadow-premium border border-border z-30"
+            <div className="relative w-full max-w-[500px] aspect-square">
+              {/* Abstract Visual Elements */}
+              <motion.div 
+                animate={{ 
+                  y: [0, -20, 0],
+                  rotate: [0, 2, 0]
+                }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 rounded-[40px] border border-primary/10 shadow-2xl overflow-hidden"
               >
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-2xl bg-orange-500/10 flex items-center justify-center">
-                    <Code className="h-6 w-6 text-orange-500" />
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://picsum.photos/seed/abstract/800/800')] opacity-20 mix-blend-overlay grayscale" />
+              </motion.div>
+
+              {/* Floating Cards */}
+              <motion.div
+                animate={{ y: [-10, 10, -10] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-10 -right-10 bg-white/80 dark:bg-black/80 backdrop-blur-xl p-6 rounded-2xl shadow-premium border border-border/50 max-w-[240px]"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Code className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-xl font-bold text-foreground">150+</div>
-                    <div className="text-[10px] text-muted font-bold uppercase tracking-widest">Projects Done</div>
+                    <div className="text-sm font-bold text-foreground">WordPress</div>
+                    <div className="text-[10px] text-muted font-medium">Custom Themes</div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-1.5 w-full bg-surface rounded-full overflow-hidden">
+                    <div className="h-full w-[90%] bg-primary" />
+                  </div>
+                  <div className="h-1.5 w-[70%] bg-surface rounded-full overflow-hidden">
+                    <div className="h-full w-[80%] bg-secondary" />
                   </div>
                 </div>
               </motion.div>
 
               <motion.div
-                animate={{ y: [0, 20, 0] }}
-                transition={{ duration: 5, repeat: Infinity }}
-                className="absolute bottom-10 -left-6 bg-white p-6 rounded-[24px] shadow-premium border border-border z-30"
+                animate={{ y: [10, -10, 10] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-10 -left-10 bg-white/80 dark:bg-black/80 backdrop-blur-xl p-6 rounded-2xl shadow-premium border border-border/50 max-w-[240px]"
               >
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <Bot className="h-6 w-6 text-primary" />
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                    <Sparkles className="h-5 w-5 text-secondary" />
                   </div>
                   <div>
-                    <div className="text-xl font-bold text-foreground">AI Powered</div>
-                    <div className="text-[10px] text-muted font-bold uppercase tracking-widest">Solutions</div>
+                    <div className="text-sm font-bold text-foreground">GoHighLevel</div>
+                    <div className="text-[10px] text-muted font-medium">CRM Automation</div>
                   </div>
+                </div>
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4].map(i => (
+                    <div key={i} className="h-8 w-8 rounded-full border-2 border-background bg-surface overflow-hidden">
+                      <img src={`https://picsum.photos/seed/${i + 20}/64/64`} alt="Avatar" className="h-full w-full object-cover" />
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             </div>
-
-            {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/5 rounded-full blur-[100px] z-0" />
           </motion.div>
         </div>
       </div>
