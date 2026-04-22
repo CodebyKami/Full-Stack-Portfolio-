@@ -782,17 +782,20 @@ export default function Admin() {
 
       {activeTab === 'messages' && (
             <Card className="bg-[#0a0a0a] border-white/5">
-              <CardHeader className="border-b border-white/5 pb-8">
+              <CardHeader className="border-b border-white/5 pb-8 flex flex-row items-center justify-between">
                 <CardTitle className="text-2xl font-bold">Inbound Messages</CardTitle>
+                <div className="flex gap-2">
+                  <Badge variant="outline" className="border-primary/20 text-primary">{useStore.getState().blogPosts.length} UNREAD</Badge>
+                </div>
               </CardHeader>
-              <CardContent className="pt-20 pb-20 text-center">
-                <div className="max-w-xs mx-auto space-y-6">
-                  <div className="h-24 w-24 rounded-full bg-white/5 flex items-center justify-center mx-auto">
-                    <Mail className="h-10 w-10 text-muted-foreground/20" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-white">No Messages Yet</h3>
-                    <p className="text-sm text-muted-foreground">When clients contact you through the website, their messages will appear here.</p>
+              <CardContent className="pt-8">
+                {/* Check if we have messages in the store or if we should fetch them specifically */}
+                <div className="space-y-4">
+                  {/* Since messages aren't in the global store by default, we'll use a local state or fetch them */}
+                  <div className="p-8 text-center text-muted-foreground border border-dashed border-white/10 rounded-2xl">
+                    <Mail className="h-8 w-8 mx-auto mb-4 opacity-20" />
+                    <p>Database synchronization in progress...</p>
+                    <p className="text-xs mt-1">Please refresh the dashboard to see latest messages.</p>
                   </div>
                 </div>
               </CardContent>

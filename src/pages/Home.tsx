@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import axios from 'axios';
 import Hero from '../components/sections/Hero';
 import { useStore } from '../store/useStore';
 import { supabase } from '../lib/supabase';
@@ -92,9 +93,9 @@ const About = () => {
           <div className="order-2 lg:order-1 relative">
             <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border">
               <img 
-                src="https://picsum.photos/seed/kamran/800/1000" 
+                src="/kamran_profile.png" 
                 alt={profile.full_name} 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
+                className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -501,25 +502,18 @@ const Contact = () => {
     setFormState('loading');
     
     try {
-      const { error } = await supabase
-        .from('messages')
-        .insert([
-          { 
-            name: formData.name, 
-            email: formData.email, 
-            subject: formData.subject, 
-            message: formData.message 
-          }
-        ]);
+      const response = await axios.post('/api/contact', formData);
 
-      if (error) throw error;
-      
-      setFormState('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      toast.success('Message sent successfully!');
+      if (response.data.success) {
+        setFormState('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        toast.success('Message sent successfully!');
+      } else {
+        throw new Error('Failed to send message');
+      }
     } catch (error: any) {
       console.error('Error sending message:', error);
-      toast.error('Failed to send message. Please try again.');
+      toast.error(error.response?.data?.error || 'Failed to send message. Please try again.');
       setFormState('idle');
     }
   };

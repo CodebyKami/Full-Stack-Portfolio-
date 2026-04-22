@@ -60,9 +60,8 @@ export default function Navbar() {
       <div className="container max-w-6xl">
         <div className={cn(
           "relative flex items-center justify-between px-6 py-3 rounded-2xl transition-all duration-500",
-          isScrolled 
-            ? "bg-white/70 dark:bg-black/70 backdrop-blur-xl border border-border shadow-premium" 
-            : "bg-transparent"
+          "bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-border/50",
+          isScrolled ? "shadow-premium" : "shadow-sm"
         )}>
           <Link to="/" className="flex items-center gap-2 group">
             <span className="text-xl font-black tracking-tighter text-foreground">

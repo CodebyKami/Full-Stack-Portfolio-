@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
-import Groq from "groq-sdk";
+import { GoogleGenAI } from "@google/genai";
 import { createClient } from "@supabase/supabase-js";
 
 dotenv.config();
@@ -20,7 +20,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(cors());
 app.use(helmet({
-  contentSecurityPolicy: false, // Disable CSP for development with Vite
+  contentSecurityPolicy: false,
 }));
 
 // Supabase Client (Server-side)
@@ -28,20 +28,18 @@ const supabaseUrl = process.env.SUPABASE_URL || "https://hhrjoxrdmckvdxhsuwce.su
 const supabaseKey = process.env.SUPABASE_ANON_KEY || "";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Groq Client
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// Gemini Client
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
 // AI Assistant Endpoint
 app.post("/api/ai", async (req, res) => {
   try {
     const { message, context } = req.body;
 
-    if (!process.env.GROQ_API_KEY) {
+    if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({ 
-        error: "GROQ_API_KEY is not configured",
-        details: "Please add your GROQ_API_KEY to the environment variables in settings."
+        error: "GEMINI_API_KEY is not configured",
+        details: "Please add your GEMINI_API_KEY to the environment variables in settings."
       });
     }
 
@@ -63,6 +61,9 @@ app.post("/api/ai", async (req, res) => {
 
     const portfolioContext = `
       Developer Portfolio Data:
+      Name: Kamran Rasool
+      Role: Senior Web Developer & Automation Specialist
+      Expertise: WordPress, GoHighLevel, Squarespace, Full-Stack Solutions
       Projects: ${JSON.stringify(projects)}
       Skills: ${JSON.stringify(skills)}
       Experience: ${JSON.stringify(experience)}
@@ -70,31 +71,28 @@ app.post("/api/ai", async (req, res) => {
     `;
 
     const systemPrompt = `
-      You are a professional AI portfolio assistant for a developer.
+      You are Kamran Rasool's professional AI portfolio assistant.
       
       Your goals:
-      - Answer questions about skills, projects, and experience based on the provided data.
-      - Help clients understand developer capabilities.
-      - Suggest relevant projects from the list.
-      - Generate proposals for client needs if they describe a project.
+      - Answer questions about Kamran's skills, projects, and experience.
+      - Help potential clients understand how Kamran can help them with WordPress, GHL, or Squarespace.
+      - Be concise, professional, and persuasive.
+      - If interested in hiring, guide them to the contact form.
       
-      IMPORTANT:
-      - Be concise and professional.
-      - Be persuasive (convert visitors into clients).
-      - If the user shows interest in hiring or project discussion, ALWAYS guide them toward the 'Hire Me' or contact section.
-      
+      Developer Context:
       ${portfolioContext}
     `;
 
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: message },
-      ],
-      model: "llama3-8b-8192",
+    const modelName = "gemini-1.5-flash";
+    const response = await genAI.models.generateContent({
+      model: modelName,
+      contents: systemPrompt + "\n\nUser Question: " + message
     });
+    
+    // In @google/genai v1.49.0, generateContent returns the response directly with a .text helper or candidates
+    const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    res.json({ response: chatCompletion.choices[0]?.message?.content || "I'm sorry, I couldn't process that." });
+    res.json({ response: text || "I'm sorry, I couldn't process that." });
   } catch (error) {
     console.error("AI Error:", error);
     res.status(500).json({ error: "Failed to process AI request" });
