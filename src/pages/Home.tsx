@@ -15,7 +15,7 @@ import {
   Mail, 
   MapPin, 
   Send, 
-  CheckCircle2, 
+  CheckCircle, 
   Sparkles, 
   Code, 
   Cpu, 
@@ -566,7 +566,7 @@ const Contact = () => {
                     className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12"
                   >
                     <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
-                      <CheckCircle2 className="h-12 w-12 text-primary" />
+                      <CheckCircle className="h-12 w-12 text-primary" />
                     </div>
                     <div className="space-y-4">
                       <h3 className="text-3xl font-bold text-foreground tracking-tight">Message Sent!</h3>

@@ -5,6 +5,7 @@ import { useStore } from '../store/useStore';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
@@ -35,6 +36,7 @@ export default function Admin() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [messages, setMessages] = useState<any[]>([]);
 
   const { projects, skills, experience, services, testimonials, blogPosts, clients, fetchPortfolio } = useStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -51,6 +53,26 @@ export default function Admin() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const fetchMessages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      setMessages(data || []);
+    } catch (error: any) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchPortfolio();
+      fetchMessages();
+    }
+  }, [user]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,7 +125,12 @@ export default function Admin() {
       const { error } = await supabase.from(table).delete().eq('id', id);
       if (error) throw error;
       toast.success('Item deleted successfully');
-      fetchPortfolio();
+      
+      if (table === 'messages') {
+        fetchMessages();
+      } else {
+        fetchPortfolio();
+      }
     } catch (error: any) {
       toast.error('Delete failed: ' + error.message);
     } finally {
@@ -124,7 +151,12 @@ export default function Admin() {
       toast.success('Item added successfully');
       setIsAddModalOpen(false);
       setNewItemData({});
-      fetchPortfolio();
+      
+      if (table === 'messages') {
+        fetchMessages();
+      } else {
+        fetchPortfolio();
+      }
     } catch (error: any) {
       toast.error('Add failed: ' + error.message);
     } finally {
@@ -138,7 +170,8 @@ export default function Admin() {
     try {
       const { error } = await supabase.from('profiles').upsert({
         id: user.id,
-        ...newItemData
+        ...newItemData,
+        updated_at: new Date().toISOString()
       });
       if (error) throw error;
       toast.success('Profile updated successfully');
@@ -875,26 +908,53 @@ export default function Admin() {
       )}
 
       {activeTab === 'messages' && (
-            <Card className="bg-[#0a0a0a] border-white/5">
-              <CardHeader className="border-b border-white/5 pb-8 flex flex-row items-center justify-between">
-                <CardTitle className="text-2xl font-bold">Inbound Messages</CardTitle>
-                <div className="flex gap-2">
-                  <Badge variant="outline" className="border-primary/20 text-primary">{useStore.getState().blogPosts.length} UNREAD</Badge>
+        <Card className="bg-[#0a0a0a] border-white/5">
+          <CardHeader className="border-b border-white/5 pb-8 flex flex-row items-center justify-between">
+            <CardTitle className="text-2xl font-bold">Inbound Messages</CardTitle>
+            <div className="flex gap-2">
+              <Badge variant="outline" className="border-primary/20 text-primary">{messages.filter(m => !m.read).length} UNREAD</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-8">
+            <div className="space-y-4">
+              {messages.length === 0 ? (
+                <div className="p-12 text-center text-muted-foreground border border-dashed border-white/10 rounded-2xl">
+                  <Mail className="h-8 w-8 mx-auto mb-4 opacity-20" />
+                  <p>No messages received yet.</p>
                 </div>
-              </CardHeader>
-              <CardContent className="pt-8">
-                {/* Check if we have messages in the store or if we should fetch them specifically */}
-                <div className="space-y-4">
-                  {/* Since messages aren't in the global store by default, we'll use a local state or fetch them */}
-                  <div className="p-8 text-center text-muted-foreground border border-dashed border-white/10 rounded-2xl">
-                    <Mail className="h-8 w-8 mx-auto mb-4 opacity-20" />
-                    <p>Database synchronization in progress...</p>
-                    <p className="text-xs mt-1">Please refresh the dashboard to see latest messages.</p>
-                  </div>
+              ) : (
+                <div className="grid gap-4">
+                  {messages.map((msg) => (
+                    <div key={msg.id} className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all group">
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="flex items-center gap-4">
+                          <div className={cn(
+                            "h-10 w-10 rounded-full flex items-center justify-center text-sm font-bold",
+                            msg.read ? "bg-white/5 text-muted-foreground" : "bg-primary/20 text-primary"
+                          )}>
+                            {(msg.name || 'U').charAt(0).toUpperCase()}
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-white">{msg.name || 'Anonymous'}</h4>
+                            <p className="text-xs text-muted-foreground">{msg.email || 'No email'} • {msg.created_at ? new Date(msg.created_at).toLocaleDateString() : 'Just now'}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button variant="ghost" size="icon" className="text-red-500 h-8 w-8" onClick={() => handleDelete('messages', msg.id)}><Trash2 className="h-4 w-4" /></Button>
+                        </div>
+                      </div>
+                      <div className="pl-14">
+                        <p className="text-sm font-bold text-primary mb-1">{msg.subject}</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{msg.message}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
           {activeTab === 'setup' && (
             <div className="space-y-8">
