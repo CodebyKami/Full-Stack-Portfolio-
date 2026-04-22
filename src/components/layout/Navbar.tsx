@@ -64,8 +64,8 @@ export default function Navbar() {
           isScrolled ? "shadow-premium" : "shadow-sm"
         )}>
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-xl font-black tracking-tighter text-foreground">
-              KAMRAN<span className="text-primary group-hover:animate-pulse">.</span>
+            <span className="text-xl font-bold tracking-tight text-foreground">
+              Kamran<span className="text-primary group-hover:animate-pulse">.</span>
             </span>
           </Link>
 
@@ -78,7 +78,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "relative px-4 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors",
+                    "relative px-4 py-2 text-sm font-medium transition-colors",
                     isActive ? "text-primary" : "text-muted hover:text-foreground"
                   )}
                 >
@@ -98,8 +98,8 @@ export default function Navbar() {
           {/* Actions */}
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            <Button className="hidden md:flex btn-primary h-10 px-6 rounded-xl font-bold text-[11px] tracking-widest uppercase">
-              Contact
+            <Button className="hidden md:flex btn-primary h-10 px-6 rounded-xl font-bold text-sm">
+              Hire Me
             </Button>
             
             {/* Mobile Toggle */}

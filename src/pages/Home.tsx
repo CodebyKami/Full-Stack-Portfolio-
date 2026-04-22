@@ -68,13 +68,13 @@ const FactsBar = () => {
   ];
 
   return (
-    <div className="bg-surface/30 py-16 border-y border-border/50">
+    <div className="bg-surface py-12 border-y border-border">
       <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {facts.map((fact, i) => (
-            <div key={i} className="text-center space-y-3 p-6 rounded-2xl hover:bg-white/5 transition-colors duration-300">
-              <div className="text-4xl md:text-5xl font-black text-primary tracking-tighter">{fact.value}</div>
-              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-muted">{fact.label}</div>
+            <div key={i} className="text-center space-y-2">
+              <div className="text-3xl md:text-4xl font-black text-primary tracking-tighter">{fact.value}</div>
+              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted">{fact.label}</div>
             </div>
           ))}
         </div>
@@ -87,24 +87,18 @@ const About = () => {
   const profile = useStore(state => state.profile);
   
   return (
-    <section id="about" className="relative bg-background overflow-hidden py-24 md:py-32">
-      {/* Background Decor */}
-      <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
-      
+    <section id="about" className="relative bg-white">
       <ScrollReveal className="container">
         <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
           <div className="order-2 lg:order-1 relative">
-            <div className="relative aspect-[4/5] rounded-[48px] overflow-hidden shadow-2xl border border-border/50 bg-surface">
+            <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border">
               <img 
                 src="/kamran_profile.png" 
-                alt={profile.full_name || "Kamran Rasool"} 
-                className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 hover:scale-100 grayscale-[30%] hover:grayscale-0"
+                alt={profile.full_name} 
+                className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background via-background/60 to-transparent p-10 flex flex-col justify-end">
-                <div className="h-1 w-12 bg-primary rounded-full mb-4" />
-                <h3 className="text-2xl font-black text-foreground tracking-tight uppercase">EXPERIENCE EXCELLENCE</h3>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
             
             {/* Achievement Cards */}
@@ -112,66 +106,64 @@ const About = () => {
               initial={{ x: -20, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 bg-surface/90 backdrop-blur-xl p-8 rounded-[32px] shadow-premium border border-border/50 max-w-[220px]"
+              className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 glass p-6 md:p-8 rounded-3xl shadow-premium border border-border/50 max-w-[200px] md:max-w-[240px]"
             >
-              <div className="text-4xl font-black text-primary mb-1 tracking-tighter">150+</div>
-              <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted leading-relaxed">Projects Delivered Globally</div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-1">150+</div>
+              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted leading-tight">Projects Completed Successfully</div>
             </motion.div>
 
             <motion.div 
               initial={{ x: 20, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="absolute top-10 -right-6 md:-right-10 bg-surface/90 backdrop-blur-xl p-6 rounded-[32px] shadow-premium border border-border/50"
+              className="absolute top-10 -right-6 md:-right-10 glass p-5 md:p-6 rounded-3xl shadow-premium border border-border/50"
             >
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-2xl bg-secondary/10 flex items-center justify-center border border-secondary/20">
-                  <Globe className="h-6 w-6 text-secondary" />
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-2xl bg-secondary/10 flex items-center justify-center">
+                  <Globe className="h-5 w-5 text-secondary" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">Operation</div>
-                  <div className="text-sm font-black text-foreground uppercase tracking-tight">Worldwide</div>
+                  <div className="text-sm font-bold text-foreground">Global Reach</div>
+                  <div className="text-[10px] text-muted font-medium">Worldwide Clients</div>
                 </div>
               </div>
             </motion.div>
           </div>
 
-          <div className="order-1 lg:order-2 space-y-12">
-            <div className="space-y-8">
-              <span className="section-label">Engineering Precision</span>
-              <h2 className="fluid-h2 leading-[1.1] font-black uppercase text-foreground">
-                Solving Complex <br />
-                Business <span className="text-primary italic">Challenges</span>.
+          <div className="order-1 lg:order-2 space-y-10">
+            <div className="space-y-6">
+              <span className="section-label">About Me</span>
+              <h2 className="fluid-h2 leading-[1.1]">
+                Web Developer & <span className="text-primary">Automation</span> Specialist.
               </h2>
-              <p className="text-lg md:text-xl text-muted/90 leading-relaxed font-medium bg-gradient-to-r from-foreground/10 to-transparent p-6 rounded-[24px] border-l-4 border-primary">
-                {profile.bio || "Senior Web Developer with 8+ years of engineering excellence."}
+              <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
+                {profile.bio}
               </p>
-              <p className="text-base text-muted/70 leading-relaxed">
+              <p className="text-base text-muted/80 leading-relaxed">
                 I specialize in creating custom digital solutions that help businesses scale. Whether it's a high-performance WordPress site, a complex GoHighLevel automation, or a bespoke full-stack application, I deliver quality and results.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-10">
-              <div className="space-y-4 group">
-                <div className="h-1.5 w-12 bg-primary rounded-full group-hover:w-20 transition-all duration-500" />
-                <h4 className="text-foreground font-black text-sm uppercase tracking-widest">Web Engineering</h4>
-                <p className="text-muted/70 text-sm leading-relaxed">Building responsive, ultra-fast, and conversion-optimized architectures.</p>
+            <div className="grid sm:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <div className="h-1 w-12 bg-primary rounded-full" />
+                <h4 className="text-foreground font-bold text-base">Web Development</h4>
+                <p className="text-muted text-sm leading-relaxed">Building responsive, fast, and SEO-friendly websites using modern tools.</p>
               </div>
-              <div className="space-y-4 group">
-                <div className="h-1.5 w-12 bg-secondary rounded-full group-hover:w-20 transition-all duration-500" />
-                <h4 className="text-foreground font-black text-sm uppercase tracking-widest">CRM Automation</h4>
-                <p className="text-muted/70 text-sm leading-relaxed">Scaling businesses with complex GHL workflows and platform integrations.</p>
+              <div className="space-y-3">
+                <div className="h-1 w-12 bg-secondary rounded-full" />
+                <h4 className="text-foreground font-bold text-base">CRM Automation</h4>
+                <p className="text-muted text-sm leading-relaxed">Streamlining business processes with advanced GHL workflows and integrations.</p>
               </div>
             </div>
 
-            <div className="pt-6 flex flex-wrap gap-5">
-              <Button className="btn-primary h-16 px-10 rounded-2xl group">
-                <span className="font-black uppercase tracking-widest flex items-center gap-3">
-                  Download CV <Download className="h-5 w-5 transition-transform group-hover:translate-y-1" />
-                </span>
+            <div className="pt-4 flex flex-wrap gap-4">
+              <Button className="btn-primary h-14 px-8">
+                Download Resume
+                <Download className="ml-2 h-5 w-5" />
               </Button>
-              <Button className="btn-secondary h-16 px-10 rounded-2xl border-border/50 bg-surface hover:bg-white/5 font-bold uppercase tracking-widest text-sm">
-                Get in Touch
+              <Button className="btn-secondary h-14 px-8">
+                Let's Talk
               </Button>
             </div>
           </div>
@@ -184,51 +176,46 @@ const About = () => {
 const Skills = () => {
   const skillCategories = [
     {
-      title: "CMS & Platforms",
-      skills: ["WordPress", "Squarespace", "Shopify", "GHL Communities"],
-      icon: Globe,
-      color: "text-primary"
+      title: "E-Commerce & CMS",
+      skills: ["WordPress", "Squarespace", "Shopify", "Custom Themes", "Plugin Dev"],
+      icon: Globe
     },
     {
-      title: "Core Engineering",
-      skills: ["React", "Next.js", "TypeScript", "Node.js", "Python"],
-      icon: Code,
-      color: "text-secondary"
+      title: "Full-Stack Development",
+      skills: ["React", "Next.js", "TypeScript", "Node.js", "Python", "PostgreSQL"],
+      icon: Code
     },
     {
-      title: "Architectures",
-      skills: ["API Desing", "GHL Automation", "Zapier", "CRM Setup"],
-      icon: Cpu,
-      color: "text-primary"
+      title: "CRM & Automation",
+      skills: ["GoHighLevel", "Zapier", "API Integration", "Workflow Automation"],
+      icon: Cpu
     }
   ];
 
   return (
-    <section id="skills" className="bg-surface/50 border-y border-border/50 py-24 md:py-32">
+    <section id="skills" className="bg-surface">
       <ScrollReveal className="container">
-        <div className="mb-20 md:mb-28 text-center max-w-3xl mx-auto">
-          <span className="section-label mx-auto">Precision Skills</span>
-          <h2 className="fluid-h2 uppercase font-black tracking-tighter">
-            Technological <span className="text-secondary italic">Core</span>.
-          </h2>
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Expertise</span>
+          <h2 className="fluid-h2">Core <span className="text-primary">competencies</span>.</h2>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
           {skillCategories.map((category, i) => (
             <motion.div 
               key={i}
-              whileHover={{ y: -8, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-              className="bg-surface/80 backdrop-blur-md p-10 rounded-[40px] border border-border/50 group transition-all duration-500 hover:shadow-premium"
+              whileHover={{ y: -10 }}
+              className="bg-white p-10 rounded-[32px] shadow-premium border border-border group transition-all duration-500"
             >
-              <div className={cn("h-16 w-16 rounded-[20px] bg-white/5 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500", category.color)}>
-                <category.icon className="h-8 w-8" />
+              <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                <category.icon className="h-7 w-7" />
               </div>
-              <h3 className="text-2xl font-black text-foreground mb-8 tracking-tight uppercase">{category.title}</h3>
-              <div className="flex flex-wrap gap-2.5">
+              <h3 className="text-2xl font-bold text-foreground mb-6 tracking-tight">{category.title}</h3>
+              <div className="flex flex-wrap gap-3">
                 {category.skills.map((skill, j) => (
                   <span 
                     key={j} 
-                    className="px-5 py-2.5 rounded-full bg-background border border-border/50 text-[11px] font-bold text-muted uppercase tracking-[0.15em] hover:border-primary hover:text-primary transition-all duration-300"
+                    className="px-4 py-2 rounded-xl bg-surface border border-border text-sm font-medium text-muted hover:border-primary/30 hover:text-primary transition-colors"
                   >
                     {skill}
                   </span>
@@ -252,31 +239,30 @@ const Projects = () => {
   const filteredProjects = hasProjects 
     ? (filter === 'All' ? projects : projects.filter(p => p.category?.toLowerCase() === filter.toLowerCase()))
     : [
-        { title: "Enterprise E-Commerce", category: "Web", description: "A high-performance online store with advanced inventory management, custom checkout flows, and Stripe integration.", tags: ["React", "Node.js", "Stripe"] },
-        { title: "CRM Automation Suite", category: "Automation", description: "Custom GoHighLevel workflows and Zapier integrations that streamlined lead management.", tags: ["GHL", "Zapier", "API"] },
-        { title: "AI Support Engine", category: "AI", description: "Intelligent customer support agent powered by OpenAI, seamlessly integrated into WordPress.", tags: ["OpenAI", "WordPress"] },
+        { title: "Enterprise E-Commerce", category: "Web", description: "A high-performance online store with advanced inventory management, custom checkout flows, and Stripe integration.", tags: ["React", "Node.js", "Stripe", "PostgreSQL"] },
+        { title: "CRM Automation Suite", category: "Automation", description: "Custom GoHighLevel workflows and Zapier integrations that streamlined lead management for 50+ global clients.", tags: ["GHL", "Zapier", "API"] },
+        { title: "AI Support Engine", category: "AI", description: "Intelligent customer support agent powered by OpenAI, seamlessly integrated into WordPress ecosystems.", tags: ["OpenAI", "WordPress", "Python"] },
+        { title: "Real Estate Portal", category: "Web", description: "A pixel-perfect property listing site with custom search algorithms and interactive map features.", tags: ["Next.js", "Tailwind", "Mapbox"] },
       ];
 
   return (
-    <section id="projects" className="bg-background py-24 md:py-32">
+    <section id="projects" className="bg-white">
       <ScrollReveal className="container">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 md:mb-28 gap-10">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-10">
           <div className="max-w-2xl">
-            <span className="section-label">Selected Projects</span>
-            <h2 className="fluid-h2 tracking-tight font-black uppercase text-foreground">
-              Engineering <span className="text-secondary italic">Excellence</span>.
-            </h2>
-            <p className="text-lg text-muted mt-6 font-medium">A curated selection of high-performance digital products and complex automation systems.</p>
+            <span className="section-label">Selected Work</span>
+            <h2 className="fluid-h2 tracking-tight">Architecting <span className="text-primary">scalable</span> digital solutions.</h2>
+            <p className="text-lg text-muted mt-6 font-medium">A collection of projects that push the boundaries of web engineering and user experience design.</p>
           </div>
-          <div className="flex flex-wrap gap-2 p-2 rounded-2xl bg-surface/50 border border-border/50 w-fit backdrop-blur-md">
+          <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-surface border border-border w-fit">
             {categories.map((cat) => (
               <button 
                 key={cat} 
                 onClick={() => setFilter(cat)}
                 className={cn(
-                  "text-[11px] font-black uppercase tracking-widest transition-all duration-300 px-8 py-3 rounded-xl",
+                  "text-[13px] font-bold transition-all duration-300 px-6 py-2.5 rounded-xl",
                   filter === cat 
-                    ? "bg-primary text-background shadow-lg scale-105" 
+                    ? "bg-white text-primary shadow-sm border border-border" 
                     : "text-muted hover:text-foreground"
                 )}
               >
@@ -286,42 +272,44 @@ const Projects = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, i) => (
             <motion.div 
               key={i}
               layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative flex flex-col bg-surface/40 rounded-[40px] border border-border/50 overflow-hidden hover:border-primary/40 hover:shadow-premium transition-all duration-700"
+              className="group relative flex flex-col bg-white rounded-[32px] border border-border overflow-hidden hover:border-primary/20 hover:shadow-hover transition-all duration-500"
             >
-              <div className="overflow-hidden relative aspect-[4/3] m-4 rounded-[32px]">
+              <div className="overflow-hidden relative aspect-[16/10]">
                 <img 
                   src={project.image_url || `https://picsum.photos/seed/${project.title}/1200/800`} 
                   alt={project.title} 
-                  className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-110 grayscale-[40%] group-hover:grayscale-0" 
+                  className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-110" 
                   referrerPolicy="no-referrer" 
                 />
-                <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-md">
-                  <div className="flex flex-col gap-4 px-10 text-center">
-                     <p className="text-sm font-bold text-foreground leading-relaxed">{project.description}</p>
-                     <div className="flex gap-4 justify-center">
-                        <Button className="btn-primary h-12 px-8 rounded-xl font-black uppercase tracking-tighter text-sm">
-                          Case Study
-                        </Button>
-                     </div>
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                  <div className="flex gap-4 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                    <Button className="bg-white text-foreground hover:bg-white/90 h-11 px-6 rounded-xl font-bold text-sm">
+                      Live Demo
+                    </Button>
+                    <Button className="bg-white/20 backdrop-blur-md text-white hover:bg-white/30 h-11 px-6 rounded-xl font-bold text-sm border border-white/30">
+                      GitHub
+                    </Button>
                   </div>
                 </div>
               </div>
-              <div className="p-8 pt-2 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-6">
-                  <h3 className="text-2xl font-black text-foreground tracking-tight group-hover:text-primary transition-colors uppercase leading-none">{project.title}</h3>
+              <div className="p-10 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">{project.title}</h3>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10">{project.category}</span>
                 </div>
+                <p className="text-muted text-base mb-8 line-clamp-2 font-medium leading-relaxed">{project.description}</p>
                 <div className="mt-auto flex flex-wrap gap-2">
                   {project.tags?.map((tag: string) => (
-                    <span key={tag} className="text-[10px] font-black text-muted/60 px-4 py-1.5 rounded-full bg-white/5 border border-border/50 uppercase tracking-[0.1em]">{tag}</span>
+                    <span key={tag} className="text-[11px] font-bold text-muted/80 px-3 py-1.5 rounded-lg bg-surface border border-border uppercase tracking-wider">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -337,33 +325,27 @@ const Services = () => {
   const services = useStore(state => state.services);
   
   return (
-    <section id="services" className="bg-background py-24 md:py-32">
-      {/* Abstract Background Element */}
-      <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
-      
+    <section id="services" className="bg-white">
       <ScrollReveal className="container">
-        <div className="mb-20 md:mb-28 text-center max-w-2xl mx-auto">
-          <span className="section-label mx-auto">Our Expertise</span>
-          <h2 className="fluid-h2 uppercase font-black tracking-[-0.02em] leading-none mb-6">
-            Elite Digital <br />
-            <span className="text-primary">Infrastructures</span>.
-          </h2>
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Services</span>
+          <h2 className="fluid-h2">Solutions for <span className="text-primary">growth</span>.</h2>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-3 gap-8">
           {services.map((service, i) => (
             <motion.div 
               key={i}
-              whileHover={{ y: -12 }}
-              className="bg-surface/50 backdrop-blur-md p-12 rounded-[48px] border border-border/50 group transition-all duration-700 hover:shadow-premium"
+              whileHover={{ y: -10 }}
+              className="bg-surface p-10 rounded-[32px] border border-border group transition-all duration-500"
             >
-              <div className="h-20 w-20 rounded-[28px] bg-white/5 flex items-center justify-center mb-10 group-hover:bg-primary group-hover:text-background transition-all duration-700">
-                {service.icon_name === 'Code' && <Code className="h-9 w-9" />}
-                {service.icon_name === 'Cpu' && <Cpu className="h-9 w-9" />}
-                {service.icon_name === 'Globe' && <Globe className="h-9 w-9" />}
+              <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                {service.icon_name === 'Code' && <Code className="h-7 w-7" />}
+                {service.icon_name === 'Cpu' && <Cpu className="h-7 w-7" />}
+                {service.icon_name === 'Globe' && <Globe className="h-7 w-7" />}
               </div>
-              <h3 className="text-2xl font-black text-foreground mb-8 tracking-tight uppercase leading-tight">{service.title}</h3>
-              <p className="text-muted/80 text-lg leading-relaxed font-medium">{service.description}</p>
+              <h3 className="text-2xl font-bold text-foreground mb-6 tracking-tight">{service.title}</h3>
+              <p className="text-muted text-base leading-relaxed font-medium">{service.description}</p>
             </motion.div>
           ))}
         </div>
@@ -376,37 +358,34 @@ const Testimonials = () => {
   const testimonials = useStore(state => state.testimonials);
   
   return (
-    <section id="testimonials" className="bg-surface/30 py-24 md:py-32">
+    <section id="testimonials" className="bg-surface">
       <ScrollReveal className="container">
-        <div className="mb-20 md:mb-28 text-center">
-          <span className="section-label mx-auto">Client Success</span>
-          <h2 className="fluid-h2 uppercase font-black">Trusted by <span className="text-secondary italic">Leaders</span>.</h2>
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Testimonials</span>
+          <h2 className="fluid-h2">What <span className="text-primary">clients</span> say.</h2>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-10">
+        <div className="grid md:grid-cols-2 gap-8">
           {testimonials.map((testimonial, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-surface p-12 rounded-[48px] border border-border/50 flex flex-col hover:border-primary/30 transition-all duration-700"
+              className="bg-white p-10 rounded-[32px] shadow-premium border border-border flex flex-col"
             >
-              <div className="flex gap-1.5 mb-8">
+              <div className="flex gap-1 mb-6">
                 {[...Array(testimonial.rating)].map((_, j) => (
                   <Star key={j} className="h-5 w-5 fill-primary text-primary" />
                 ))}
               </div>
-              <p className="text-xl md:text-2xl text-foreground font-black leading-tight mb-12 flex-grow italic tracking-tight">
+              <p className="text-lg text-foreground font-medium leading-relaxed mb-8 flex-grow italic">
                 "{testimonial.content}"
               </p>
-              <div className="flex items-center gap-6 pt-10 border-t border-white/5">
-                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden border border-primary/20">
-                  <img src={`https://picsum.photos/seed/${testimonial.name}/128/128`} alt={testimonial.name} className="h-full w-full object-cover" />
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                  <img src={`https://picsum.photos/seed/${testimonial.name}/64/64`} alt={testimonial.name} className="h-full w-full object-cover" />
                 </div>
                 <div>
-                  <h4 className="text-xl font-black text-foreground uppercase tracking-tighter leading-none mb-1">{testimonial.name}</h4>
-                  <p className="text-xs text-muted font-bold uppercase tracking-[0.2em]">{testimonial.role} @ {testimonial.company}</p>
+                  <h4 className="font-bold text-foreground">{testimonial.name}</h4>
+                  <p className="text-xs text-muted font-bold uppercase tracking-widest">{testimonial.role}, {testimonial.company}</p>
                 </div>
               </div>
             </motion.div>
@@ -433,39 +412,42 @@ const Resume = () => {
   const displayExperience = hasExperience ? experience : defaultExperience;
 
   return (
-    <section id="resume" className="bg-surface/10 py-24 md:py-32 border-b border-border/30">
+    <section id="resume" className="bg-white">
       <ScrollReveal className="container">
-        <div className="mb-20 md:mb-28 text-center max-w-2xl mx-auto">
-          <span className="section-label mx-auto">The Timeline</span>
-          <h2 className="fluid-h2 uppercase font-black tracking-tight leading-none">Professional <br /><span className="text-primary italic">Milestones</span>.</h2>
+        <div className="mb-16 md:mb-24 text-center">
+          <span className="section-label mx-auto">Resume</span>
+          <h2 className="fluid-h2">Professional <span className="text-primary">Journey</span>.</h2>
+          <p className="text-lg text-muted mt-6 max-w-2xl mx-auto font-medium">
+            A summary of my professional experience, education, and the technical milestones that have shaped my career as a developer.
+          </p>
         </div>
         
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20">
-          <div className="space-y-16">
-            <h3 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-5 uppercase">
-              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                <Code className="h-7 w-7 text-primary" />
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
+          <div className="space-y-12">
+            <h3 className="text-3xl font-bold text-foreground tracking-tight flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Code className="h-5 w-5 text-primary" />
               </div>
               Experience
             </h3>
-            <div className="space-y-12 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[2px] before:bg-gradient-to-b before:from-primary before:to-transparent pl-10">
+            <div className="space-y-12 relative before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[1px] before:bg-border pl-8">
               {displayExperience.map((exp, i) => (
                 <motion.div 
-                   key={i}
-                   initial={{ opacity: 0, x: -30 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ duration: 0.8, delay: i * 0.1 }}
-                   className="relative group pb-4"
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative"
                 >
-                  <div className="absolute left-[-49px] top-0 h-6 w-6 rounded-full bg-primary border-4 border-background group-hover:scale-125 transition-transform duration-500 shadow-[0_0_15px_rgba(200,245,56,0.3)]" />
-                  <div className="text-[11px] font-black text-primary mb-4 uppercase tracking-[0.2em]">{exp.start_date} — {exp.end_date}</div>
-                  <h4 className="text-2xl font-black text-foreground mb-2 uppercase tracking-tight">{exp.role}</h4>
-                  <p className="text-muted font-black text-xs uppercase tracking-widest mb-6 bg-white/5 w-fit px-3 py-1 rounded-md">{exp.company}</p>
-                  <ul className="space-y-3">
+                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-primary ring-4 ring-white" />
+                  <div className="text-sm font-bold text-primary mb-2 uppercase tracking-widest">{exp.start_date} — {exp.end_date}</div>
+                  <h4 className="text-xl font-bold text-foreground mb-1">{exp.role}</h4>
+                  <p className="text-muted font-bold mb-4">{exp.company}</p>
+                  <ul className="space-y-2">
                     {exp.description?.map((item: string, j: number) => (
-                      <li key={j} className="text-sm text-muted/80 leading-relaxed flex gap-3 font-medium">
-                        <ArrowRight className="h-4 w-4 text-primary shrink-0 mt-1" />
+                      <li key={j} className="text-sm text-muted leading-relaxed flex gap-2">
+                        <span className="text-primary mt-1.5 h-1 w-1 rounded-full bg-primary shrink-0" />
                         {item}
                       </li>
                     ))}
@@ -475,27 +457,27 @@ const Resume = () => {
             </div>
           </div>
 
-          <div className="space-y-16">
-            <h3 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-5 uppercase">
-              <div className="h-14 w-14 rounded-2xl bg-secondary/10 flex items-center justify-center border border-secondary/20">
-                <Globe className="h-7 w-7 text-secondary" />
+          <div className="space-y-12">
+            <h3 className="text-3xl font-bold text-foreground tracking-tight flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-secondary/10 flex items-center justify-center">
+                <Globe className="h-5 w-5 text-secondary" />
               </div>
               Education
             </h3>
-            <div className="space-y-12 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[2px] before:bg-gradient-to-b before:from-secondary before:to-transparent pl-10">
+            <div className="space-y-12 relative before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[1px] before:bg-border pl-8">
               {education.map((edu, i) => (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, x: -30 }}
+                  initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: i * 0.1 }}
-                  className="relative group"
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative"
                 >
-                  <div className="absolute left-[-49px] top-0 h-6 w-6 rounded-full bg-secondary border-4 border-background group-hover:scale-125 transition-transform duration-500 shadow-[0_0_15px_rgba(251,46,134,0.3)]" />
-                  <div className="text-[11px] font-black text-secondary mb-4 uppercase tracking-[0.2em]">{edu.year}</div>
-                  <h4 className="text-2xl font-black text-foreground mb-2 uppercase tracking-tight">{edu.degree}</h4>
-                  <p className="text-muted font-black text-xs uppercase tracking-widest bg-white/5 w-fit px-3 py-1 rounded-md">{edu.school}</p>
+                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-secondary ring-4 ring-white" />
+                  <div className="text-sm font-bold text-secondary mb-2 uppercase tracking-widest">{edu.year}</div>
+                  <h4 className="text-xl font-bold text-foreground mb-1">{edu.degree}</h4>
+                  <p className="text-muted font-bold">{edu.school}</p>
                 </motion.div>
               ))}
             </div>
@@ -578,7 +560,7 @@ const Contact = () => {
             </div>
 
             <div className="relative">
-              <div className="bg-surface/50 backdrop-blur-xl border border-border rounded-[40px] p-8 md:p-12 shadow-premium relative z-10">
+              <div className="bg-white border border-border rounded-[32px] p-8 md:p-12 shadow-premium relative z-10">
                 <AnimatePresence mode="wait">
                   {formState === 'success' ? (
                     <motion.div
@@ -588,17 +570,17 @@ const Contact = () => {
                       exit={{ opacity: 0, y: -20 }}
                       className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12"
                     >
-                      <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
-                        <CheckCircle2 className="h-12 w-12 text-primary" />
+                      <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
+                        <CheckCircle2 className="h-10 w-10 text-primary" />
                       </div>
                       <div className="space-y-4">
-                        <h3 className="text-3xl font-black text-foreground tracking-tight uppercase">Message Sent!</h3>
+                        <h3 className="text-3xl font-bold text-foreground tracking-tight">Message Sent!</h3>
                         <p className="text-lg text-muted font-medium">Thank you for reaching out. I'll get back to you within 24 hours.</p>
                       </div>
                       <Button 
                         variant="link" 
                         onClick={() => setFormState('idle')}
-                        className="text-primary font-black uppercase tracking-widest text-sm"
+                        className="text-primary font-bold text-base"
                       >
                         Send Another Message
                       </Button>
@@ -614,61 +596,58 @@ const Contact = () => {
                     >
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <label className="text-[10px] font-bold text-muted uppercase tracking-[0.2em] ml-2">Full Name</label>
+                          <label className="text-xs font-bold text-muted ml-2">Full Name</label>
                           <Input 
                             required 
                             value={formData.name}
                             onChange={e => setFormData({ ...formData, name: e.target.value })}
                             placeholder="John Doe" 
-                            className="bg-background/50 border-border h-14 rounded-2xl focus:border-primary transition-all font-medium" 
+                            className="bg-surface border-border h-14 rounded-2xl focus:border-primary/50 transition-all font-medium" 
                           />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] font-bold text-muted uppercase tracking-[0.2em] ml-2">Email Address</label>
+                          <label className="text-xs font-bold text-muted ml-2">Email Address</label>
                           <Input 
                             required 
                             type="email" 
                             value={formData.email}
                             onChange={e => setFormData({ ...formData, email: e.target.value })}
                             placeholder="john@example.com" 
-                            className="bg-background/50 border-border h-14 rounded-2xl focus:border-primary transition-all font-medium" 
+                            className="bg-surface border-border h-14 rounded-2xl focus:border-primary/50 transition-all font-medium" 
                           />
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-muted uppercase tracking-[0.2em] ml-2">Subject</label>
+                        <label className="text-xs font-bold text-muted ml-2">Subject</label>
                         <Input 
                           required 
                           value={formData.subject}
                           onChange={e => setFormData({ ...formData, subject: e.target.value })}
                           placeholder="Project Inquiry" 
-                          className="bg-background/50 border-border h-14 rounded-2xl focus:border-primary transition-all font-medium" 
+                          className="bg-surface border-border h-14 rounded-2xl focus:border-primary/50 transition-all font-medium" 
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-muted uppercase tracking-[0.2em] ml-2">Message</label>
+                        <label className="text-xs font-bold text-muted ml-2">Message</label>
                         <Textarea 
                           required 
                           value={formData.message}
                           onChange={e => setFormData({ ...formData, message: e.target.value })}
                           placeholder="Tell me about your project..." 
-                          className="bg-background/50 border-border min-h-[160px] rounded-2xl focus:border-primary transition-all p-5 font-medium resize-none" 
+                          className="bg-surface border-border min-h-[160px] rounded-2xl focus:border-primary/50 transition-all p-5 font-medium resize-none" 
                         />
                       </div>
                       <div className="pt-4">
                         <Button 
                           type="submit" 
                           disabled={formState === 'loading'}
-                          className="w-full btn-primary h-16 rounded-2xl group relative overflow-hidden"
+                          className="w-full btn-primary h-16 rounded-2xl text-lg font-bold"
                         >
-                          <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                          <span className="relative z-10 flex items-center justify-center gap-3 font-black tracking-tight text-lg">
-                            {formState === 'loading' ? 'SENDING...' : (
-                              <>
-                                SEND MESSAGE <Send className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                              </>
-                            )}
-                          </span>
+                          {formState === 'loading' ? 'Sending...' : (
+                            <>
+                              Send Message <Send className="ml-2 h-5 w-5" />
+                            </>
+                          )}
                         </Button>
                       </div>
                     </motion.form>
@@ -696,43 +675,42 @@ export default function Home() {
       <Testimonials />
       <Contact />
       
-      <footer className="pt-20 pb-16 bg-surface border-t border-border/30 relative overflow-hidden backdrop-blur-xl">
+      <footer className="pt-16 pb-12 bg-surface border-t border-border relative overflow-hidden">
         <div className="container relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-24 mb-20">
-            <div className="md:col-span-2 space-y-10">
-              <h2 className="text-4xl font-black tracking-tighter uppercase">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-24 mb-16">
+            <div className="md:col-span-2 space-y-8">
+              <h2 className="text-2xl font-bold tracking-tight">
                 KAMRAN<span className="text-primary">.</span>
               </h2>
-              <p className="text-xl text-muted/80 max-w-md leading-relaxed font-medium">
-                Designing and engineering high-performance digital products for elite businesses worldwide.
+              <p className="text-lg text-muted max-w-md leading-relaxed font-medium">
+                Designing and engineering high-performance digital products. Focused on quality, performance, and user experience.
               </p>
-              <div className="flex gap-5">
+              <div className="flex gap-4">
                 {[
                   { icon: Github, href: "https://github.com/codebykami", label: "Github" },
                   { icon: Linkedin, href: "https://linkedin.com/in/kamranrasool", label: "LinkedIn" },
                   { icon: Mail, href: "mailto:kamranrasool0045@gmail.com", label: "Email" }
                 ].map((social, i) => (
-                  <Magnetic key={i}>
-                    <a 
-                      href={social.href} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="h-14 w-14 rounded-[20px] bg-white/5 border border-border/50 flex items-center justify-center hover:border-primary/50 hover:bg-primary/10 hover:text-primary transition-all duration-700 shadow-premium"
-                      aria-label={social.label}
-                    >
-                      <social.icon className="h-6 w-6" />
-                    </a>
-                  </Magnetic>
+                  <a 
+                    key={i}
+                    href={social.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="h-12 w-12 rounded-2xl bg-white border border-border flex items-center justify-center hover:border-primary/40 hover:bg-primary/5 hover:text-primary transition-all duration-500 shadow-sm"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="h-5 w-5" />
+                  </a>
                 ))}
               </div>
             </div>
             
-            <div className="space-y-10">
-              <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-primary">Explore</h4>
-              <ul className="space-y-5">
-                {['About', 'Resume', 'Projects', 'Services', 'Contact'].map((item) => (
+            <div className="space-y-8">
+              <h4 className="text-[12px] font-bold uppercase tracking-widest text-primary">Navigation</h4>
+              <ul className="space-y-4">
+                {['Home', 'About', 'Resume', 'Projects', 'Services', 'Contact'].map((item) => (
                   <li key={item}>
-                    <a href={`#${item.toLowerCase()}`} className="text-muted font-bold text-lg hover:text-primary transition-colors duration-300">
+                    <a href={`#${item.toLowerCase()}`} className="text-muted hover:text-primary transition-colors font-bold text-base">
                       {item}
                     </a>
                   </li>
@@ -740,12 +718,12 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="space-y-10">
-              <h4 className="text-[11px] font-black uppercase tracking-[0.25em] text-primary">Legal</h4>
-              <ul className="space-y-5">
-                {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
+            <div className="space-y-8">
+              <h4 className="text-[12px] font-bold uppercase tracking-widest text-primary">Legal</h4>
+              <ul className="space-y-4">
+                {['Privacy Policy', 'Terms', 'Cookies'].map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-muted font-bold text-lg hover:text-primary transition-colors duration-300">
+                    <a href="#" className="text-muted hover:text-primary transition-colors font-bold text-base">
                       {item}
                     </a>
                   </li>
@@ -754,14 +732,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-border/30 flex flex-col md:flex-row justify-between items-center gap-10">
-            <p className="text-sm text-muted/60 font-black uppercase tracking-widest text-center">
+          <div className="pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+            <p className="text-sm text-muted font-bold tracking-tight">
               © {new Date().getFullYear()} Kamran Rasool. All rights reserved.
             </p>
-            <div className="flex gap-10">
-               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/40">DESIGN BY KAMI</span>
-               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/40">V.2.0.24</span>
-            </div>
           </div>
         </div>
       </footer>
