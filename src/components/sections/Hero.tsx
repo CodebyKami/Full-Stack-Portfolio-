@@ -39,7 +39,7 @@ export default function Hero() {
   const profile = useStore(state => state.profile);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-32 md:pt-40 overflow-hidden bg-background">
+    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-background">
       {/* Dynamic Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <motion.div 
@@ -65,13 +65,13 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 pointer-events-none" />
       </div>
       
-      <div className="container relative z-10">
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+      <div className="container relative z-10 pt-32 md:pt-40">
+        <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-primary text-[11px] font-black uppercase tracking-[0.3em] mb-10 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-8 shadow-sm"
           >
             <Sparkles className="h-3.5 w-3.5" />
             Full-Stack Developer • Automation Engineer
@@ -81,16 +81,19 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="fluid-h1 mb-10 text-foreground tracking-tight font-black leading-[1.05] lg:text-[7rem] xl:text-[8.5rem]"
+            className="text-[clamp(2rem,8vw,5.5rem)] mb-8 text-foreground tracking-tight font-black leading-[1.05] xl:text-[6rem]"
           >
-            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-secondary transition-all">Scalable</span> Technical Solutions.
+            Engineering Scalable<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-secondary transition-all">
+              Technical Solutions.
+            </span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="max-w-3xl text-lg md:text-xl text-muted mb-16 font-medium leading-relaxed"
+            className="max-w-2xl text-base md:text-lg text-muted mb-12 font-medium leading-relaxed"
           >
             Enterprise-grade web architecture and industrial-scale automations. Specializing in WordPress, GoHighLevel, and high-performance JavaScript ecosystems for global business growth.
           </motion.p>
@@ -99,16 +102,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-6"
+            className="flex flex-wrap items-center justify-center gap-5"
           >
             <Magnetic>
-              <Button className="btn-primary min-w-[200px] h-16 px-12 text-lg rounded-full group">
+              <Button className="btn-primary min-w-[180px] h-14 px-10 text-base rounded-full group">
                 View My Work
-                <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Magnetic>
             <Magnetic>
-              <Button className="bg-white text-black hover:bg-white/90 border-none min-w-[200px] h-16 px-12 text-lg rounded-full font-bold shadow-lg">
+              <Button className="bg-white text-black hover:bg-white/90 border-none min-w-[180px] h-14 px-10 text-base rounded-full font-bold shadow-lg">
                 Let's Talk
               </Button>
             </Magnetic>
