@@ -26,7 +26,10 @@ import {
   Globe,
   Cpu,
   Sparkles,
-  X
+  X,
+  Upload,
+  Image as ImageIcon,
+  Loader2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -41,6 +44,39 @@ export default function Admin() {
   const { projects, skills, experience, services, testimonials, blogPosts, clients, fetchPortfolio } = useStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newItemData, setNewItemData] = useState<any>({});
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${user.id}/${fileName}`;
+
+      // 1. Upload to Supabase Storage (Bucket must be 'portfolio' and public)
+      const { error: uploadError } = await supabase.storage
+        .from('portfolio')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // 2. Get Public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('portfolio')
+        .getPublicUrl(filePath);
+
+      setNewItemData({ ...newItemData, [fieldName]: publicUrl });
+      toast.success('Image uploaded successfully');
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      toast.error('Upload failed: ' + error.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -423,12 +459,28 @@ export default function Admin() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Profile Image URL</label>
-                            <Input value={newItemData.avatar_url || ''} onChange={e => setNewItemData({...newItemData, avatar_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="/kamran_profile.png" />
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Profile Image</label>
+                            <div className="flex gap-2">
+                              <Input value={newItemData.avatar_url || ''} onChange={e => setNewItemData({...newItemData, avatar_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="/kamran_profile.png" />
+                              <div className="relative">
+                                <input type="file" accept="image/*" className="hidden" id="p-upload" onChange={(e) => handleFileUpload(e, 'avatar_url')} />
+                                <Button type="button" variant="outline" className="h-8 border-white/10 px-3 hover:bg-white/5" onClick={() => document.getElementById('p-upload')?.click()}>
+                                  {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 text-primary" />}
+                                </Button>
+                              </div>
+                            </div>
                           </div>
                           <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Hero Background URL</label>
-                            <Input value={newItemData.hero_image_url || ''} onChange={e => setNewItemData({...newItemData, hero_image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Hero Background</label>
+                            <div className="flex gap-2">
+                              <Input value={newItemData.hero_image_url || ''} onChange={e => setNewItemData({...newItemData, hero_image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                              <div className="relative">
+                                <input type="file" accept="image/*" className="hidden" id="h-upload" onChange={(e) => handleFileUpload(e, 'hero_image_url')} />
+                                <Button type="button" variant="outline" className="h-8 border-white/10 px-3 hover:bg-white/5" onClick={() => document.getElementById('h-upload')?.click()}>
+                                  {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 text-primary" />}
+                                </Button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div className="grid grid-cols-3 gap-4">
@@ -464,8 +516,16 @@ export default function Admin() {
                           <Input required value={newItemData.description || ''} onChange={e => setNewItemData({...newItemData, description: e.target.value})} className="bg-white/5 border-white/10" />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL</label>
-                          <Input value={newItemData.image_url || ''} onChange={e => setNewItemData({...newItemData, image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Project Image</label>
+                          <div className="flex gap-2">
+                            <Input value={newItemData.image_url || ''} onChange={e => setNewItemData({...newItemData, image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                            <div className="relative">
+                              <input type="file" accept="image/*" className="hidden" id="proj-upload" onChange={(e) => handleFileUpload(e, 'image_url')} />
+                              <Button type="button" variant="outline" className="h-8 border-white/10 px-3 hover:bg-white/5" onClick={() => document.getElementById('proj-upload')?.click()}>
+                                {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 text-primary" />}
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </>
                     )}
@@ -558,7 +618,44 @@ export default function Admin() {
                         </div>
                         <div className="space-y-2">
                           <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Logo URL</label>
-                          <Input required value={newItemData.logo_url || ''} onChange={e => setNewItemData({...newItemData, logo_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                          <div className="flex gap-2">
+                            <Input required value={newItemData.logo_url || ''} onChange={e => setNewItemData({...newItemData, logo_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                            <div className="relative">
+                              <input type="file" accept="image/*" className="hidden" id="client-upload" onChange={(e) => handleFileUpload(e, 'logo_url')} />
+                              <Button type="button" variant="outline" className="h-8 border-white/10 px-3 hover:bg-white/5" onClick={() => document.getElementById('client-upload')?.click()}>
+                                {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 text-primary" />}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {activeTab === 'blog' && (
+                      <>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Post Title</label>
+                          <Input required value={newItemData.title || ''} onChange={e => setNewItemData({...newItemData, title: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Excerpt</label>
+                          <Input required value={newItemData.excerpt || ''} onChange={e => setNewItemData({...newItemData, excerpt: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Featured Image</label>
+                          <div className="flex gap-2">
+                            <Input value={newItemData.image_url || ''} onChange={e => setNewItemData({...newItemData, image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
+                            <div className="relative">
+                              <input type="file" accept="image/*" className="hidden" id="blog-upload" onChange={(e) => handleFileUpload(e, 'image_url')} />
+                              <Button type="button" variant="outline" className="h-8 border-white/10 px-3 hover:bg-white/5" onClick={() => document.getElementById('blog-upload')?.click()}>
+                                {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 text-primary" />}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Category</label>
+                          <Input value={newItemData.category || ''} onChange={e => setNewItemData({...newItemData, category: e.target.value})} className="bg-white/5 border-white/10" />
                         </div>
                       </>
                     )}

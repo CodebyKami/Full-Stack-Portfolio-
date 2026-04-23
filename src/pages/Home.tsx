@@ -101,33 +101,7 @@ const About = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
             
-            {/* Achievement Cards */}
-            <motion.div 
-              initial={{ x: -20, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 glass p-6 md:p-8 rounded-3xl shadow-premium border border-border/50 max-w-[200px] md:max-w-[240px]"
-            >
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-1">150+</div>
-              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted leading-tight">Projects Completed Successfully</div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ x: 20, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="absolute top-10 -right-6 md:-right-10 glass p-5 md:p-6 rounded-3xl shadow-premium border border-border/50"
-            >
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-2xl bg-secondary/10 flex items-center justify-center">
-                  <Globe className="h-5 w-5 text-secondary" />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-foreground">Global Reach</div>
-                  <div className="text-[10px] text-muted font-medium">Worldwide Clients</div>
-                </div>
-              </div>
-            </motion.div>
+            {/* Removed Achievement Cards to leave just one main image as requested */}
           </div>
 
           <div className="order-1 lg:order-2 space-y-10">

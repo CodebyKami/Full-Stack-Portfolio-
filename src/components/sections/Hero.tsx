@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring } from 'motion/react';
-import { ArrowRight, Sparkles, Bot, Code } from 'lucide-react';
+import { ArrowRight, Sparkles, Code } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Magnetic from '../ui/Magnetic';
 import { useStore } from '../../store/useStore';
+import Globe from '../ui/Globe';
 
 const Counter = ({ value, suffix = "+" }: { value: number; suffix?: string }) => {
   const [count, setCount] = useState(0);
@@ -33,29 +34,6 @@ const Counter = ({ value, suffix = "+" }: { value: number; suffix?: string }) =>
   }, [value]);
 
   return <span>{count}{suffix}</span>;
-};
-
-const SplitText = ({ text }: { text: string }) => {
-  return (
-    <span className="inline-flex flex-wrap justify-center w-full">
-      {text.split(" ").map((word, i) => (
-        <span key={i} className="mask-reveal inline-block mr-[0.2em]">
-          <motion.span
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ 
-              duration: 0.8, 
-              delay: 0.2 + i * 0.08, 
-              ease: [0.25, 0.46, 0.45, 0.94] 
-            }}
-            className="mask-reveal-child"
-          >
-            {word}
-          </motion.span>
-        </span>
-      ))}
-    </span>
-  );
 };
 
 export default function Hero() {
@@ -138,71 +116,40 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right Side Visual - Premium Mockup/Card */}
+          {/* Right Side Visual - Globe */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, x: 50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-            className="hidden lg:flex justify-center relative"
+            className="hidden lg:flex justify-center relative w-full"
           >
-            <div className="relative w-full max-w-[500px] aspect-square">
-              {/* Abstract Visual Elements */}
-              <motion.div 
-                animate={{ 
-                  y: [0, -20, 0],
-                  rotate: [0, 2, 0]
-                }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 rounded-[40px] border border-primary/10 shadow-2xl overflow-hidden"
-              >
-                <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20 mix-blend-overlay grayscale" style={{ backgroundImage: `url(${profile.hero_image_url || 'https://picsum.photos/seed/abstract/800/800'})` }} />
-              </motion.div>
-
+            <div className="relative w-full flex justify-center items-center">
+              <Globe />
+              
               {/* Floating Cards */}
               <motion.div
                 animate={{ y: [-10, 10, -10] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-10 -right-10 bg-white/80 dark:bg-black/80 backdrop-blur-xl p-6 rounded-2xl shadow-premium border border-border/50 max-w-[240px]"
+                className="absolute top-0 right-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl p-4 rounded-2xl shadow-premium border border-border/50 z-20"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Code className="h-5 w-5 text-primary" />
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <Code size={16} />
                   </div>
-                  <div>
-                    <div className="text-sm font-bold text-foreground">WordPress</div>
-                    <div className="text-[10px] text-muted font-medium">Custom Themes</div>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="h-1.5 w-full bg-surface rounded-full overflow-hidden">
-                    <div className="h-full w-[90%] bg-primary" />
-                  </div>
-                  <div className="h-1.5 w-[70%] bg-surface rounded-full overflow-hidden">
-                    <div className="h-full w-[80%] bg-secondary" />
-                  </div>
+                  <div className="text-xs font-bold">Custom Themes</div>
                 </div>
               </motion.div>
 
               <motion.div
                 animate={{ y: [10, -10, 10] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-10 -left-10 bg-white/80 dark:bg-black/80 backdrop-blur-xl p-6 rounded-2xl shadow-premium border border-border/50 max-w-[240px]"
+                className="absolute bottom-0 left-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl p-4 rounded-2xl shadow-premium border border-border/50 z-20"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
-                    <Sparkles className="h-5 w-5 text-secondary" />
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                    <Sparkles size={16} />
                   </div>
-                  <div>
-                    <div className="text-sm font-bold text-foreground">GoHighLevel</div>
-                    <div className="text-[10px] text-muted font-medium">CRM Automation</div>
-                  </div>
-                </div>
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="h-8 w-8 rounded-full border-2 border-background bg-surface overflow-hidden">
-                      <img src={`https://picsum.photos/seed/${i + 20}/64/64`} alt="Avatar" className="h-full w-full object-cover" />
-                    </div>
-                  ))}
+                  <div className="text-xs font-bold">Automation Expert</div>
                 </div>
               </motion.div>
             </div>

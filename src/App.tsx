@@ -4,7 +4,6 @@ import { useStore } from './store/useStore';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Navbar from './components/layout/Navbar';
-import AIChat from './components/ai/AIChat';
 import { Toaster } from 'sonner';
 import CustomCursor from './components/ui/CustomCursor';
 import Preloader from './components/ui/Preloader';
@@ -42,7 +41,6 @@ function AppContent() {
           </motion.div>
         </AnimatePresence>
       </main>
-      {!isAdminPage && <AIChat />}
       <Toaster position="top-center" richColors />
     </div>
   );
