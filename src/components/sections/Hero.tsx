@@ -65,15 +65,27 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 pointer-events-none" />
       </div>
       
-      <div className="container relative z-10 pt-32 md:pt-40">
+      <div className="container relative z-10 pt-20 md:pt-24 lg:pt-0">
         <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-8 shadow-sm"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ 
+              opacity: 1, 
+              y: 0,
+              y: [0, -8, 0],
+            }}
+            transition={{ 
+              opacity: { duration: 0.5, delay: 0.2 },
+              y: { 
+                repeat: Infinity, 
+                duration: 4, 
+                ease: "easeInOut",
+                delay: 0.2 
+              }
+            }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface/50 backdrop-blur-sm border border-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-6 md:mb-8 shadow-[0_0_20px_rgba(79,70,229,0.1)]"
           >
-            <Sparkles className="h-3.5 w-3.5" />
+            <Sparkles className="h-3.5 w-3.5 animate-pulse" />
             Full-Stack Developer • Automation Engineer
           </motion.div>
 
@@ -81,7 +93,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2rem,8vw,5.5rem)] mb-8 text-foreground tracking-tight font-black leading-[1.05] xl:text-[6rem]"
+            className="text-[clamp(2rem,7vh,5rem)] mb-6 md:mb-8 text-foreground tracking-tight font-black leading-[1.05] xl:text-[5.5rem]"
           >
             Engineering Scalable<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-secondary transition-all">
@@ -93,7 +105,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="max-w-2xl text-base md:text-lg text-muted mb-12 font-medium leading-relaxed"
+            className="max-w-2xl text-sm md:text-base lg:text-lg text-muted mb-8 md:mb-12 font-medium leading-relaxed"
           >
             Enterprise-grade web architecture and industrial-scale automations. Specializing in WordPress, GoHighLevel, and high-performance JavaScript ecosystems for global business growth.
           </motion.p>
