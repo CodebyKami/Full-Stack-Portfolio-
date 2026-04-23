@@ -71,28 +71,28 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-primary text-[13px] font-semibold mb-10 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border text-primary text-[11px] font-black uppercase tracking-[0.3em] mb-10 shadow-sm"
           >
-            <Sparkles className="h-4 w-4" />
-            Empowering brands through code and automation
+            <Sparkles className="h-3.5 w-3.5" />
+            Full-Stack Developer • Automation Engineer
           </motion.div>
 
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="fluid-h1 mb-10 text-foreground tracking-tighter font-black leading-[0.9] lg:text-9xl"
+            className="fluid-h1 mb-10 text-foreground tracking-tight font-black leading-[1.05] lg:text-[7rem] xl:text-[8.5rem]"
           >
-            Crafting Digital <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-secondary">Excellence</span> Through Automation.
+            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-secondary transition-all">Scalable</span> Technical Solutions.
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="max-w-2xl text-xl md:text-2xl text-muted mb-16 font-medium leading-relaxed"
+            className="max-w-3xl text-lg md:text-xl text-muted mb-16 font-medium leading-relaxed"
           >
-            I'm Kamran Rasool, a specialist in building high-performance websites and intelligent automated systems that drive real business growth.
+            Enterprise-grade web architecture and industrial-scale automations. Specializing in WordPress, GoHighLevel, and high-performance JavaScript ecosystems for global business growth.
           </motion.p>
 
           <motion.div
@@ -108,32 +108,10 @@ export default function Hero() {
               </Button>
             </Magnetic>
             <Magnetic>
-              <Button className="btn-secondary min-w-[200px] h-16 px-12 text-lg rounded-full">
+              <Button className="bg-white text-black hover:bg-white/90 border-none min-w-[200px] h-16 px-12 text-lg rounded-full font-bold shadow-lg">
                 Let's Talk
               </Button>
             </Magnetic>
-          </motion.div>
-
-          {/* Centered Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="mt-24 grid grid-cols-2 md:grid-cols-2 gap-16 border-t border-border pt-12 items-center justify-center"
-          >
-            {[
-              { label: "Successful Projects", value: 150, suffix: "+" },
-              { label: "Industry Experience", value: 8, suffix: " Years" },
-            ].map((stat, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <span className="text-5xl font-black text-foreground tracking-tighter">
-                  <Counter value={stat.value} suffix={stat.suffix} />
-                </span>
-                <span className="text-[12px] text-muted font-black uppercase tracking-[0.2em] mt-3">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
           </motion.div>
         </div>
       </div>

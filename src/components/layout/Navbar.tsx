@@ -98,9 +98,11 @@ export default function Navbar() {
           {/* Actions */}
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            <Button className="hidden md:flex btn-primary h-10 px-6 rounded-xl font-bold text-[11px] tracking-widest uppercase">
-              Contact
-            </Button>
+            <a href="#contact">
+              <Button className="hidden md:flex btn-primary h-10 px-6 rounded-xl font-bold text-[11px] tracking-widest uppercase">
+                Contact
+              </Button>
+            </a>
             
             {/* Mobile Toggle */}
             <button 
@@ -166,7 +168,9 @@ export default function Navbar() {
                   <ThemeToggle />
                   <span className="text-sm font-bold text-muted uppercase tracking-widest">Switch Theme</span>
                 </div>
-                <Button className="btn-primary w-full h-16 text-xl rounded-2xl">Start a Project</Button>
+                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button className="btn-primary w-full h-16 text-xl rounded-2xl">Start a Project</Button>
+                </a>
               </motion.div>
             </div>
           </motion.div>
