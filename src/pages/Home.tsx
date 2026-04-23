@@ -478,16 +478,17 @@ const Contact = () => {
     try {
       const response = await axios.post('/api/contact', formData);
 
-      if (response.data.success) {
-        setFormState('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+      if (response && response.data && response.data.success) {
         toast.success('Message sent successfully!');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormState('success');
       } else {
-        throw new Error('Failed to send message');
+        throw new Error('Unexpected response format');
       }
     } catch (error: any) {
-      console.error('Error sending message:', error);
-      toast.error(error.response?.data?.error || 'Failed to send message. Please try again.');
+      console.error('Submission error:', error);
+      const errorMessage = error.response?.data?.error || error.message || 'Failed to send message';
+      toast.error(errorMessage);
       setFormState('idle');
     }
   };
@@ -534,17 +535,18 @@ const Contact = () => {
               <AnimatePresence mode="wait">
                 {formState === 'success' ? (
                   <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12"
+                    key="success-container"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="h-full min-h-[400px] flex flex-col items-center justify-center text-center space-y-8 py-12"
                   >
                     <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center">
                       <CheckCircle className="h-12 w-12 text-primary" />
                     </div>
                     <div className="space-y-4">
                       <h3 className="text-3xl font-bold text-foreground tracking-tight">Message Sent!</h3>
-                      <p className="text-lg text-muted font-medium">Thank you for reaching out. I'll get back to you within 24 hours.</p>
+                      <p className="text-lg text-muted font-medium px-4">Thank you for reaching out. I'll get back to you as soon as possible.</p>
                     </div>
                     <Button 
                       variant="outline" 

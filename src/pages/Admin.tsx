@@ -56,14 +56,25 @@ export default function Admin() {
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `${user.id}/${fileName}`;
 
-      // 1. Upload to Supabase Storage (Bucket must be 'portfolio' and public)
+      // 1. Check if bucket exists/is accessible
+      const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
+      if (bucketError) {
+        console.error('Bucket check error:', bucketError);
+      }
+      
+      const portfolioBucket = buckets?.find(b => b.name === 'portfolio');
+      if (!portfolioBucket) {
+        throw new Error("Bucket 'portfolio' not found. Please create a public bucket named 'portfolio' in your Supabase Storage dashboard.");
+      }
+
+      // 2. Upload to Supabase Storage
       const { error: uploadError } = await supabase.storage
         .from('portfolio')
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
-      // 2. Get Public URL
+      // 3. Get Public URL
       const { data: { publicUrl } } = supabase.storage
         .from('portfolio')
         .getPublicUrl(filePath);
@@ -72,7 +83,7 @@ export default function Admin() {
       toast.success('Image uploaded successfully');
     } catch (error: any) {
       console.error('Upload error:', error);
-      toast.error('Upload failed: ' + error.message);
+      toast.error(error.message || 'Upload failed');
     } finally {
       setIsUploading(false);
     }
