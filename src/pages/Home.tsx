@@ -487,8 +487,17 @@ const Contact = () => {
       }
     } catch (error: any) {
       console.error('Submission error:', error);
-      const errorMessage = error.response?.data?.error || error.message || 'Failed to send message';
-      toast.error(errorMessage);
+      let errorMessage = 'Failed to send message';
+      
+      if (error.response?.data?.error) {
+        errorMessage = typeof error.response.data.error === 'object' 
+          ? error.response.data.error.message || JSON.stringify(error.response.data.error)
+          : error.response.data.error;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      toast.error(String(errorMessage));
       setFormState('idle');
     }
   };

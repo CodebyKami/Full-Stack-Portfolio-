@@ -83,7 +83,8 @@ export default function Admin() {
       toast.success('Image uploaded successfully');
     } catch (error: any) {
       console.error('Upload error:', error);
-      toast.error(error.message || 'Upload failed');
+      const msg = error.message || (typeof error === 'object' ? JSON.stringify(error) : String(error));
+      toast.error(String(msg));
     } finally {
       setIsUploading(false);
     }
@@ -232,9 +233,33 @@ export default function Admin() {
     }
   };
 
+  const setupStorage = async () => {
+    try {
+      const { data: buckets, error: listError } = await supabase.storage.listBuckets();
+      if (listError) throw listError;
+
+      const exists = buckets?.some(b => b.name === 'portfolio');
+      if (!exists) {
+        const { error: createError } = await supabase.storage.createBucket('portfolio', {
+          public: true,
+          allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+          fileSizeLimit: 5242880 // 5MB
+        });
+        if (createError) throw createError;
+        toast.success("Storage bucket 'portfolio' created successfully!");
+      }
+    } catch (error: any) {
+      console.error('Storage setup error:', error);
+      // We don't toast here as it might be a permission issue that doesn't block everything
+    }
+  };
+
   const seedData = async () => {
     setIsLoading(true);
     try {
+      // Try to setup storage first
+      await setupStorage();
+
       // Seed Profile
       await supabase.from('profiles').upsert({
         id: user.id,
@@ -285,6 +310,38 @@ export default function Admin() {
       fetchPortfolio();
     } catch (error: any) {
       toast.error('Seeding failed: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fixBackendIssues = async () => {
+    setIsLoading(true);
+    try {
+      // 1. Storage
+      await setupStorage();
+
+      // 2. Check tables
+      const tables = ['profiles', 'projects', 'skills', 'services', 'experience', 'testimonials', 'blog_posts', 'clients', 'messages'];
+      const missingTables = [];
+
+      for (const table of tables) {
+        const { error } = await supabase.from(table).select('id').limit(1);
+        if (error && error.code === '42P01') {
+          missingTables.push(table);
+        }
+      }
+
+      if (missingTables.length > 0) {
+        toast.warning(
+          `Missing tables: ${missingTables.join(', ')}. Please run the SQL schema in your Supabase dashboard.`,
+          { duration: 6000 }
+        );
+      } else {
+        toast.success("All database tables are ready!");
+      }
+    } catch (err: any) {
+      toast.error("Process failed: " + (err.message || String(err)));
     } finally {
       setIsLoading(false);
     }
@@ -1110,6 +1167,9 @@ export default function Admin() {
                     <div className="pl-16">
                       <Button onClick={seedData} disabled={isLoading} className="btn-primary h-12 px-8 font-bold">
                         {isLoading ? 'SEEDING DATA...' : 'RUN SEED SCRIPT'}
+                      </Button>
+                      <Button onClick={fixBackendIssues} disabled={isLoading} variant="outline" className="h-12 px-8 border-primary/20 text-primary hover:bg-primary/5 font-bold ml-4">
+                        {isLoading ? 'FIXING...' : 'FIX ALL BACKEND ISSUES'}
                       </Button>
                     </div>
                   </div>
