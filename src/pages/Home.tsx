@@ -86,19 +86,23 @@ const FactsBar = () => {
 const About = () => {
   const profile = useStore(state => state.profile);
   
+  const avatarUrl = profile.avatar_url && !profile.avatar_url.includes('kamran_profile.png') 
+    ? profile.avatar_url 
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.full_name || 'Kamran Rasool')}&background=4f46e5&color=fff&size=512&bold=true`;
+
   return (
-    <section id="about" className="relative bg-white">
+    <section id="about" className="relative bg-white pb-24">
       <ScrollReveal className="container">
         <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
           <div className="order-2 lg:order-1 relative">
-            <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border">
+            <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border group">
               <img 
-                src={profile.avatar_url || "/kamran_profile.png"} 
+                src={avatarUrl} 
                 alt={profile.full_name} 
-                className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
+                className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 group-hover:scale-100"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
             </div>
             
             {/* Removed Achievement Cards to leave just one main image as requested */}
@@ -475,32 +479,63 @@ const Contact = () => {
     e.preventDefault();
     setFormState('loading');
     
+    console.log('Attempting to send message...');
+    
     try {
-      const response = await axios.post('/api/contact', formData);
-
-      if (response && response.data && response.data.success) {
+      // 1. Try Direct Supabase Insert (Most Reliable)
+      console.log('Trying direct Supabase insert...');
+      const { error: sbError } = await supabase
+        .from('messages')
+        .insert([formData]);
+      
+      if (!sbError) {
+        console.log('Supabase insert successful');
         toast.success('Message sent successfully!');
         setFormData({ name: '', email: '', subject: '', message: '' });
         setFormState('success');
+        return;
+      }
+      
+      console.warn('Supabase insert failed, trying Backend API:', sbError);
+
+      // 2. Try Backend API as Fallback
+      const response = await axios.post('/api/contact', formData);
+      if (response?.data?.success) {
+        toast.success('Message sent successfully via server!');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormState('success');
       } else {
-        throw new Error('Unexpected response format');
+        throw new Error('All submission methods failed.');
       }
     } catch (error: any) {
-      console.error('Submission error:', error);
-      let errorMessage = 'Failed to send message';
+      console.error('Final submission failure:', error);
+      let errorMessage = 'Failed to send message. Please check your internet connection or Supabase settings.';
       
-      if (error.response?.data?.error) {
-        errorMessage = typeof error.response.data.error === 'object' 
-          ? error.response.data.error.message || JSON.stringify(error.response.data.error)
-          : error.response.data.error;
-      } else if (error.message) {
-        errorMessage = error.message;
+      if (error && typeof error === 'object') {
+        if (error.response?.status === 404) {
+          errorMessage = "Submission endpoint not found. Please ensure the server is running correctly.";
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
       }
       
       toast.error(String(errorMessage));
       setFormState('idle');
     }
   };
+
+  useEffect(() => {
+    // Audit API reachability
+    const checkApi = async () => {
+      try {
+        const res = await axios.get('/api/health');
+        console.log('Backend API Status:', res.data);
+      } catch (e) {
+        console.warn('Backend API not reachable:', e);
+      }
+    };
+    checkApi();
+  }, []);
 
   return (
     <section id="contact" className="bg-white relative overflow-hidden py-16 md:py-24 lg:py-32">

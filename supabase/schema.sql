@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   github_url TEXT,
   linkedin_url TEXT,
   twitter_url TEXT,
+  hero_image_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );

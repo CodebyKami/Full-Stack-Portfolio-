@@ -24,12 +24,22 @@ app.use(helmet({
 }));
 
 // Supabase Client (Server-side)
-const supabaseUrl = process.env.SUPABASE_URL || "https://hhrjoxrdmckvdxhsuwce.supabase.co";
-const supabaseKey = process.env.SUPABASE_ANON_KEY || "sb_publishable_qH4yArd--J_MscJj1sBlqA_Gft3eNko";
+const supabaseUrl = process.env.SUPABASE_URL || "";
+const supabaseKey = process.env.SUPABASE_ANON_KEY || "";
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error("FATAL: Supabase environment variables missing! Please check SUPABASE_URL and SUPABASE_ANON_KEY.");
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Gemini Client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+
+// Health Check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", time: new Date().toISOString(), supabase: !!supabaseUrl });
+});
 
 // AI Assistant Endpoint
 app.post("/api/ai", async (req, res) => {

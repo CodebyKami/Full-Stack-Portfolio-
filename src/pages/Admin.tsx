@@ -53,18 +53,26 @@ export default function Admin() {
     setIsUploading(true);
     try {
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${user.id}/${fileName}`;
+      const fileName = `${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `${user?.id || 'public'}/${fileName}`;
 
       // 1. Check if bucket exists/is accessible
-      const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
-      if (bucketError) {
-        console.error('Bucket check error:', bucketError);
-      }
-      
+      const { data: buckets } = await supabase.storage.listBuckets();
       const portfolioBucket = buckets?.find(b => b.name === 'portfolio');
+      
       if (!portfolioBucket) {
-        throw new Error("Bucket 'portfolio' not found. Please create a public bucket named 'portfolio' in your Supabase Storage dashboard.");
+        console.log("Bucket 'portfolio' missing, attempting to create...");
+        const { error: createError } = await supabase.storage.createBucket('portfolio', {
+          public: true,
+          allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+          fileSizeLimit: 5242880 // 5MB
+        });
+        
+        if (createError) {
+          console.error("Bucket creation failed:", createError);
+          throw new Error("Bucket 'portfolio' not found and could not be created. Please create it manually in your Supabase dashboard.");
+        }
+        toast.info("Created missing 'portfolio' storage bucket.");
       }
 
       // 2. Upload to Supabase Storage
@@ -121,6 +129,15 @@ export default function Admin() {
       fetchMessages();
     }
   }, [user]);
+
+  useEffect(() => {
+    if (activeTab === 'profile') {
+      const currentProfile = useStore.getState().profile;
+      setNewItemData(currentProfile || {});
+    } else {
+      setNewItemData({});
+    }
+  }, [activeTab]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -260,6 +277,9 @@ export default function Admin() {
       // Try to setup storage first
       await setupStorage();
 
+      const defaultAvatar = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800";
+      const defaultHero = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600";
+
       // Seed Profile
       await supabase.from('profiles').upsert({
         id: user.id,
@@ -267,8 +287,8 @@ export default function Admin() {
         title: 'Full-Stack Developer & Automation Expert',
         bio: 'Expert in building high-performance websites using WordPress, GoHighLevel, and Squarespace.',
         email: 'kamranrasool0045@gmail.com',
-        avatar_url: '/kamran_profile.png',
-        hero_image_url: 'https://picsum.photos/seed/abstract/800/800',
+        avatar_url: defaultAvatar,
+        hero_image_url: defaultHero,
         github_url: 'https://github.com/codebykami',
         linkedin_url: 'https://linkedin.com/in/kamranrasool',
       });
@@ -319,9 +339,20 @@ export default function Admin() {
     setIsLoading(true);
     try {
       // 1. Storage
-      await setupStorage();
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const portfolioBucket = buckets?.find(b => b.name === 'portfolio');
+      if (!portfolioBucket) {
+        await supabase.storage.createBucket('portfolio', { public: true });
+        toast.info("Created missing 'portfolio' storage bucket.");
+      }
 
-      // 2. Check tables
+      // 2. Check and Fix Table Columns (Critical for Profiles)
+      const { error: profileError } = await supabase.from('profiles').select('hero_image_url').limit(1);
+      if (profileError && profileError.code === '42703') {
+        toast.warning("Profile table is missing modern columns. Please run the REPAIR SQL in your dashboard.");
+      }
+
+      // 3. Check tables
       const tables = ['profiles', 'projects', 'skills', 'services', 'experience', 'testimonials', 'blog_posts', 'clients', 'messages'];
       const missingTables = [];
 
@@ -1142,15 +1173,24 @@ export default function Admin() {
                     <div className="pl-16 space-y-4">
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         1. Open your **Supabase SQL Editor**.<br/>
-                        2. Copy the contents of <code>/supabase/schema.sql</code>.<br/>
-                        3. Execute the script to create all required tables.
+                        2. Execute <code>/supabase/schema.sql</code> first.<br/>
+                        3. If you have an existing profiles table, execute the **Repair Script** below.
                       </p>
-                      <Button variant="outline" className="border-white/10 hover:bg-white/5 font-bold" onClick={() => {
-                        navigator.clipboard.writeText("Check /supabase/schema.sql in the file explorer.");
-                        toast.info("SQL path copied to clipboard");
-                      }}>
-                        COPY SCHEMA PATH
-                      </Button>
+                      <div className="flex gap-4">
+                        <Button variant="outline" className="border-white/10 hover:bg-white/5 font-bold" onClick={() => {
+                          const repairSql = "ALTER TABLE profiles ADD COLUMN IF NOT EXISTS hero_image_url TEXT;";
+                          navigator.clipboard.writeText(repairSql);
+                          toast.info("Repair SQL copied to clipboard");
+                        }}>
+                          COPY REPAIR SQL
+                        </Button>
+                        <Button variant="outline" className="border-white/10 hover:bg-white/5 font-bold" onClick={() => {
+                          navigator.clipboard.writeText("Check /supabase/schema.sql in the file explorer.");
+                          toast.info("SQL path copied to clipboard");
+                        }}>
+                          COPY SCHEMA PATH
+                        </Button>
+                      </div>
                     </div>
                   </div>
 
