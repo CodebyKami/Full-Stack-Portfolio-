@@ -53,24 +53,22 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out",
-        isScrolled ? "py-4" : "py-6"
+        "fixed top-0 left-0 right-0 z-[2000] transition-all duration-300",
+        isScrolled 
+          ? "bg-white/90 backdrop-blur-md border-b border-border/50 py-3 shadow-sm" 
+          : "bg-transparent py-6"
       )}
     >
-      <div className="container max-w-6xl">
-        <div className={cn(
-          "relative flex items-center justify-between px-6 py-3 rounded-2xl transition-all duration-500",
-          "bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-border/50",
-          isScrolled ? "shadow-premium" : "shadow-sm"
-        )}>
+      <div className="container max-w-7xl px-4 md:px-8">
+        <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-xl font-black tracking-tighter text-foreground">
-              KAMRAN<span className="text-primary group-hover:animate-pulse">.</span>
+            <span className="text-2xl font-bold tracking-tight text-foreground">
+              KAMRAN<span className="text-primary group-hover:text-primary/70 transition-colors">.</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
@@ -78,52 +76,35 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "relative px-4 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors",
-                    isActive ? "text-primary" : "text-muted hover:text-foreground"
+                    "px-4 py-2 text-[13px] font-semibold tracking-wide transition-all duration-200 rounded-lg",
+                    isActive 
+                      ? "text-primary bg-primary/5" 
+                      : "text-muted hover:text-foreground hover:bg-surface"
                   )}
                 >
                   {link.name}
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-active"
-                      className="absolute bottom-1 left-4 right-4 h-0.5 bg-primary rounded-full"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
                 </a>
               );
             })}
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <a href="#contact">
-              <Button className="hidden md:flex btn-primary h-10 px-6 rounded-xl font-bold text-[11px] tracking-widest uppercase">
-                Contact
+          <div className="flex items-center gap-4">
+            {/* ThemeToggle hidden as requested */}
+            {/* <ThemeToggle /> */}
+            <a href="#contact" className="hidden md:block">
+              <Button className="bg-foreground text-background hover:bg-foreground/90 h-10 px-6 rounded-lg font-bold text-xs tracking-wider uppercase transition-all">
+                Hire Me
               </Button>
             </a>
             
             {/* Mobile Toggle */}
             <button 
-              className="md:hidden h-10 w-10 flex items-center justify-center text-foreground interactive rounded-xl hover:bg-surface transition-colors z-[130]"
+              className="md:hidden h-10 w-10 flex items-center justify-center text-foreground hover:bg-surface rounded-lg transition-colors z-[2002]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
             >
-              <div className="relative w-5 h-4">
-                <span className={cn(
-                  "absolute left-0 w-full h-0.5 bg-current transition-all duration-300",
-                  isMobileMenuOpen ? "top-2 rotate-45" : "top-0"
-                )} />
-                <span className={cn(
-                  "absolute left-0 w-full h-0.5 bg-current transition-all duration-300 top-2",
-                  isMobileMenuOpen ? "opacity-0" : "opacity-100"
-                )} />
-                <span className={cn(
-                  "absolute left-0 w-full h-0.5 bg-current transition-all duration-300",
-                  isMobileMenuOpen ? "top-2 -rotate-45" : "top-4"
-                )} />
-              </div>
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
@@ -133,46 +114,39 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 bg-white dark:bg-black z-[120] flex flex-col pt-32 px-10"
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed inset-0 h-screen w-screen bg-white z-[2001] flex flex-col p-8 pt-24 overflow-y-auto"
           >
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4 relative z-10">
               {navLinks.map((link, i) => (
                 <motion.a
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "text-5xl font-black font-heading tracking-tighter transition-colors",
-                    activeSection === link.href.substring(1) ? "text-primary" : "text-foreground hover:text-primary"
+                    "text-4xl font-bold tracking-tight py-2 transition-colors",
+                    activeSection === link.href.substring(1) ? "text-primary" : "text-foreground"
                   )}
                 >
                   {link.name}
                 </motion.a>
               ))}
               
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: navLinks.length * 0.05 }}
-                className="mt-12 pt-12 border-t border-border flex flex-col gap-8"
-              >
-                <div className="flex items-center gap-6">
-                  <ThemeToggle />
-                  <span className="text-sm font-bold text-muted uppercase tracking-widest">Switch Theme</span>
-                </div>
+              <div className="mt-12 pt-8 border-t border-border flex flex-col gap-6">
                 <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="btn-primary w-full h-16 text-xl rounded-2xl">Start a Project</Button>
+                  <Button className="w-full h-14 text-lg rounded-xl bg-foreground text-background">Get in Touch</Button>
                 </a>
-              </motion.div>
+              </div>
             </div>
+            
+            {/* Background elements to ensure opacity */}
+            <div className="absolute inset-0 bg-white -z-10" />
           </motion.div>
         )}
       </AnimatePresence>

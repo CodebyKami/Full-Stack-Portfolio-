@@ -51,17 +51,17 @@ export default function Preloader() {
           exit="exit"
           className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
         >
-          <div className="container max-w-4xl px-12 relative z-10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-12 mb-16">
-              <div className="flex items-center gap-8">
+          <div className="container max-w-4xl px-8 relative z-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-12 mb-12 md:mb-16">
+              <div className="flex items-center gap-6 md:gap-8">
                 <motion.div 
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative group"
+                  className="relative group shrink-0"
                 >
-                  <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/40 transition-all duration-700" />
-                  <div className="relative h-24 w-24 md:h-32 md:w-32 rounded-full border-2 border-white/10 overflow-hidden bg-white/5 ring-4 ring-primary/10">
+                  <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/30 transition-all duration-700" />
+                  <div className="relative h-20 w-20 md:h-32 md:w-32 rounded-full border-2 border-white/10 overflow-hidden bg-white/5 ring-4 ring-primary/5">
                     <img 
                       src={profilePic} 
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
@@ -70,15 +70,15 @@ export default function Preloader() {
                   </div>
                 </motion.div>
 
-                <div className="space-y-4">
+                <div className="space-y-2 md:space-y-4">
                   <motion.div 
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="flex items-center gap-3"
+                    className="flex items-center gap-2 md:gap-3"
                   >
-                    <div className="h-[1px] w-8 bg-primary" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">System Bootstrapping</span>
+                    <div className="h-[1px] w-6 md:w-8 bg-primary" />
+                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] md:tracking-[0.5em] text-primary whitespace-nowrap">System Initialization</span>
                   </motion.div>
                   
                   <div className="overflow-hidden">
@@ -86,26 +86,26 @@ export default function Preloader() {
                       initial={{ y: "100%" }}
                       animate={{ y: 0 }}
                       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                      className="text-5xl md:text-7xl font-black tracking-tighter text-white leading-none uppercase italic"
+                      className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-white leading-none uppercase"
                     >
-                      {name}<span className="text-primary not-italic">.</span>
+                      {name}<span className="text-primary text-[1.2em]">.</span>
                     </motion.h1>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col items-end gap-2">
+              <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start gap-4 md:gap-2">
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
-                  className="text-right"
+                  className="text-left md:text-right"
                 >
-                  <p className="text-[11px] font-bold text-white/40 uppercase tracking-[0.3em] mb-1">
-                    Kernel Mode: <span className="text-primary/60">Professional</span>
+                  <p className="text-[9px] md:text-[11px] font-medium text-white/40 uppercase tracking-[0.2em] md:tracking-[0.3em] mb-0 md:mb-1">
+                    Environment: <span className="text-primary/60">Live</span>
                   </p>
                 </motion.div>
-                <div className="text-5xl md:text-6xl font-mono text-primary font-black tracking-tighter">
+                <div className="text-4xl md:text-6xl font-sans text-primary font-bold tracking-tighter">
                   {progress < 10 ? `0${progress}` : progress}%
                 </div>
               </div>
@@ -113,12 +113,12 @@ export default function Preloader() {
 
             <div className="relative h-[2px] w-full bg-white/5 overflow-hidden rounded-full">
               <motion.div 
-                className="absolute inset-0 bg-primary origin-left shadow-[0_0_15px_rgba(200,245,56,0.5)]"
+                className="absolute inset-0 bg-primary origin-left shadow-[0_0_15px_rgba(37,99,235,0.5)]"
                 style={{ scaleX: progress / 100 }}
               />
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mt-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 mt-12 md:mt-16">
               {[
                 { label: "Core Layer", value: "Full-Stack Developer" },
                 { label: "Automation", value: "Process Architect" },

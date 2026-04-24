@@ -491,7 +491,7 @@ export default function Admin() {
               </div>
               
               <div className="pt-2">
-                <Button type="submit" className="w-full h-14 bg-primary text-black hover:bg-primary/90 transition-all font-black text-xs uppercase tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(200,245,56,0.15)] hover:shadow-[0_15px_40px_rgba(200,245,56,0.25)] border-none" disabled={isLoading}>
+                <Button type="submit" className="w-full h-14 bg-primary text-white hover:bg-primary/90 transition-all font-bold text-xs uppercase tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(37,99,235,0.15)] hover:shadow-[0_15px_40px_rgba(37,99,235,0.25)] border-none" disabled={isLoading}>
                   {isLoading ? 'ESTABLISHING CONNECTION...' : 'INITIALIZE SESSION'}
                 </Button>
               </div>
@@ -553,13 +553,13 @@ export default function Admin() {
               className={cn(
                 "w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group",
                 activeTab === item.id 
-                  ? "bg-primary text-black font-bold shadow-[0_0_20px_rgba(200,245,56,0.2)]" 
+                  ? "bg-primary text-white font-bold shadow-[0_0_20px_rgba(37,99,235,0.2)]" 
                   : "text-muted-foreground hover:text-white hover:bg-white/5"
               )}
             >
-              <item.icon className={cn("h-5 w-5", activeTab === item.id ? "text-black" : "text-muted-foreground group-hover:text-primary")} />
+              <item.icon className={cn("h-5 w-5", activeTab === item.id ? "text-white" : "text-muted-foreground group-hover:text-primary")} />
               <span className="text-sm tracking-tight">{item.label}</span>
-              {activeTab === item.id && <ChevronRight className="ml-auto h-4 w-4 text-black" />}
+              {activeTab === item.id && <ChevronRight className="ml-auto h-4 w-4 text-white" />}
             </button>
           ))}
         </nav>

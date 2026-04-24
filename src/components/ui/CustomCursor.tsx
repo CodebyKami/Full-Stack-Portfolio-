@@ -36,7 +36,7 @@ export default function CustomCursor() {
     };
 
     const onMouseLeave = () => {
-      gsap.to(dot, { scale: 1, backgroundColor: '#c8f538', duration: 0.3 });
+      gsap.to(dot, { scale: 1, backgroundColor: '#2563eb', duration: 0.3 });
       gsap.to(ring, { scale: 1, opacity: 1, duration: 0.3 });
     };
 
@@ -68,7 +68,7 @@ export default function CustomCursor() {
       />
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 w-10 h-10 border border-primary/30 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block shadow-[0_0_20px_rgba(200,245,56,0.1)]"
+        className="fixed top-0 left-0 w-10 h-10 border border-primary/30 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block shadow-[0_0_20px_rgba(37,99,235,0.1)]"
       />
     </>
   );

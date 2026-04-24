@@ -68,13 +68,13 @@ const FactsBar = () => {
   ];
 
   return (
-    <div className="bg-surface py-12 border-y border-border">
-      <div className="container">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+    <div className="bg-white py-14 border-y border-border/50">
+      <div className="container max-w-6xl px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-8 md:gap-12">
           {facts.map((fact, i) => (
             <div key={i} className="text-center space-y-2">
-              <div className="text-3xl md:text-4xl font-black text-primary tracking-tighter">{fact.value}</div>
-              <div className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-muted">{fact.label}</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary tracking-tighter">{fact.value}</div>
+              <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-muted/60">{fact.label}</div>
             </div>
           ))}
         </div>
@@ -89,38 +89,37 @@ const About = () => {
   const avatarUrl = profile.avatar_url || `https://hhrjoxrdmckvdxhsuwce.supabase.co/storage/v1/object/public/portfolio/6f6c6b65-2f5b-43d2-b7dd-56a7a863a6ea/bgymm5.png`;
 
   return (
-    <section id="about" className="relative bg-white pb-24">
+    <section id="about" className="relative bg-white pb-20 md:pb-24 px-6">
       <ScrollReveal className="container">
-        <div className="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 md:gap-24 items-center">
           <div className="order-2 lg:order-1 relative">
-            <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl border border-border group">
+            <div className="relative aspect-[4/5] rounded-[30px] md:rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-[8px] md:border-[12px] border-white group max-w-md mx-auto lg:max-w-none">
               <img 
                 src={avatarUrl} 
                 alt={profile.full_name} 
-                className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 group-hover:scale-100"
+                className="w-full h-full object-cover transition-all duration-1000 ease-in-out scale-105 group-hover:scale-110"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
             </div>
-            
-            {/* Removed Achievement Cards to leave just one main image as requested */}
           </div>
 
-          <div className="order-1 lg:order-2 space-y-10">
-            <div className="space-y-6">
+          <div className="order-1 lg:order-2 space-y-8 md:space-y-10">
+            <div className="space-y-4 md:space-y-6">
               <span className="section-label">About Me</span>
-              <h2 className="fluid-h2 leading-[1.1]">
-                Web Developer & <span className="text-primary">Automation</span> Specialist.
+              <h2 className="text-[2.25rem] sm:text-[3rem] md:fluid-h2 leading-[1.1] tracking-tight">
+                Full-Stack Developer & <br />
+                <span className="text-primary">Automation Expert</span>.
               </h2>
               <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
-                {profile.bio}
+                I engineer sophisticated web architectures and intelligent automation frameworks that transform business operations. My expertise lies in bridging the gap between advanced full-stack development and strategic CRM scaling.
               </p>
-              <p className="text-base text-muted/80 leading-relaxed">
-                I specialize in creating custom digital solutions that help businesses scale. Whether it's a high-performance WordPress site, a complex GoHighLevel automation, or a bespoke full-stack application, I deliver quality and results.
+              <p className="text-base text-muted/80 leading-relaxed font-medium">
+                With a deep focus on WordPress, GoHighLevel, and custom-built systems, I deliver high-performance solutions that are not just technically sound but strategically designed for global business expansion and maximum efficiency.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-8">
+            <div className="grid sm:grid-cols-2 gap-6 md:gap-8">
               <div className="space-y-3">
                 <div className="h-1 w-12 bg-primary rounded-full" />
                 <h4 className="text-foreground font-bold text-base">Web Development</h4>
@@ -133,14 +132,16 @@ const About = () => {
               </div>
             </div>
 
-            <div className="pt-4 flex flex-wrap gap-4">
-              <Button className="btn-primary h-14 px-8">
+            <div className="pt-4 flex flex-col sm:flex-row gap-4">
+              <Button className="btn-primary h-14 px-8 w-full sm:w-auto font-bold rounded-full group">
                 Download Resume
-                <Download className="ml-2 h-5 w-5" />
+                <Download className="ml-2 h-5 w-5 group-hover:translate-y-1 transition-transform" />
               </Button>
-              <Button className="btn-secondary h-14 px-8">
-                Let's Talk
-              </Button>
+              <a href="#contact" className="w-full sm:w-auto">
+                <Button className="bg-white text-black hover:bg-surface border border-border/50 h-14 px-8 w-full sm:w-auto font-bold shadow-sm rounded-full transition-all duration-300">
+                  Let's Talk
+                </Button>
+              </a>
             </div>
           </div>
         </div>
@@ -169,29 +170,29 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="bg-surface">
+    <section id="skills" className="bg-surface py-20 md:py-24 px-6">
       <ScrollReveal className="container">
-        <div className="mb-16 md:mb-24 text-center">
+        <div className="mb-12 md:mb-20 text-center">
           <span className="section-label mx-auto">Expertise</span>
-          <h2 className="fluid-h2">Core <span className="text-primary">competencies</span>.</h2>
+          <h2 className="text-[2.25rem] sm:text-[3rem] md:fluid-h2">Core <span className="text-primary">competencies</span>.</h2>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
           {skillCategories.map((category, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}
-              className="bg-white p-10 rounded-[32px] shadow-premium border border-border group transition-all duration-500"
+              className="bg-white p-8 md:p-10 rounded-[24px] md:rounded-[32px] shadow-premium border border-border group transition-all duration-500"
             >
-              <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                <category.icon className="h-7 w-7" />
+              <div className="h-12 w-12 md:h-14 md:w-14 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 md:mb-10 group-hover:bg-primary group-hover:text-white transition-all duration-700 shadow-sm">
+                <category.icon className="h-6 w-6 md:h-7 md:w-7" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-6 tracking-tight">{category.title}</h3>
-              <div className="flex flex-wrap gap-3">
+              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 md:mb-6 tracking-tight">{category.title}</h3>
+              <div className="flex flex-wrap gap-2 md:gap-2.5">
                 {category.skills.map((skill, j) => (
                   <span 
                     key={j} 
-                    className="px-4 py-2 rounded-xl bg-surface border border-border text-sm font-medium text-muted hover:border-primary/30 hover:text-primary transition-colors"
+                    className="px-3 md:px-4 py-1.5 md:py-2 rounded-xl bg-surface border border-border text-[11px] md:text-[13px] font-semibold text-muted/80 hover:border-primary/40 hover:text-primary transition-all duration-300"
                   >
                     {skill}
                   </span>
@@ -222,21 +223,21 @@ const Projects = () => {
       ];
 
   return (
-    <section id="projects" className="bg-white">
+    <section id="projects" className="bg-white py-20 md:py-32 px-6">
       <ScrollReveal className="container">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-10">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 md:mb-24 gap-8 md:gap-10">
           <div className="max-w-2xl">
             <span className="section-label">Selected Work</span>
-            <h2 className="fluid-h2 tracking-tight">Architecting <span className="text-primary">scalable</span> digital solutions.</h2>
-            <p className="text-lg text-muted mt-6 font-medium">A collection of projects that push the boundaries of web engineering and user experience design.</p>
+            <h2 className="text-[2.25rem] sm:text-[3rem] md:fluid-h2 tracking-tight">Architecting <span className="text-primary">scalable</span> digital solutions.</h2>
+            <p className="text-base md:text-lg text-muted mt-4 md:mt-6 font-medium">A collection of projects that push the boundaries of web engineering and user experience design.</p>
           </div>
-          <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-surface border border-border w-fit">
+          <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-surface border border-border w-fit h-fit overflow-x-auto no-scrollbar">
             {categories.map((cat) => (
               <button 
                 key={cat} 
                 onClick={() => setFilter(cat)}
                 className={cn(
-                  "text-[13px] font-bold transition-all duration-300 px-6 py-2.5 rounded-xl",
+                  "text-[12px] md:text-[13px] font-bold transition-all duration-300 px-4 md:px-6 py-2 md:py-2.5 rounded-xl whitespace-nowrap",
                   filter === cat 
                     ? "bg-white text-primary shadow-sm border border-border" 
                     : "text-muted hover:text-foreground"
@@ -248,7 +249,7 @@ const Projects = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {filteredProjects.map((project, i) => (
             <motion.div 
               key={i}
@@ -377,8 +378,8 @@ const Resume = () => {
   const hasExperience = Array.isArray(experience) && experience.length > 0;
 
   const defaultExperience = [
-    { role: "Senior Web Developer", company: "Freelance", start_date: "2020", end_date: "Present", description: ["Specialized in WordPress, GoHighLevel, and Squarespace development.", "Delivered 150+ successful projects for global clients.", "Implemented complex CRM automations and custom full-stack solutions."] },
-    { role: "Web Developer", company: "Digital Agency", start_date: "2018", end_date: "2020", description: ["Developed custom themes and plugins for WordPress.", "Managed client websites and ensured high performance and security.", "Collaborated with design teams to create pixel-perfect interfaces."] },
+    { role: "Lead Full-Stack Developer", company: "Freelance / Private Contractor", start_date: "2020", end_date: "Present", description: ["Architecting high-conversion WordPress ecosystems and GoHighLevel CRM infrastructures.", "Consulting for global enterprises on technical automation and scalable web systems.", "Developing custom full-stack solutions to bridge complex API integrations."] },
+    { role: "Web Application Developer", company: "Technical Solutions Agency", start_date: "2018", end_date: "2020", description: ["Managed end-to-end development lifecycles for high-traffic client websites.", "Engineered custom WordPress themes and proprietary plugins.", "Optimized server-side performance and security protocols for distributed web apps."] },
   ];
 
   const education = [
@@ -416,7 +417,7 @@ const Resume = () => {
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                   className="relative"
                 >
-                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-primary ring-4 ring-white" />
+                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-primary ring-4 ring-white shadow-sm" />
                   <div className="text-sm font-bold text-primary mb-2 uppercase tracking-widest">{exp.start_date} — {exp.end_date}</div>
                   <h4 className="text-xl font-bold text-foreground mb-1">{exp.role}</h4>
                   <p className="text-muted font-bold mb-4">{exp.company}</p>
@@ -450,7 +451,7 @@ const Resume = () => {
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                   className="relative"
                 >
-                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-secondary ring-4 ring-white" />
+                  <div className="absolute left-[-37px] top-0 h-4 w-4 rounded-full bg-secondary ring-4 ring-white shadow-sm" />
                   <div className="text-sm font-bold text-secondary mb-2 uppercase tracking-widest">{edu.year}</div>
                   <h4 className="text-xl font-bold text-foreground mb-1">{edu.degree}</h4>
                   <p className="text-muted font-bold">{edu.school}</p>
@@ -536,44 +537,44 @@ const Contact = () => {
   }, []);
 
   return (
-    <section id="contact" className="bg-white relative overflow-hidden py-16 md:py-24 lg:py-32">
+    <section id="contact" className="bg-white relative overflow-hidden py-20 md:py-32 px-6">
       <ScrollReveal className="container">
-        <div className="grid lg:grid-cols-2 gap-20 md:gap-32">
-          <div className="space-y-12">
-            <div className="space-y-6">
-              <span className="section-label">Contact</span>
-              <h2 className="fluid-h2 leading-tight">
+        <div className="grid lg:grid-cols-2 gap-16 md:gap-32">
+          <div className="space-y-10 md:space-y-12">
+            <div className="space-y-4 md:space-y-6 text-center lg:text-left">
+              <span className="section-label mx-auto lg:ml-0 lg:mr-auto">Contact</span>
+              <h2 className="text-[2.25rem] sm:text-[3rem] md:fluid-h2 leading-tight">
                 Let's build something <span className="text-primary">extraordinary</span>.
               </h2>
-              <p className="text-lg md:text-xl text-muted font-medium leading-relaxed max-w-md">
+              <p className="text-lg text-muted font-medium leading-relaxed max-w-md mx-auto lg:ml-0 lg:mr-auto">
                 Ready to take your project to the next level? I'm currently accepting new projects and consulting opportunities.
               </p>
             </div>
             
-            <div className="space-y-10">
-              <div className="flex items-center gap-6 group">
-                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500">
+            <div className="space-y-8 md:space-y-10 max-w-md mx-auto lg:ml-0 lg:mr-auto w-full">
+              <div className="flex flex-col sm:flex-row items-center lg:items-start text-center lg:text-left gap-6 group">
+                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500 shrink-0">
                   <Mail className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-[11px] font-bold text-muted uppercase tracking-widest mb-1">Email Me</p>
-                  <p className="text-xl font-bold text-foreground break-all tracking-tight">kamranrasool0045@gmail.com</p>
+                  <p className="text-lg md:text-xl font-bold text-foreground break-all tracking-tight">kamranrasool0045@gmail.com</p>
                 </div>
               </div>
-              <div className="flex items-center gap-6 group">
-                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500">
+              <div className="flex flex-col sm:flex-row items-center lg:items-start text-center lg:text-left gap-6 group">
+                <div className="h-14 w-14 rounded-2xl bg-surface border border-border flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-500 shrink-0">
                   <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <p className="text-[11px] font-bold text-muted uppercase tracking-widest mb-1">Location</p>
-                  <p className="text-xl font-bold text-foreground tracking-tight">Lahore, Pakistan</p>
+                  <p className="text-lg md:text-xl font-bold text-foreground tracking-tight">Lahore, Pakistan</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="relative">
-            <div className="bg-surface border border-border rounded-[40px] p-10 md:p-12 shadow-premium">
+            <div className="bg-surface border border-border rounded-[32px] md:rounded-[40px] p-6 sm:p-10 md:p-12 shadow-premium">
               <AnimatePresence mode="wait">
                 {formState === 'success' ? (
                   <motion.div
