@@ -29,7 +29,8 @@ import {
   X,
   Upload,
   Image as ImageIcon,
-  Loader2
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -56,29 +57,22 @@ export default function Admin() {
       const fileName = `${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = `${user?.id || 'public'}/${fileName}`;
 
-      // 1. Check if bucket exists/is accessible
-      const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
-      
-      if (bucketError) {
-        console.error("Storage list error:", bucketError);
-        throw new Error("Could not access Supabase storage. Please check if storage is enabled in your project.");
+      // 1. Try to list buckets to see if 'portfolio' exists
+      let bucketExists = false;
+      try {
+        const { data: buckets } = await supabase.storage.listBuckets();
+        bucketExists = !!buckets?.find(b => b.name === 'portfolio');
+      } catch (err) {
+        console.warn("Storage list buckets failed, will attempt direct upload anyway.");
       }
-
-      const portfolioBucket = buckets?.find(b => b.name === 'portfolio');
       
-      if (!portfolioBucket) {
-        console.log("Bucket 'portfolio' missing, attempting to create...");
-        const { error: createError } = await supabase.storage.createBucket('portfolio', {
-          public: true,
-          allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
-          fileSizeLimit: 5242880 // 5MB
-        });
-        
-        if (createError) {
-          console.error("Bucket creation failed:", createError);
-          throw new Error("Bucket 'portfolio' not found and could not be created. Please create it manually in your Supabase dashboard.");
+      if (!bucketExists) {
+        // Attempt to create it just in case, but don't fail if it doesn't work (might already exist or permission restricted)
+        try {
+          await supabase.storage.createBucket('portfolio', { public: true });
+        } catch (err) {
+          console.warn("Could not create bucket, might need manual creation.");
         }
-        toast.info("Created missing 'portfolio' storage bucket.");
       }
 
       // 2. Upload to Supabase Storage
@@ -86,7 +80,10 @@ export default function Admin() {
         .from('portfolio')
         .upload(filePath, file);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error("Upload error details:", uploadError);
+        throw new Error(`Upload failed. Ensure a storage bucket named 'portfolio' exists in Supabase and has public access policies. Detailed error: ${uploadError.message}`);
+      }
 
       // 3. Get Public URL
       const { data: { publicUrl } } = supabase.storage
@@ -316,37 +313,37 @@ export default function Admin() {
       });
 
       // Seed Skills
-      await supabase.from('skills').insert([
+      await supabase.from('skills').upsert([
         { name: 'WordPress', category: 'CMS', proficiency: 98 },
         { name: 'GoHighLevel', category: 'CRM/Automation', proficiency: 95 },
         { name: 'React', category: 'Frontend', proficiency: 90 },
         { name: 'Node.js', category: 'Backend', proficiency: 85 },
-      ]);
+      ], { onConflict: 'name' });
 
       // Seed Services
-      await supabase.from('services').insert([
+      await supabase.from('services').upsert([
         { title: 'Full-Stack Development', description: 'Building scalable, high-performance web applications.', details: 'I specialize in React, Next.js, and Node.js to build robust applications.', icon_name: 'Code', order_index: 0 },
         { title: 'AI Automation', description: 'Streamlining business processes with intelligent AI agents.', details: 'Using Zapier, Make, and custom AI agents to automate your workflow.', icon_name: 'Cpu', order_index: 1 },
         { title: 'UI/UX Design', description: 'Creating intuitive, visually stunning interfaces.', details: 'Focusing on user-centric design principles and modern aesthetics.', icon_name: 'Globe', order_index: 2 },
-      ]);
+      ], { onConflict: 'title' });
 
       // Seed Testimonials
-      await supabase.from('testimonials').insert([
+      await supabase.from('testimonials').upsert([
         { name: 'John Doe', role: 'CEO', company: 'TechCorp', content: 'Kamran is an exceptional developer who delivered our project ahead of schedule.', rating: 5 },
         { name: 'Jane Smith', role: 'Founder', company: 'StartupInc', content: 'The automation workflows Kamran built saved us 20+ hours a week.', rating: 5 },
-      ]);
+      ], { onConflict: 'name' });
 
       // Seed Blog Posts
-      await supabase.from('blog_posts').insert([
+      await supabase.from('blog_posts').upsert([
         { title: 'The Future of AI in Web Dev', excerpt: 'How AI is changing the way we build websites in 2025.', content: 'Full content here...', read_time: '5 min read', tags: ['AI', 'Web Dev'] },
         { title: 'Mastering GoHighLevel', excerpt: 'Tips and tricks for advanced CRM automation.', content: 'Full content here...', read_time: '8 min read', tags: ['GHL', 'Automation'] },
-      ]);
+      ], { onConflict: 'title' });
 
       // Seed Clients
-      await supabase.from('clients').insert([
+      await supabase.from('clients').upsert([
         { name: 'Google', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg' },
         { name: 'Meta', logo_url: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg' },
-      ]);
+      ], { onConflict: 'name' });
 
       toast.success('Database seeded successfully!');
       fetchPortfolio();
@@ -1258,27 +1255,51 @@ export default function Admin() {
                       </div>
                     </div>
                     <div className="pl-16 space-y-4">
-                      <p className="text-sm text-muted-foreground">Apply these storage bucket policies in your Supabase SQL editor:</p>
-                      <pre className="p-4 bg-[#0a0a0a] rounded-xl text-[10px] text-primary/80 font-mono overflow-x-auto border border-white/5">
-{`-- 1. Create the bucket
+                      <div className="p-4 bg-primary/5 rounded-xl border border-primary/20 flex gap-3">
+                        <AlertCircle className="h-5 w-5 text-primary shrink-0" />
+                        <div className="text-sm">
+                          <p className="font-bold text-primary italic">Important Implementation Detail:</p>
+                          <p className="text-muted-foreground">If the "UPLOAD" button fails, you MUST create the 'portfolio' bucket manually in your Supabase dashboard and set it to 'Public'.</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground">Run this SQL in your Supabase SQL Editor to fix all issues at once:</p>
+                      <pre className="p-4 bg-[#0a0a0a] rounded-xl text-[10px] text-primary/80 font-mono overflow-x-auto border border-white/5 whitespace-pre">
+{`-- 1. FIX STORAGE
 INSERT INTO storage.buckets (id, name, public) VALUES ('portfolio', 'portfolio', true) ON CONFLICT (id) DO NOTHING;
 
--- 2. Create policies
+-- 2. ENABLE PUBLIC ACCESS
 CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'portfolio');
 CREATE POLICY "Authenticated Insert" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
 CREATE POLICY "Authenticated Update" ON storage.objects FOR UPDATE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
-CREATE POLICY "Authenticated Delete" ON storage.objects FOR DELETE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');`}
+CREATE POLICY "Authenticated Delete" ON storage.objects FOR DELETE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
+
+-- 3. ENSURE UNIQUE CONSTRAINTS FOR SEEDING
+ALTER TABLE skills ADD CONSTRAINT skills_name_key UNIQUE (name);
+ALTER TABLE services ADD CONSTRAINT services_title_key UNIQUE (title);
+ALTER TABLE testimonials ADD CONSTRAINT testimonials_name_key UNIQUE (name);
+ALTER TABLE blog_posts ADD CONSTRAINT blog_posts_title_key UNIQUE (title);
+ALTER TABLE clients ADD CONSTRAINT clients_name_key UNIQUE (name);`}
                       </pre>
                       <Button variant="outline" className="border-white/10 hover:bg-white/5 font-bold" onClick={() => {
-                        const storageSql = `INSERT INTO storage.buckets (id, name, public) VALUES ('portfolio', 'portfolio', true) ON CONFLICT (id) DO NOTHING;
+                        const storageSql = `-- 1. FIX STORAGE
+INSERT INTO storage.buckets (id, name, public) VALUES ('portfolio', 'portfolio', true) ON CONFLICT (id) DO NOTHING;
+
+-- 2. ENABLE PUBLIC ACCESS
 CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'portfolio');
 CREATE POLICY "Authenticated Insert" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
 CREATE POLICY "Authenticated Update" ON storage.objects FOR UPDATE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
-CREATE POLICY "Authenticated Delete" ON storage.objects FOR DELETE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');`;
+CREATE POLICY "Authenticated Delete" ON storage.objects FOR DELETE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
+
+-- 3. ENSURE UNIQUE CONSTRAINTS FOR SEEDING
+ALTER TABLE skills ADD CONSTRAINT skills_name_key UNIQUE (name);
+ALTER TABLE services ADD CONSTRAINT services_title_key UNIQUE (title);
+ALTER TABLE testimonials ADD CONSTRAINT testimonials_name_key UNIQUE (name);
+ALTER TABLE blog_posts ADD CONSTRAINT blog_posts_title_key UNIQUE (title);
+ALTER TABLE clients ADD CONSTRAINT clients_name_key UNIQUE (name);`;
                         navigator.clipboard.writeText(storageSql);
-                        toast.success("Storage SQL copied to clipboard");
+                        toast.success("Master SQL copied to clipboard");
                       }}>
-                        COPY STORAGE SQL
+                        COPY MASTER SQL
                       </Button>
                     </div>
                   </div>

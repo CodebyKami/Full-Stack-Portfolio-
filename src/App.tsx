@@ -18,7 +18,7 @@ function AppContent() {
     fetchPortfolio();
   }, [fetchPortfolio]);
 
-  const isAdminPage = location.pathname === '/admin';
+  const isAdminPage = location.pathname.startsWith('/admin');
 
   return (
     <ErrorBoundary>
