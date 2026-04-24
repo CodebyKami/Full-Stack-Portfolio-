@@ -4,7 +4,7 @@
 @theme {
   --color-background: #FFFFFF;
   --color-foreground: #0F172A;
-  --color-primary: #4F46E5;
+  --color-primary: #C8F538;
   --color-secondary: #06B6D4;
   --color-accent: #06B6D4;
   --color-surface: #F6F7FB;
@@ -80,7 +80,7 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(79,70,229,0.3)] active:scale-95 flex items-center justify-center min-h-[44px];
+    @apply bg-primary text-black px-8 py-4 rounded-xl font-black transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(200,245,56,0.3)] active:scale-95 flex items-center justify-center min-h-[44px] uppercase tracking-widest text-xs;
   }
   
   .btn-secondary {
@@ -144,7 +144,7 @@
   position: absolute;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(109, 94, 248, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(200, 245, 56, 0.08) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;

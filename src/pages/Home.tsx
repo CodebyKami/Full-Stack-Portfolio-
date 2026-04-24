@@ -86,9 +86,7 @@ const FactsBar = () => {
 const About = () => {
   const profile = useStore(state => state.profile);
   
-  const avatarUrl = profile.avatar_url && !profile.avatar_url.includes('kamran_profile.png') 
-    ? profile.avatar_url 
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.full_name || 'Kamran Rasool')}&background=4f46e5&color=fff&size=512&bold=true`;
+  const avatarUrl = profile.avatar_url || `https://hhrjoxrdmckvdxhsuwce.supabase.co/storage/v1/object/public/portfolio/6f6c6b65-2f5b-43d2-b7dd-56a7a863a6ea/bgymm5.png`;
 
   return (
     <section id="about" className="relative bg-white pb-24">

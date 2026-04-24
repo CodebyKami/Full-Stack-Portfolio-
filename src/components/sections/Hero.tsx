@@ -67,9 +67,9 @@ export default function Hero() {
                 y: [0, -12, 0],
                 scale: [1, 1.05, 1],
                 boxShadow: [
-                  "0 0 20px rgba(79,70,229,0.1)",
-                  "0 0 40px rgba(79,70,229,0.3)",
-                  "0 0 20px rgba(79,70,229,0.1)"
+                  "0 0 20px rgba(200,245,56,0.1)",
+                  "0 0 40px rgba(200,245,56,0.3)",
+                  "0 0 20px rgba(200,245,56,0.1)"
                 ]
               }}
               transition={{ 
@@ -85,7 +85,7 @@ export default function Hero() {
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
               >
-                <Sparkles className="h-4 w-4 text-primary drop-shadow-[0_0_8px_rgba(79,70,229,0.8)]" />
+                <Sparkles className="h-4 w-4 text-primary drop-shadow-[0_0_8px_rgba(200,245,56,0.8)]" />
               </motion.div>
               <span className="relative z-10 drop-shadow-sm whitespace-nowrap">Full-Stack Developer • Automation Engineer</span>
             </motion.div>

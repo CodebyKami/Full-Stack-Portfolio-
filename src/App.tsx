@@ -23,6 +23,7 @@ function AppContent() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 relative overflow-x-hidden">
+        <Preloader />
         <div className="noise-overlay" />
         <CustomCursor />
         {!isAdminPage && <Navbar />}

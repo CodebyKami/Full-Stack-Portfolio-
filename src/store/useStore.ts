@@ -20,7 +20,7 @@ export const useStore = create<PortfolioState>((set) => ({
     title: 'Web Developer & Automation Specialist',
     bio: 'I am a Web Developer specializing in high-performance websites and automated systems using WordPress, GoHighLevel, and Squarespace.',
     email: 'kamranrasool0045@gmail.com',
-    avatar_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800',
+    avatar_url: 'https://hhrjoxrdmckvdxhsuwce.supabase.co/storage/v1/object/public/portfolio/6f6c6b65-2f5b-43d2-b7dd-56a7a863a6ea/bgymm5.png',
     hero_image_url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600',
   },
   projects: [],
@@ -79,7 +79,7 @@ export const useStore = create<PortfolioState>((set) => ({
         title: 'Senior Web Developer & Product Engineer',
         bio: 'Expert in building high-performance digital solutions using WordPress, GoHighLevel, and Squarespace. Specializing in custom themes, CRM automation, and full-stack architectures with 8+ years of engineering excellence.',
         email: 'kamranrasool0045@gmail.com',
-        avatar_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800',
+        avatar_url: 'https://hhrjoxrdmckvdxhsuwce.supabase.co/storage/v1/object/public/portfolio/6f6c6b65-2f5b-43d2-b7dd-56a7a863a6ea/bgymm5.png',
         hero_image_url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600',
       };
 
