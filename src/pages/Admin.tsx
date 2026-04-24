@@ -185,15 +185,23 @@ export default function Admin() {
     toast.success('Logged out');
   };
 
-  const handleDelete = async (table: string, id: string | undefined) => {
+  const handleDelete = async (table: string, id: string | undefined, title?: string) => {
+    // If no ID, it's fallback/sample data
     if (!id) {
-      toast.info('This is sample data. To manage your own content, please go to the "System Setup" tab and run the seed script.', {
-        duration: 5000,
-        action: {
-          label: 'Go to Setup',
-          onClick: () => setActiveTab('setup')
-        }
-      });
+      if (window.confirm(`This is sample data. Would you like to hide it from your view? (Permanent removal requires seeding the database first)`)) {
+        // Local removal from store
+        const store = useStore.getState();
+        const setter: any = {
+          projects: store.projects.filter(p => !title || p.title !== title),
+          skills: store.skills.filter(s => !title || s.name !== title),
+          services: store.services.filter(sv => !title || sv.title !== title),
+          testimonials: store.testimonials.filter(t => !title || t.name !== title),
+          blogPosts: store.blogPosts.filter(b => !title || b.title !== title),
+          clients: store.clients.filter(c => !title || c.name !== title),
+        };
+        useStore.setState(setter);
+        toast.success('Sample item removed from view');
+      }
       return;
     }
     
@@ -630,13 +638,30 @@ export default function Admin() {
                         </div>
                         <div className="space-y-2">
                           <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Project Image</label>
-                          <div className="flex gap-2">
-                            <Input value={newItemData.image_url || ''} onChange={e => setNewItemData({...newItemData, image_url: e.target.value})} className="bg-white/5 border-white/10" placeholder="https://..." />
-                            <div className="relative">
-                              <input type="file" accept="image/*" className="hidden" id="proj-upload" onChange={(e) => handleFileUpload(e, 'image_url')} />
-                              <Button type="button" variant="outline" className="h-8 border-white/10 px-3 hover:bg-white/5" onClick={() => document.getElementById('proj-upload')?.click()}>
-                                {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 text-primary" />}
-                              </Button>
+                          <p className="text-[9px] text-primary/60 mb-2 italic">Tip: Upload your local images from your PC. We will generate the public URL for you automatically.</p>
+                          <div className="flex gap-4 items-center">
+                            <div className="h-20 w-32 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center">
+                              {newItemData.image_url ? (
+                                <img src={newItemData.image_url} className="w-full h-full object-cover" />
+                              ) : (
+                                <ImageIcon className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              <div className="flex gap-2">
+                                <Input 
+                                  value={newItemData.image_url || ''} 
+                                  onChange={e => setNewItemData({...newItemData, image_url: e.target.value})} 
+                                  className="bg-white/5 border-white/10 text-xs" 
+                                  placeholder="Upload or paste image URL..." 
+                                />
+                                <div className="relative">
+                                  <input type="file" accept="image/*" className="hidden" id="proj-upload" onChange={(e) => handleFileUpload(e, 'image_url')} />
+                                  <Button type="button" variant="outline" className="h-9 border-white/10 px-4 hover:bg-white/5 gap-2 font-bold" onClick={() => document.getElementById('proj-upload')?.click()}>
+                                    {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Upload className="h-3 w-3" /> UPLOAD</>}
+                                  </Button>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -852,10 +877,21 @@ export default function Admin() {
           {activeTab === 'projects' && (
             <Card className="bg-[#0a0a0a] border-white/5">
               <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-8">
-                <CardTitle className="text-2xl font-bold">Manage Projects</CardTitle>
-                <Button className="btn-primary gap-2 h-10 px-6" onClick={() => setIsAddModalOpen(true)}>
-                  <Plus className="h-4 w-4" /> ADD PROJECT
-                </Button>
+                <div>
+                  <CardTitle className="text-2xl font-bold">Manage Projects</CardTitle>
+                  <p className="text-xs text-muted-foreground mt-1">Add your work and upload images from your PC.</p>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" className="border-white/10 text-[10px] h-10 px-4 font-bold" onClick={() => setActiveTab('setup')}>
+                    <Settings className="h-3 w-3 mr-2" /> STORAGE SETUP
+                  </Button>
+                  <Button className="btn-primary gap-2 h-10 px-6" onClick={() => {
+                    setNewItemData({});
+                    setIsAddModalOpen(true);
+                  }}>
+                    <Plus className="h-4 w-4" /> ADD PROJECT
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="pt-8">
                 <div className="space-y-4">
@@ -863,7 +899,7 @@ export default function Admin() {
                     <div key={project.id || project.title} className="flex items-center justify-between p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors group">
                       <div className="flex items-center gap-6">
                         <div className="h-16 w-16 rounded-xl bg-white/5 overflow-hidden">
-                          <img src={project.image_url || `https://picsum.photos/seed/${project.title}/200/200`} className="w-full h-full object-cover opacity-50" />
+                          <img src={project.image_url || `https://picsum.photos/seed/${project.title}/200/200`} className="w-full h-full object-cover" />
                         </div>
                         <div>
                           <h4 className="text-lg font-bold text-white">{project.title}</h4>
@@ -871,11 +907,14 @@ export default function Admin() {
                             {project.tags?.map((tag: string) => (
                               <Badge key={tag} variant="secondary" className="text-[9px] bg-white/5 text-muted-foreground border-none px-2">{tag}</Badge>
                             ))}
+                            {(!project.tags || project.tags.length === 0) && (
+                              <Badge variant="secondary" className="text-[9px] bg-white/5 text-muted-foreground border-none px-2">{project.category}</Badge>
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete('projects', project.id)}>
+                        <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete('projects', project.id, project.title)}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
@@ -907,7 +946,7 @@ export default function Admin() {
                           <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">{skill.category} • {skill.proficiency}%</p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('skills', skill.id)}>
+                      <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('skills', skill.id, skill.name)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -940,7 +979,7 @@ export default function Admin() {
                           </p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('experience', exp.id)}>
+                      <Button variant="ghost" size="icon" className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('experience', exp.id, exp.role)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -969,7 +1008,7 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('services', service.id)}><Trash2 className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('services', service.id, service.title)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </div>
             ))}
@@ -990,7 +1029,7 @@ export default function Admin() {
                   <div className="flex gap-1">
                     {[...Array(t.rating || 5)].map((_, i) => <Sparkles key={i} className="h-3 w-3 text-primary fill-primary" />)}
                   </div>
-                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('testimonials', t.id)}><Trash2 className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('testimonials', t.id, t.name)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
                 <p className="text-muted italic">"{t.content}"</p>
                 <div className="pt-4 border-t border-white/5">
@@ -1021,7 +1060,7 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('blog_posts', post.id)}><Trash2 className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('blog_posts', post.id, post.title)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </div>
             ))}
@@ -1041,7 +1080,7 @@ export default function Admin() {
                 <img src={client.logo_url} className="h-8 w-auto grayscale group-hover:grayscale-0 transition-all" />
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{client.name}</p>
                 <button 
-                  onClick={() => handleDelete('clients', client.id)}
+                  onClick={() => handleDelete('clients', client.id, client.name)}
                   className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <Trash2 className="h-3 w-3 text-white" />
