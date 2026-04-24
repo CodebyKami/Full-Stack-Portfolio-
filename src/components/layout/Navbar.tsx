@@ -54,9 +54,7 @@ export default function Navbar() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-[2000] transition-all duration-300",
-        isScrolled 
-          ? "bg-white/90 backdrop-blur-md border-b border-border/50 py-3 shadow-sm" 
-          : "bg-transparent py-6"
+        "bg-white/80 backdrop-blur-md border-b border-border/40 py-3 shadow-sm"
       )}
     >
       <div className="container max-w-7xl px-4 md:px-8">

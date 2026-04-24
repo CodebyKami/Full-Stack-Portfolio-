@@ -39,7 +39,7 @@ export default function Hero() {
   const profile = useStore(state => state.profile);
 
   return (
-    <section id="home" className="relative h-screen flex flex-col items-center pt-[72px] md:pt-[88px] overflow-hidden bg-background">
+    <section id="home" className="relative h-screen flex flex-col items-center pt-[100px] md:pt-[130px] overflow-hidden bg-background">
       {/* Dynamic Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <motion.div 
@@ -53,7 +53,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.1] brightness-100 contrast-150 pointer-events-none" />
       </div>
       
-      <div className="container relative z-10 flex flex-col items-center justify-center flex-grow px-4 md:px-6 py-4 md:py-8 min-h-0">
+      <div className="container relative z-10 flex flex-col items-center justify-center flex-grow px-4 md:px-6 py-2 md:py-4 min-h-0">
         <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center h-full">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
@@ -64,7 +64,7 @@ export default function Hero() {
             <motion.div 
               animate={{ y: [0, -4, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="inline-flex items-center gap-3 px-3.5 py-1.5 md:px-6 md:py-2 rounded-xl md:rounded-full bg-white/90 backdrop-blur-md shadow-sm border border-primary/10 hover:border-primary/30 transition-all duration-500 group relative overflow-hidden"
+              className="inline-flex items-center gap-3 px-3 py-1 md:px-5 md:py-2 rounded-xl md:rounded-full bg-white/90 backdrop-blur-md shadow-sm border border-primary/10 hover:border-primary/30 transition-all duration-500 group relative overflow-hidden"
             >
               <div className="relative flex h-2 w-2 md:h-2.5 md:w-2.5 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
@@ -87,9 +87,10 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(1.1rem,6vw,2.25rem)] sm:text-[clamp(1.75rem,7.5vw,3rem)] md:text-[clamp(2.5rem,9.5vw,4rem)] mb-3 md:mb-5 text-foreground tracking-tight font-bold leading-[1.15] md:leading-[1.1] xl:text-[4.5rem] px-2"
+            className="text-[clamp(1.1rem,6.5vw,2.15rem)] sm:text-[clamp(1.75rem,8vw,3rem)] md:text-[clamp(2.5rem,10vw,4rem)] mb-3 md:mb-4 text-foreground tracking-tight font-bold leading-[1.15] md:leading-[1.1] xl:text-[4.2rem] px-2"
           >
-            Crafting Scalable, High-Performance<br className="hidden sm:block" />
+            Crafting Scalable,<br />
+            High-Performance<br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-[gradient_8s_linear_infinite] inline-block mt-0.5">
               Web Solutions.
             </span>
@@ -99,7 +100,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="max-w-xl text-[10px] sm:text-xs md:text-sm lg:text-base text-muted mb-6 md:mb-10 font-medium leading-relaxed px-4 mx-auto"
+            className="max-w-xl text-[10px] sm:text-xs md:text-sm lg:text-base text-muted mb-6 md:mb-8 font-medium leading-relaxed px-4 mx-auto"
           >
             I design and develop robust web architectures and smart automations, specializing in WordPress, GoHighLevel, and custom full-stack systems for scalable business growth.
           </motion.p>
