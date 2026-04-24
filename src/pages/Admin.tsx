@@ -57,7 +57,13 @@ export default function Admin() {
       const filePath = `${user?.id || 'public'}/${fileName}`;
 
       // 1. Check if bucket exists/is accessible
-      const { data: buckets } = await supabase.storage.listBuckets();
+      const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
+      
+      if (bucketError) {
+        console.error("Storage list error:", bucketError);
+        throw new Error("Could not access Supabase storage. Please check if storage is enabled in your project.");
+      }
+
       const portfolioBucket = buckets?.find(b => b.name === 'portfolio');
       
       if (!portfolioBucket) {
@@ -127,7 +133,7 @@ export default function Admin() {
     if (user) {
       fetchPortfolio();
       fetchMessages();
-      setupStorage(); // Proactively try to setup storage
+      setupStorage();
     }
   }, [user]);
 
@@ -179,17 +185,25 @@ export default function Admin() {
     toast.success('Logged out');
   };
 
-  const handleDelete = async (table: string, id: string) => {
+  const handleDelete = async (table: string, id: string | undefined) => {
     if (!id) {
-      toast.error('Cannot delete fallback data. Please seed the database first.');
+      toast.info('This is sample data. To manage your own content, please go to the "System Setup" tab and run the seed script.', {
+        duration: 5000,
+        action: {
+          label: 'Go to Setup',
+          onClick: () => setActiveTab('setup')
+        }
+      });
       return;
     }
+    
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
     
     setIsLoading(true);
     try {
       const { error } = await supabase.from(table).delete().eq('id', id);
       if (error) throw error;
-      toast.success('Item deleted successfully');
+      toast.success('Deleted successfully');
       
       if (table === 'messages') {
         fetchMessages();
@@ -519,11 +533,11 @@ export default function Admin() {
             <div className="h-8 w-[1px] bg-white/5" />
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <p className="text-xs font-bold text-white">Kamran Rasool</p>
-                <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Administrator</p>
+                <p className="text-xs font-bold text-white">{profile?.full_name || 'Kamran Rasool'}</p>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{profile?.title || 'Administrator'}</p>
               </div>
               <div className="h-10 w-10 rounded-full bg-primary/20 border border-primary/20 flex items-center justify-center text-primary font-black">
-                KR
+                {(profile?.full_name || 'KR').split(' ').map(n => n[0]).join('')}
               </div>
             </div>
           </div>
@@ -1191,6 +1205,42 @@ export default function Admin() {
                           COPY SCHEMA PATH
                         </Button>
                       </div>
+                    </div>
+                  </div>
+
+                  <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 space-y-6">
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                        <Upload className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white">Storage Configuration</h3>
+                        <p className="text-sm text-muted-foreground">Setup the 'portfolio' bucket for image uploads.</p>
+                      </div>
+                    </div>
+                    <div className="pl-16 space-y-4">
+                      <p className="text-sm text-muted-foreground">Apply these storage bucket policies in your Supabase SQL editor:</p>
+                      <pre className="p-4 bg-[#0a0a0a] rounded-xl text-[10px] text-primary/80 font-mono overflow-x-auto border border-white/5">
+{`-- 1. Create the bucket
+INSERT INTO storage.buckets (id, name, public) VALUES ('portfolio', 'portfolio', true) ON CONFLICT (id) DO NOTHING;
+
+-- 2. Create policies
+CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'portfolio');
+CREATE POLICY "Authenticated Insert" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
+CREATE POLICY "Authenticated Update" ON storage.objects FOR UPDATE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
+CREATE POLICY "Authenticated Delete" ON storage.objects FOR DELETE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');`}
+                      </pre>
+                      <Button variant="outline" className="border-white/10 hover:bg-white/5 font-bold" onClick={() => {
+                        const storageSql = `INSERT INTO storage.buckets (id, name, public) VALUES ('portfolio', 'portfolio', true) ON CONFLICT (id) DO NOTHING;
+CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'portfolio');
+CREATE POLICY "Authenticated Insert" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
+CREATE POLICY "Authenticated Update" ON storage.objects FOR UPDATE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');
+CREATE POLICY "Authenticated Delete" ON storage.objects FOR DELETE USING (bucket_id = 'portfolio' AND auth.role() = 'authenticated');`;
+                        navigator.clipboard.writeText(storageSql);
+                        toast.success("Storage SQL copied to clipboard");
+                      }}>
+                        COPY STORAGE SQL
+                      </Button>
                     </div>
                   </div>
 

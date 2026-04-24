@@ -27,10 +27,20 @@ function AppContent() {
         <CustomCursor />
         {!isAdminPage && <Navbar />}
         <main>
-          <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/admin" element={<Admin />} />
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
         </main>
         <Toaster position="top-center" richColors />
       </div>
