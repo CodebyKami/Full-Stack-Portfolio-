@@ -44,8 +44,11 @@ export default function Admin() {
 
   const { profile, projects, skills, experience, services, testimonials, blogPosts, clients, fetchPortfolio } = useStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [newItemData, setNewItemData] = useState<any>({});
   const [isUploading, setIsUploading] = useState(false);
+
+  const profilePic = "https://hhrjoxrdmckvdxhsuwce.supabase.co/storage/v1/object/public/portfolio/6f6c6b65-2f5b-43d2-b7dd-56a7a863a6ea/bgymm5.png";
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
     const file = event.target.files?.[0];
@@ -229,11 +232,15 @@ export default function Admin() {
       let table = activeTab;
       if (activeTab === 'blog') table = 'blog_posts';
       
-      const { error } = await supabase.from(table).insert([newItemData]);
+      const { error } = editingId 
+        ? await supabase.from(table).update(newItemData).eq('id', editingId)
+        : await supabase.from(table).insert([newItemData]);
+        
       if (error) throw error;
       
-      toast.success('Item added successfully');
+      toast.success(editingId ? 'Item updated successfully' : 'Item added successfully');
       setIsAddModalOpen(false);
+      setEditingId(null);
       setNewItemData({});
       
       if (table === 'messages') {
@@ -242,10 +249,16 @@ export default function Admin() {
         fetchPortfolio();
       }
     } catch (error: any) {
-      toast.error('Add failed: ' + error.message);
+      toast.error('Action failed: ' + error.message);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleEditClick = (item: any) => {
+    setNewItemData(item);
+    setEditingId(item.id);
+    setIsAddModalOpen(true);
   };
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
@@ -400,66 +413,108 @@ export default function Admin() {
   if (!user) {
     // ... (keep existing login UI)
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-[#050505]">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center space-y-2">
-            <h1 className="text-4xl font-black tracking-tighter text-white">ADMIN<span className="text-primary">.</span></h1>
-            <p className="text-muted-foreground text-sm uppercase tracking-[2px]">Secure Access Portal</p>
+      <div className="min-h-screen flex items-center justify-center p-6 bg-[#020202] relative overflow-hidden font-sans">
+        {/* Animated Background Orbs */}
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] animate-pulse delay-700" />
+        
+        <div className="w-full max-w-4xl grid md:grid-cols-2 gap-0 rounded-[32px] overflow-hidden border border-white/5 bg-[#0a0a0a]/80 backdrop-blur-2xl shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+          {/* Left Side: Professional Welcome */}
+          <div className="relative p-12 flex flex-col justify-between overflow-hidden group">
+            <div className="absolute inset-0 z-0">
+              <img 
+                src={profilePic} 
+                className="w-full h-full object-cover opacity-20 grayscale transition-all duration-700 group-hover:scale-110 group-hover:opacity-30 group-hover:grayscale-0" 
+                alt="Kamran Rasool" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+            </div>
+            
+            <div className="relative z-10">
+              <h1 className="text-5xl font-black tracking-tighter text-white mb-2 italic uppercase">AURA<span className="text-primary NOT_ITALIC text-6xl">.</span></h1>
+              <p className="text-primary font-bold text-xs uppercase tracking-[4px] opacity-80">Portfolio Intelligence Engine</p>
+            </div>
+
+            <div className="relative z-10 space-y-6">
+              <div className="h-1 w-12 bg-primary rounded-full" />
+              <blockquote className="text-xl font-medium text-white/90 leading-relaxed italic">
+                "Complexity is the enemy of execution. Aura simplifies your digital presence while magnifying your professional impact."
+              </blockquote>
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-10 rounded-full border border-white/10 overflow-hidden bg-white/5">
+                   <img src={profilePic} className="w-full h-full object-cover shadow-2xl" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-white tracking-tight">Kamran Rasool</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-widest">Lead Engineer & Architect</p>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <Card className="border-white/5 bg-[#0a0a0a] shadow-2xl">
-            <CardContent className="pt-8">
-              <form onSubmit={handleLogin} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[2px] text-muted-foreground">Email Address</label>
+
+          {/* Right Side: Secure Login */}
+          <div className="p-12 bg-white/[0.02] flex flex-col justify-center border-l border-white/5">
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-white tracking-tight">Backend Portal</h2>
+              <p className="text-sm text-white/50 mt-1 font-medium">Authenticate to manage your professional ecosystem.</p>
+            </div>
+            
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase tracking-[2px] text-white/50 ml-1">Secure Identity</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
                   <Input 
                     type="email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
-                    className="bg-white/5 border-white/10 focus:border-primary transition-all h-12"
+                    className="bg-white/5 border-white/10 focus:border-primary/50 transition-all h-14 pl-12 text-white placeholder:text-white/20 rounded-2xl"
                     placeholder="admin@aura.dev"
                     required
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[2px] text-muted-foreground">Password</label>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase tracking-[2px] text-white/50 ml-1">Verification Code</label>
+                <div className="relative">
+                  <Settings className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
                   <Input 
                     type="password" 
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
-                    className="bg-white/5 border-white/10 focus:border-primary transition-all h-12"
+                    className="bg-white/5 border-white/10 focus:border-primary/50 transition-all h-14 pl-12 text-white placeholder:text-white/20 rounded-2xl"
+                    placeholder="••••••••"
                     required
                   />
                 </div>
-                
-                <Button type="submit" className="w-full h-12 btn-primary font-bold" disabled={isLoading}>
-                  {isLoading ? 'AUTHENTICATING...' : 'LOGIN TO DASHBOARD'}
+              </div>
+              
+              <div className="pt-2">
+                <Button type="submit" className="w-full h-14 bg-primary text-black hover:bg-primary/90 transition-all font-black text-xs uppercase tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(200,245,56,0.15)] hover:shadow-[0_15px_40px_rgba(200,245,56,0.25)] border-none" disabled={isLoading}>
+                  {isLoading ? 'ESTABLISHING CONNECTION...' : 'INITIALIZE SESSION'}
                 </Button>
+              </div>
 
-                <div className="relative py-2">
-                  <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/5" /></div>
-                  <div className="relative flex justify-center text-[10px] uppercase tracking-[2px]"><span className="bg-[#0a0a0a] px-4 text-muted-foreground">Recovery</span></div>
-                </div>
+              <div className="relative py-4">
+                <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/5" /></div>
+                <div className="relative flex justify-center text-[9px] uppercase tracking-[3px]"><span className="bg-[#0c0c0c] px-4 text-white/30">Passwordless Entry</span></div>
+              </div>
 
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="w-full h-12 border-white/10 hover:bg-white/5 gap-2 font-bold" 
-                  onClick={handleMagicLink}
-                  disabled={isLoading}
-                >
-                  <Mail className="h-4 w-4" />
-                  SEND MAGIC LINK
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="w-full h-14 border-white/5 bg-white/5 hover:bg-white/10 text-white/80 gap-3 font-bold text-[10px] uppercase tracking-widest rounded-2xl transition-all" 
+                onClick={handleMagicLink}
+                disabled={isLoading}
+              >
+                <Mail className="h-4 w-4 text-primary" />
+                GET ONE-TIME LINK
+              </Button>
+            </form>
 
-          <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
-            <p className="text-[11px] font-bold text-primary uppercase tracking-[2px]">Setup Reminder:</p>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Ensure your Supabase Redirect URL is set to: <br/>
-              <code className="text-primary mt-1 block font-mono">{window.location.origin}/**</code>
+            <p className="text-center text-[9px] text-white/20 mt-10 uppercase tracking-widest">
+              © 2025 AURA PORTFOLIO OS • ALL RIGHTS RESERVED
             </p>
           </div>
         </div>
@@ -541,8 +596,8 @@ export default function Admin() {
                 <p className="text-xs font-bold text-white">{profile?.full_name || 'Kamran Rasool'}</p>
                 <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{profile?.title || 'Administrator'}</p>
               </div>
-              <div className="h-10 w-10 rounded-full bg-primary/20 border border-primary/20 flex items-center justify-center text-primary font-black">
-                {(profile?.full_name || 'KR').split(' ').map(n => n[0]).join('')}
+              <div className="h-10 w-10 rounded-full border border-white/10 overflow-hidden bg-white/5">
+                <img src={profilePic} className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -559,6 +614,9 @@ export default function Admin() {
                 </CardHeader>
                 <CardContent className="p-8 max-h-[80vh] overflow-y-auto">
                   <form onSubmit={activeTab === 'profile' ? handleUpdateProfile : handleAddItem} className="space-y-6">
+                    <CardTitle className="text-xl font-bold uppercase tracking-tight">
+                      {editingId ? 'Edit' : 'Add New'} {activeTab}
+                    </CardTitle>
                     {activeTab === 'profile' && (
                       <>
                         <div className="grid grid-cols-2 gap-4">
@@ -621,17 +679,21 @@ export default function Admin() {
                       <>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Title</label>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-[#aaaaaa]">Title</label>
                             <Input required value={newItemData.title || ''} onChange={e => setNewItemData({...newItemData, title: e.target.value})} className="bg-white/5 border-white/10" />
                           </div>
                           <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Category</label>
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-[#aaaaaa]">Category</label>
                             <Input required value={newItemData.category || ''} onChange={e => setNewItemData({...newItemData, category: e.target.value})} className="bg-white/5 border-white/10" />
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-[#aaaaaa]">Description</label>
                           <Input required value={newItemData.description || ''} onChange={e => setNewItemData({...newItemData, description: e.target.value})} className="bg-white/5 border-white/10" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-[#aaaaaa]">Live Demo URL</label>
+                          <Input value={newItemData.live_url || ''} onChange={e => setNewItemData({...newItemData, live_url: e.target.value})} className="bg-white/5 border-white/10 text-white" placeholder="https://your-public-demo.com" />
                         </div>
                         <div className="space-y-2">
                           <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Project Image</label>
@@ -883,6 +945,7 @@ export default function Admin() {
                     <Settings className="h-3 w-3 mr-2" /> STORAGE SETUP
                   </Button>
                   <Button className="btn-primary gap-2 h-10 px-6" onClick={() => {
+                    setEditingId(null);
                     setNewItemData({});
                     setIsAddModalOpen(true);
                   }}>
@@ -910,7 +973,10 @@ export default function Admin() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="icon" className="text-white/40 hover:text-white" onClick={() => handleEditClick(project)}>
+                          <Settings className="h-4 w-4" />
+                        </Button>
                         <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete('projects', project.id, project.title)}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -943,9 +1009,14 @@ export default function Admin() {
                           <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">{skill.category} • {skill.proficiency}%</p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('skills', skill.id, skill.name)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-white/40 hover:text-white" onClick={() => handleEditClick(skill)}>
+                           <Settings className="h-3 w-3" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10 transition-all font-bold" onClick={() => handleDelete('skills', skill.id, skill.name)}>
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -970,15 +1041,15 @@ export default function Admin() {
                           <h4 className="text-xl font-bold text-white">{exp.role}</h4>
                           <p className="text-primary font-bold text-sm">{exp.company}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">
-                            {exp.start_date} — {exp.current ? 'PRESENT' : exp.end_date}
-                          </p>
+                        <div className="flex gap-2">
+                          <Button variant="ghost" size="icon" className="text-white/40 hover:text-white" onClick={() => handleEditClick(exp)}>
+                            <Settings className="h-4 w-4" />
+                          </Button>
+                          <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete('experience', exp.id, exp.role)}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 text-destructive hover:bg-destructive/10 transition-all" onClick={() => handleDelete('experience', exp.id, exp.role)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
                     </div>
                   ))}
                 </div>
@@ -990,7 +1061,11 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Manage Services</h2>
-            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>Add Service</Button>
+            <Button className="btn-primary" onClick={() => {
+              setEditingId(null);
+              setNewItemData({});
+              setIsAddModalOpen(true);
+            }}>Add Service</Button>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {services.map((service: any) => (
@@ -1005,6 +1080,9 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex gap-2">
+                  <Button variant="ghost" size="icon" className="text-white/40 hover:text-white" onClick={() => handleEditClick(service)}>
+                    <Settings className="h-4 w-4" />
+                  </Button>
                   <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('services', service.id, service.title)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </div>
@@ -1017,7 +1095,11 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Client Testimonials</h2>
-            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>Add Testimonial</Button>
+            <Button className="btn-primary" onClick={() => {
+              setEditingId(null);
+              setNewItemData({});
+              setIsAddModalOpen(true);
+            }}>Add Testimonial</Button>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {testimonials.map((t: any) => (
@@ -1026,7 +1108,12 @@ export default function Admin() {
                   <div className="flex gap-1">
                     {[...Array(t.rating || 5)].map((_, i) => <Sparkles key={i} className="h-3 w-3 text-primary fill-primary" />)}
                   </div>
-                  <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('testimonials', t.id, t.name)}><Trash2 className="h-4 w-4" /></Button>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="icon" className="text-white/40 hover:text-white" onClick={() => handleEditClick(t)}>
+                      <Settings className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('testimonials', t.id, t.name)}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
                 </div>
                 <p className="text-muted italic">"{t.content}"</p>
                 <div className="pt-4 border-t border-white/5">
@@ -1043,7 +1130,11 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Blog Posts</h2>
-            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>New Post</Button>
+            <Button className="btn-primary" onClick={() => {
+              setEditingId(null);
+              setNewItemData({});
+              setIsAddModalOpen(true);
+            }}>New Post</Button>
           </div>
           <div className="grid gap-6">
             {blogPosts.map((post: any) => (
@@ -1057,6 +1148,9 @@ export default function Admin() {
                   </div>
                 </div>
                 <div className="flex gap-2">
+                  <Button variant="ghost" size="icon" className="text-white/40 hover:text-white" onClick={() => handleEditClick(post)}>
+                    <Settings className="h-4 w-4" />
+                  </Button>
                   <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDelete('blog_posts', post.id, post.title)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </div>
@@ -1069,19 +1163,31 @@ export default function Admin() {
         <div className="space-y-8">
           <div className="flex justify-between items-center">
             <h2 className="text-3xl font-black tracking-tighter">Client Logos</h2>
-            <Button className="btn-primary" onClick={() => setIsAddModalOpen(true)}>Add Client</Button>
+            <Button className="btn-primary" onClick={() => {
+              setEditingId(null);
+              setNewItemData({});
+              setIsAddModalOpen(true);
+            }}>Add Client</Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {clients.map((client: any) => (
               <div key={client.id || client.name} className="card-premium p-6 flex flex-col items-center gap-4 group relative">
                 <img src={client.logo_url} className="h-8 w-auto grayscale group-hover:grayscale-0 transition-all" />
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{client.name}</p>
-                <button 
-                  onClick={() => handleDelete('clients', client.id, client.name)}
-                  className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <Trash2 className="h-3 w-3 text-white" />
-                </button>
+                <div className="absolute -top-2 -right-2 flex gap-1 group-hover:opacity-100 opacity-0 transition-opacity">
+                  <button 
+                    onClick={() => handleEditClick(client)}
+                    className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-black"
+                  >
+                    <Settings className="h-3 w-3" />
+                  </button>
+                  <button 
+                    onClick={() => handleDelete('clients', client.id, client.name)}
+                    className="h-6 w-6 rounded-full bg-red-500 flex items-center justify-center text-white"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
