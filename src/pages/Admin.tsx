@@ -41,7 +41,7 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [messages, setMessages] = useState<any[]>([]);
 
-  const { projects, skills, experience, services, testimonials, blogPosts, clients, fetchPortfolio } = useStore();
+  const { profile, projects, skills, experience, services, testimonials, blogPosts, clients, fetchPortfolio } = useStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newItemData, setNewItemData] = useState<any>({});
   const [isUploading, setIsUploading] = useState(false);
@@ -127,17 +127,17 @@ export default function Admin() {
     if (user) {
       fetchPortfolio();
       fetchMessages();
+      setupStorage(); // Proactively try to setup storage
     }
   }, [user]);
 
   useEffect(() => {
     if (activeTab === 'profile') {
-      const currentProfile = useStore.getState().profile;
-      setNewItemData(currentProfile || {});
+      setNewItemData(profile || {});
     } else {
       setNewItemData({});
     }
-  }, [activeTab]);
+  }, [activeTab, profile]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -823,7 +823,7 @@ export default function Admin() {
                     className="h-20 border-white/5 hover:bg-white/5 flex flex-col gap-1 items-start p-6"
                     onClick={() => {
                       setActiveTab('profile');
-                      setNewItemData(useStore.getState().profile);
+                      setNewItemData(profile || {});
                       setIsAddModalOpen(true);
                     }}
                   >
@@ -1043,7 +1043,7 @@ export default function Admin() {
           <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-8">
             <CardTitle className="text-2xl font-bold">Profile Identity</CardTitle>
             <Button className="btn-primary gap-2 h-10 px-6 font-bold" onClick={() => {
-              setNewItemData(useStore.getState().profile);
+              setNewItemData(profile || {});
               setIsAddModalOpen(true);
             }}>
               <Settings className="h-4 w-4" /> EDIT PROFILE
@@ -1055,7 +1055,7 @@ export default function Admin() {
                 <div className="absolute -inset-1 bg-gradient-to-tr from-primary to-secondary rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
                 <div className="relative h-48 w-48 rounded-2xl overflow-hidden border border-white/10 bg-[#050505]">
                   <img 
-                    src={useStore.getState().profile.avatar_url || "/kamran_profile.png"} 
+                    src={profile?.avatar_url || "/kamran_profile.png"} 
                     className="w-full h-full object-cover" 
                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kamran'; }}
                   />
@@ -1064,22 +1064,22 @@ export default function Admin() {
               
               <div className="flex-1 space-y-6 text-white">
                 <div>
-                  <h2 className="text-4xl font-black text-white tracking-tighter">{useStore.getState().profile.full_name}</h2>
-                  <p className="text-primary font-bold text-lg mt-1 uppercase tracking-widest">{useStore.getState().profile.title}</p>
+                  <h2 className="text-4xl font-black text-white tracking-tighter">{profile?.full_name}</h2>
+                  <p className="text-primary font-bold text-lg mt-1 uppercase tracking-widest">{profile?.title}</p>
                 </div>
                 
                 <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
-                  <p className="text-muted-foreground leading-relaxed italic">"{useStore.getState().profile.bio}"</p>
+                  <p className="text-muted-foreground leading-relaxed italic">"{profile?.bio}"</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-xl bg-white/5 border border-white/5">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Email</p>
-                    <p className="text-sm font-medium text-white">{useStore.getState().profile.email}</p>
+                    <p className="text-sm font-medium text-white">{profile?.email}</p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/5 border border-white/5">
                     <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">GitHub</p>
-                    <p className="text-sm font-medium text-white truncate">{useStore.getState().profile.github_url || 'Not set'}</p>
+                    <p className="text-sm font-medium text-white truncate">{profile?.github_url || 'Not set'}</p>
                   </div>
                 </div>
               </div>
@@ -1091,7 +1091,7 @@ export default function Admin() {
               </h3>
               <div className="relative h-40 w-full rounded-2xl overflow-hidden border border-white/10 bg-[#050505]">
                 <img 
-                  src={useStore.getState().profile.hero_image_url || 'https://picsum.photos/seed/abstract/800/800'} 
+                  src={profile?.hero_image_url || 'https://picsum.photos/seed/abstract/800/800'} 
                   className="w-full h-full object-cover opacity-50" 
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
