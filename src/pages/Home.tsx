@@ -108,14 +108,11 @@ const About = () => {
             <div className="space-y-4 md:space-y-6">
               <span className="section-label">About Me</span>
               <h2 className="text-[2.25rem] sm:text-[3rem] md:fluid-h2 leading-[1.1] tracking-tight">
-                Full-Stack Developer & <br />
-                <span className="text-primary">Automation Expert</span>.
+                Full-Stack Developer <br className="hidden sm:block" />
+                & <span className="text-primary">AI Automation Expert</span>.
               </h2>
               <p className="text-lg md:text-xl text-muted leading-relaxed font-medium">
-                I engineer sophisticated web architectures and intelligent automation frameworks that transform business operations. My expertise lies in bridging the gap between advanced full-stack development and strategic CRM scaling.
-              </p>
-              <p className="text-base text-muted/80 leading-relaxed font-medium">
-                With a deep focus on WordPress, GoHighLevel, and custom-built systems, I deliver high-performance solutions that are not just technically sound but strategically designed for global business expansion and maximum efficiency.
+                I engineer high-performance WordPress websites, modern web applications, and intelligent AI automation systems that transform how businesses operate. With 3+ years of hands-on experience and 100+ projects delivered across WordPress, GoHighLevel, React.js, and N8N — I give clients not just a website, but a complete digital growth engine that is fast, scalable, and strategically designed to convert visitors into paying customers.
               </p>
             </div>
 
@@ -123,12 +120,12 @@ const About = () => {
               <div className="space-y-3">
                 <div className="h-1 w-12 bg-primary rounded-full" />
                 <h4 className="text-foreground font-bold text-base">Web Development</h4>
-                <p className="text-muted text-sm leading-relaxed">Building responsive, fast, and SEO-friendly websites using modern tools.</p>
+                <p className="text-muted text-sm leading-relaxed">Responsive, SEO-optimized websites built for speed and conversions.</p>
               </div>
               <div className="space-y-3">
                 <div className="h-1 w-12 bg-secondary rounded-full" />
-                <h4 className="text-foreground font-bold text-base">CRM Automation</h4>
-                <p className="text-muted text-sm leading-relaxed">Streamlining business processes with advanced GHL workflows and integrations.</p>
+                <h4 className="text-foreground font-bold text-base">AI & CRM Automation</h4>
+                <p className="text-muted text-sm leading-relaxed">Smart workflows using N8N, GoHighLevel, and API integrations that save 30+ hours monthly.</p>
               </div>
             </div>
 
