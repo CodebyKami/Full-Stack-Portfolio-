@@ -39,7 +39,7 @@ export default function Hero() {
   const profile = useStore(state => state.profile);
 
   return (
-    <section id="home" className="relative min-h-screen lg:h-screen flex flex-col items-center justify-center pt-24 pb-12 lg:pt-44 lg:pb-24 xl:pt-52 xl:pb-32 overflow-hidden bg-background">
+    <section id="home" className="relative h-auto lg:h-screen flex flex-col items-center justify-center pt-20 pb-8 lg:pt-44 lg:pb-24 xl:pt-52 xl:pb-32 overflow-hidden bg-background">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -61,7 +61,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.08] brightness-100 contrast-150 pointer-events-none" />
       </div>
       
-      <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between px-6 sm:px-10 md:px-12 py-8 lg:py-0 gap-6 xl:gap-12 max-w-7xl mx-auto flex-grow">
+      <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between px-6 sm:px-10 md:px-12 py-4 lg:py-0 gap-6 xl:gap-12 max-w-7xl mx-auto lg:flex-grow">
         {/* Left Content Side */}
         <div className="flex-1 max-w-2xl text-center lg:text-left flex flex-col justify-center order-2 lg:order-1">
           <motion.div 
