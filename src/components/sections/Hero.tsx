@@ -39,7 +39,7 @@ export default function Hero() {
   const profile = useStore(state => state.profile);
 
   return (
-    <section id="home" className="relative min-h-screen lg:h-screen flex flex-col items-center justify-center pt-24 pb-12 lg:pt-36 lg:pb-20 xl:pt-40 xl:pb-28 overflow-hidden bg-background">
+    <section id="home" className="relative min-h-screen lg:h-screen flex flex-col items-center justify-center pt-24 pb-12 lg:pt-44 lg:pb-24 xl:pt-52 xl:pb-32 overflow-hidden bg-background">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -143,7 +143,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.2 }}
           className="hidden lg:flex flex-1 relative items-center justify-center order-1 lg:order-2"
         >
-          <div className="relative w-full max-w-[300px] lg:max-w-[350px] xl:max-w-[420px] aspect-[1/1.2]">
+          <div className="relative w-full max-w-[280px] lg:max-w-[320px] xl:max-w-[400px] aspect-[1/1.2]">
             {/* Background decorative elements */}
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 rounded-[70px] rotate-6 animate-pulse blur-2xl" />
             <div className="absolute inset-0 border border-primary/20 rounded-[70px] -rotate-3 transition-transform duration-700 group-hover:rotate-3" />
@@ -162,15 +162,15 @@ export default function Hero() {
             <motion.div 
               animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-10 -left-8 xl:-left-12 bg-white/95 backdrop-blur-md p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/20 z-20"
+              className="absolute -bottom-6 -left-6 lg:-bottom-8 lg:-left-8 bg-white/95 backdrop-blur-md p-3 lg:p-5 rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/20 z-20"
             >
-              <div className="flex items-center gap-3 md:gap-5">
-                <div className="h-10 w-10 md:h-16 md:w-16 rounded-xl md:rounded-[1.25rem] bg-primary/10 flex items-center justify-center">
-                  <Sparkles className="h-5 w-5 md:h-8 md:w-8 text-primary" />
+              <div className="flex items-center gap-3 lg:gap-4">
+                <div className="h-10 w-10 lg:h-14 lg:w-14 rounded-xl lg:rounded-[1.25rem] bg-primary/10 flex items-center justify-center">
+                  <Sparkles className="h-5 w-5 lg:h-7 lg:w-7 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[10px] md:text-sm font-bold text-muted uppercase tracking-[0.15em]">Experience</p>
-                  <p className="text-xl md:text-3xl font-black text-foreground tracking-tight"><Counter value={3} suffix="+" /> Years</p>
+                  <p className="text-[9px] lg:text-xs font-bold text-muted uppercase tracking-[0.15em]">Experience</p>
+                  <p className="text-lg lg:text-2xl font-black text-foreground tracking-tight"><Counter value={3} suffix="+" /> Years</p>
                 </div>
               </div>
             </motion.div>
@@ -179,15 +179,15 @@ export default function Hero() {
             <motion.div 
               animate={{ y: [0, 10, 0], x: [0, -5, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute -top-12 -right-12 xl:-top-16 xl:-right-16 bg-white/95 backdrop-blur-md p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/20 z-20"
+              className="absolute -top-6 -right-6 lg:-top-8 lg:-right-8 bg-white/95 backdrop-blur-md p-3 lg:p-5 rounded-2xl md:rounded-[2rem] shadow-2xl border border-white/20 z-20"
             >
-              <div className="flex items-center gap-3 md:gap-5">
-                <div className="h-10 w-10 md:h-16 md:w-16 rounded-xl md:rounded-[1.25rem] bg-secondary/10 flex items-center justify-center text-secondary">
-                  <ArrowRight className="h-5 w-5 md:h-8 md:w-8" />
+              <div className="flex items-center gap-3 lg:gap-4">
+                <div className="h-10 w-10 lg:h-14 lg:w-14 rounded-xl lg:rounded-[1.25rem] bg-secondary/10 flex items-center justify-center text-secondary">
+                  <ArrowRight className="h-5 w-5 lg:h-7 lg:w-7" />
                 </div>
                 <div>
-                  <p className="text-[10px] md:text-sm font-bold text-muted uppercase tracking-[0.15em]">Track Record</p>
-                  <p className="text-xl md:text-3xl font-black text-foreground tracking-tight"><Counter value={100} /> Projects</p>
+                  <p className="text-[9px] lg:text-xs font-bold text-muted uppercase tracking-[0.15em]">Track Record</p>
+                  <p className="text-lg lg:text-2xl font-black text-foreground tracking-tight"><Counter value={100} /> Projects</p>
                 </div>
               </div>
             </motion.div>
