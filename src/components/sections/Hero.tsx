@@ -39,7 +39,7 @@ export default function Hero() {
   const profile = useStore(state => state.profile);
 
   return (
-    <section id="home" className="relative min-h-screen lg:h-[max(700px,100vh)] flex flex-col items-center justify-center pt-24 pb-12 lg:pt-28 lg:pb-12 xl:pt-32 xl:pb-24 overflow-hidden bg-background">
+    <section id="home" className="relative min-h-screen lg:h-screen flex flex-col items-center justify-center pt-24 pb-12 lg:pt-20 lg:pb-16 xl:pt-32 xl:pb-24 overflow-hidden bg-background">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -61,14 +61,14 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.08] brightness-100 contrast-150 pointer-events-none" />
       </div>
       
-      <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between px-6 sm:px-10 md:px-12 py-8 lg:py-0 gap-8 xl:gap-12 max-w-7xl mx-auto flex-grow">
+      <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between px-6 sm:px-10 md:px-12 py-8 lg:py-0 gap-6 xl:gap-12 max-w-7xl mx-auto flex-grow">
         {/* Left Content Side */}
         <div className="flex-1 max-w-2xl text-center lg:text-left flex flex-col justify-center order-2 lg:order-1">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-6 lg:mb-8 flex justify-center lg:justify-start"
+            className="mb-4 lg:mb-6 flex justify-center lg:justify-start"
           >
             <motion.div 
               animate={{ y: [0, -3, 0] }}
@@ -95,10 +95,10 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(3.25rem,15vw,4.5rem)] sm:text-[clamp(4.25rem,14vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,5.5rem)] xl:text-[clamp(4.5rem,12vw,6.5rem)] mb-6 md:mb-8 text-foreground tracking-[0.05em] lg:tracking-tighter font-black leading-[1] lg:leading-[0.95]"
+            className="text-[clamp(3rem,12vw,4.5rem)] sm:text-[clamp(4rem,14vw,5.5rem)] lg:text-[clamp(2.8rem,7vw,4.5rem)] xl:text-[clamp(4.5rem,12vw,6.5rem)] mb-4 lg:mb-6 text-foreground tracking-[0.05em] xl:tracking-tighter font-black leading-[1] lg:leading-[0.95]"
           >
             Full Stack<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-[gradient_8s_linear_infinite] inline-block pb-4">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-[gradient_8s_linear_infinite] inline-block pb-2 lg:pb-4">
               Engineer
             </span>
           </motion.h1>
@@ -107,7 +107,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-sm sm:text-base md:text-xl lg:text-[1.1rem] xl:text-[1.25rem] text-muted/80 mb-8 md:mb-10 font-medium leading-[1.6] max-w-[320px] sm:max-w-xl mx-auto lg:mx-0 balance"
+            className="text-sm sm:text-base md:text-xl lg:text-[1rem] xl:text-[1.25rem] text-muted/80 mb-6 lg:mb-10 font-medium leading-[1.6] max-w-[320px] sm:max-w-xl mx-auto lg:mx-0 balance"
           >
             Building elite WordPress solutions, modern web apps, and intelligent AI automations that cut costs, boost conversions, and scale your business on autopilot.
           </motion.p>
@@ -143,7 +143,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.2 }}
           className="hidden lg:flex flex-1 relative items-center justify-center order-1 lg:order-2"
         >
-          <div className="relative w-full max-w-[400px] xl:max-w-[450px] aspect-[1/1.3]">
+          <div className="relative w-full max-w-[320px] lg:max-w-[380px] xl:max-w-[450px] aspect-[1/1.3]">
             {/* Background decorative elements */}
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 rounded-[70px] rotate-6 animate-pulse blur-2xl" />
             <div className="absolute inset-0 border border-primary/20 rounded-[70px] -rotate-3 transition-transform duration-700 group-hover:rotate-3" />
